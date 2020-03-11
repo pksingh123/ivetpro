@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "767668899465",
+    "firebase_url": "https://videowithmyvet.firebaseio.com",
+    "project_id": "videowithmyvet",
+    "storage_bucket": "videowithmyvet.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:767668899465:android:af23946df5f82af52b8058",
+        "android_client_info": {
+          "package_name": "com.videowithmyvet"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "767668899465-m73lbp1l677lmb5p2ussn8bsvs56pm8n.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.videowithmyvet",
+            "certificate_hash": "76c2bff02926d9a5942dea6a200cd8550448302d"
+          }
+        },
+        {
+          "client_id": "767668899465-f44f2i1q78ulruvad1ovme3ljoc0lj4h.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyD0oXsWABp00H1HxpQAMP68IbCusVSfbKo"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "767668899465-f44f2i1q78ulruvad1ovme3ljoc0lj4h.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

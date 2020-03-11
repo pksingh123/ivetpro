@@ -1,0 +1,54 @@
+{
+  "name": "ivetpro",
+  "version": "0.0.1",
+  "private": true,
+  "scripts": {
+    "start": "node node_modules/react-native/local-cli/cli.js start",
+    "test": "jest"
+  },
+  "dependencies": {
+    "moment": "^2.24.0",
+    "react": "16.8.3",
+    "react-native": "0.59.2",
+    "react-native-animate-loading-button": "^1.0.3",
+    "react-native-autocomplete-input": "^4.1.0",
+    "react-native-datepicker": "^1.7.2",
+    "react-native-deck-swiper": "^1.6.7",
+    "react-native-device-info": "^5.4.1",
+    "react-native-dropdown-autocomplete": "^1.0.17",
+    "react-native-elements": "^1.2.7",
+    "react-native-firebase": "^5.5.0",
+    "react-native-gesture-handler": "^1.4.1",
+    "react-native-google-analytics-bridge": "^7.1.0",
+    "react-native-image-picker": "^1.1.0",
+    "react-native-material-dropdown": "^0.11.1",
+    "react-native-password-strength-meter": "0.0.3",
+    "react-native-picker-select": "^6.2.0",
+    "react-native-popup-dialog": "^0.18.3",
+    "react-native-show-more-button": "^1.0.2",
+    "react-native-simple-radio-button": "^2.7.3",
+    "react-native-snap-carousel": "^3.8.4",
+    "react-native-spinner-button": "^1.0.3",
+    "react-native-stripe-api": "^0.1.0",
+    "react-native-switch-toggle": "^1.1.2",
+    "react-native-twilio-video-webrtc": "https://github.com/blackuy/react-native-twilio-video-webrtc",
+    "react-native-vector-icons": "^6.6.0",
+    "react-native-webview": "^7.4.2",
+    "react-navigation": "^3.11.0",
+    "react-navigation-current-route": "^1.0.0",
+    "react-redux": "6.0.1",
+    "rn-fetch-blob": "^0.10.15"
+  },
+  "devDependencies": {
+    "@babel/core": "7.4.5",
+    "@babel/runtime": "7.4.5",
+    "babel-jest": "24.8.0",
+    "jest": "24.8.0",
+    "jetifier": "^1.6.4",
+    "metro-react-native-babel-preset": "0.54.1",
+    "react-test-renderer": "16.8.3"
+  },
+  "jest": {
+    "preset": "react-native"
+  }
+}

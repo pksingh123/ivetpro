@@ -1,0 +1,35 @@
+# Uncomment the next line to define a global platform for your project
+# platform :ios, '9.0'
+
+target 'ivetpro' do
+  # Comment the next line if you don't want to use dynamic frameworks
+  use_frameworks!
+
+  # Pods for ivetpro
+
+  target 'ivetpro-tvOSTests' do
+    inherit! :search_paths
+    # Pods for testing
+    pod 'RNSound', :path => '../node_modules/react-native-sound'
+
+  end
+
+  target 'ivetproTests' do
+    inherit! :search_paths
+    # Pods for testing
+  end
+
+end
+
+target 'ivetpro-tvOS' do
+  # Comment the next line if you don't want to use dynamic frameworks
+  use_frameworks!
+
+  # Pods for ivetpro-tvOS
+
+  target 'ivetpro-tvOSTests' do
+    inherit! :search_paths
+    # Pods for testing
+  end
+
+end

@@ -24,7 +24,7 @@ export default class LoginScreen extends Component {
             password: '',
             isLoading: false,
             cancel: false,
-            fcmtoken:'',
+            fcmtoken: '',
         }
 
     }
@@ -44,7 +44,7 @@ export default class LoginScreen extends Component {
         this.props.navigation.navigate('Register4', { user_id: uid });
     }
     login = () => {
-       // alert(this.state.password);
+        // alert(this.state.password);
         if (this.state.email === '' || this.state.password === '') {
             alert('Please enter email and password!');
         } else {
@@ -59,19 +59,19 @@ export default class LoginScreen extends Component {
                     body: JSON.stringify({
                         email: this.state.email,
                         password: this.state.password,
-                        device_id:DeviceInfo.getUniqueId(),
+                        device_id: DeviceInfo.getUniqueId(),
                         token: this.state.fcmtoken,
                     }),
                 })
                 .then((response) => response.json())
                 .then((responseJson) => {
                     //console.warn(responseJson.user.temporary_passwrod);
-                   console.log(responseJson);
+                    console.log(responseJson);
                     //console.warn(responseJson.user.hasPet);
                     //this.loadingButton.showLoading(false);
                     if (responseJson.status === 'ok') {
                         let user_id = responseJson.user.uid;
-                       this._signInAsync(responseJson);
+                        this._signInAsync(responseJson);
                     } else if (responseJson.status === 'not_verified') {
 
                         // alert(responseJson.msg);
@@ -165,7 +165,7 @@ export default class LoginScreen extends Component {
 
     _signInAsync = async (json) => {
         const value = JSON.stringify(json);
-       // console.log(json);
+        // console.log(json);
         await AsyncStorage.setItem('userToken', value);
         await AsyncStorage.setItem('temporary_passwrod', json.user.temporary_passwrod);
         this.setState({ isLoading: false });
@@ -177,8 +177,8 @@ export default class LoginScreen extends Component {
             this.props.navigation.navigate('AddFirstPet');
         }
         else {
-           
-          this.props.navigation.navigate('App');
+
+            this.props.navigation.navigate('App');
         }
         //this.props.navigation.navigate('AddFirstPet');
 
@@ -196,7 +196,7 @@ const styles = StyleSheet.create({
         marginTop: 10,
     },
     logoStyle: {
-    
+
         alignSelf: "center",
         width: 100,
         height: 100,

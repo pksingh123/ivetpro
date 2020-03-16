@@ -54,32 +54,32 @@ export default class HomeScreen extends Component {
     const { params = {} } = navigation.state;
     return {
       headerTitle: 'Home - Pet Profiles',
-            headerLeft: <PracticeBarLogo />,
-            headerTintColor: '#ffffff',
-            headerStyle: {
-                backgroundColor: '#26cccc',
-                color: '#fff',
-                height: 80
-            },
-            headerTitleStyle: { 
-                flex: 1,
-                textAlign: 'center',
-                marginTop: StatusBar.currentHeight
-            },
-            headerLeftContainerStyle:{
-                marginTop:StatusBar.currentHeight
-            },
-            headerRightContainerStyle:{
-                marginTop:StatusBar.currentHeight
-            },
-            headerRight: (
-                <Icon
-                    name="menu"
-                    size={50}
-                    color= '#fff'
-                    onPress={() => navigation.dispatch(DrawerActions.toggleDrawer())}
-                />
-            ),
+      headerLeft: <PracticeBarLogo />,
+      headerTintColor: '#ffffff',
+      headerStyle: {
+        backgroundColor: '#26cccc',
+        color: '#fff',
+        height: 80
+      },
+      headerTitleStyle: {
+        flex: 1,
+        textAlign: 'center',
+        marginTop: StatusBar.currentHeight
+      },
+      headerLeftContainerStyle: {
+        marginTop: StatusBar.currentHeight
+      },
+      headerRightContainerStyle: {
+        marginTop: StatusBar.currentHeight
+      },
+      headerRight: (
+        <Icon
+          name="menu"
+          size={50}
+          color='#fff'
+          onPress={() => navigation.dispatch(DrawerActions.toggleDrawer())}
+        />
+      ),
     };
   }
   //###################################################################//
@@ -135,15 +135,21 @@ export default class HomeScreen extends Component {
 
 
   showAlert(title, body, notification) {
+    this.props.navigation.navigate('IncominCall', {
+      data: notification, onPick: (data) => {
+
+        this._consultation(notification)
+      }
+    });
     // this.props.navigation.navigate('routeConfrence', {notification});
-    Alert.alert(
-      title, body,
-      [
-        { text: 'Accept', onPress: () => this._consultation(notification) },
-        { text: 'Cancel', onPress: () => console.log('Cancel') },
-      ],
-      { cancelable: false },
-    );
+    // Alert.alert(
+    //   title, body,
+    //   [
+    //     { text: 'Accept', onPress: () => this._consultation(notification) },
+    //     { text: 'Cancel', onPress: () => console.log('Cancel') },
+    //   ],
+    //   { cancelable: false },
+    // );
   }
   _consultation = (item) => {
 
@@ -342,8 +348,8 @@ export default class HomeScreen extends Component {
                   flexDirection: 'row',
                   justifyContent: 'space-between'
                 }}>
-                <Text style={styles.bgTextStyle}>DOB: {item.dob}</Text>
-                  
+                  <Text style={styles.bgTextStyle}>DOB: {item.dob}</Text>
+
                 </View>
 
               </View>
@@ -353,16 +359,16 @@ export default class HomeScreen extends Component {
             </ImageBackground>
 
             <View style={styles.container}>
-                <View style={styles.blockStyle}>
-               {/*<Text
+              <View style={styles.blockStyle}>
+                {/*<Text
                     style={styles.links}
-                    onPress={() => this._petEdit(item)}>Edit Pet Details</Text>*/} 
-                     <View style={styles.editbuttoncontainer}>
-                        <TouchableOpacity onPress={() => this._petEdit(item)} style={styles.button}>
-                          <Text style={styles.textcolor}>Edit Pet Details</Text>
-                        </TouchableOpacity>
-                      </View>
+                    onPress={() => this._petEdit(item)}>Edit Pet Details</Text>*/}
+                <View style={styles.editbuttoncontainer}>
+                  <TouchableOpacity onPress={() => this._petEdit(item)} style={styles.button}>
+                    <Text style={styles.textcolor}>Edit Pet Details</Text>
+                  </TouchableOpacity>
                 </View>
+              </View>
               <View style={styles.blockStyle}>
                 <Text style={styles.headingstyle}>Upcoming Appointments</Text>
                 {item.isUpcomingApp ?
@@ -601,10 +607,10 @@ const styles = StyleSheet.create({
   details: {
     paddingVertical: 10
   },
-  editbuttoncontainer:{
+  editbuttoncontainer: {
     flex: 1,
     textAlign: "center",
-   
+
   },
   buttoncontainer: {
     flex: 1,
@@ -626,7 +632,7 @@ const styles = StyleSheet.create({
     fontSize: 18,
     letterSpacing: 0.5,
     padding: 5,
-    
+
   },
 
   appointmentDate: {

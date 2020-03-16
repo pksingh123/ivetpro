@@ -39,6 +39,7 @@ import AddAnotherPetScreen from '../screens/AddAnotherPet';
 import DrawerScreen from './DrawerScreen';
 import DrawerNav from './DrawerNav';
 import ChangePasswordScreen from '../screens/ChangePasswordScreen';
+import CallScreen from '../screens/IncomingScreen';
 
 
 
@@ -54,7 +55,7 @@ const AuthStack = createStackNavigator({
   Register4: RegisterScreen4,
   AddFirstPet: AddFirstPetScreen,
   AddFirstPetDetails: AddFirstDetailsScreen,
-  AddAnotherPet:AddAnotherPetScreen,
+  AddAnotherPet: AddAnotherPetScreen,
   routeFirstBookAppointment: FirstBookAppointmentScreen,
   ChangePassword: ChangePasswordScreen
 });
@@ -101,6 +102,7 @@ const SwitchNavigator = createSwitchNavigator(
     AuthLoading: AuthLoadingScreen,
     App: DrawerNav,
     Auth: AuthStack,
+    IncominCall: CallScreen,
     Link: AppStack,
     PetEdit2: PetEdit,
     PetDetails2: PetDetails,
@@ -111,8 +113,8 @@ const SwitchNavigator = createSwitchNavigator(
     BookingConfirmation: BookingConfirmation,
     FutureAppointment: FutureAppointment,
     PastAppointment: PastAppointment,
-    
-    
+
+
     //routePetDetails: PetDetailsScreen,
   },
 

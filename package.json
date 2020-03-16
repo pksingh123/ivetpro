@@ -3,7 +3,15 @@
   "version": "0.0.1",
   "private": true,
   "scripts": {
+    "postinstall": "npx jetify",
     "start": "node node_modules/react-native/local-cli/cli.js start",
+    "connect-adb": "adb reverse tcp:8081 tcp:8081",
+    "bundle-release": "cd android && ./gradlew bundleRelease",
+    "android-dev": "adb reverse tcp:8081 tcp:8081 && react-native run-android",
+    "android-release": "react-native run-android --variant=release",
+    "gradle-build": "cd android && ./gradlew build",
+    "reload": "adb reverse tcp:8081 tcp:8081 && adb shell input text RR",
+    "open-developer-menu": "adb reverse tcp:8081 tcp:8081 && adb shell input keyevent 82",
     "test": "jest"
   },
   "dependencies": {
@@ -25,9 +33,12 @@
     "react-native-password-strength-meter": "0.0.3",
     "react-native-picker-select": "^6.2.0",
     "react-native-popup-dialog": "^0.18.3",
+    "react-native-reanimated": "^1.7.0",
+    "react-native-screens": "^2.3.0",
     "react-native-show-more-button": "^1.0.2",
     "react-native-simple-radio-button": "^2.7.3",
     "react-native-snap-carousel": "^3.8.4",
+    "react-native-sound": "^0.11.0",
     "react-native-spinner-button": "^1.0.3",
     "react-native-stripe-api": "^0.1.0",
     "react-native-switch-toggle": "^1.1.2",
@@ -44,7 +55,7 @@
     "@babel/runtime": "7.4.5",
     "babel-jest": "24.8.0",
     "jest": "24.8.0",
-    "jetifier": "^1.6.4",
+    "jetifier": "^1.6.5",
     "metro-react-native-babel-preset": "0.54.1",
     "react-test-renderer": "16.8.3"
   },

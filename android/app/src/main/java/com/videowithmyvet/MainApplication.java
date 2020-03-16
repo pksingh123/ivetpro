@@ -3,6 +3,7 @@ package com.videowithmyvet;
 import android.app.Application;
 
 import com.facebook.react.ReactApplication;
+import com.zmxv.RNSound.RNSoundPackage;
 import com.learnium.RNDeviceInfo.RNDeviceInfo;
 import io.invertase.firebase.RNFirebasePackage;
 import com.reactnativecommunity.webview.RNCWebViewPackage;
@@ -34,6 +35,8 @@ public class MainApplication extends Application implements ReactApplication {
     protected List<ReactPackage> getPackages() {
       return Arrays.<ReactPackage>asList(
           new MainReactPackage(),
+              new RNGestureHandlerPackage(),
+            new RNSoundPackage(),
             new RNDeviceInfo(),
             new RNFirebasePackage(),
             new RNFirebaseMessagingPackage(),
@@ -41,7 +44,7 @@ public class MainApplication extends Application implements ReactApplication {
             new RNCWebViewPackage(),
             new RNFetchBlobPackage(),
             new ImagePickerPackage(),
-            new RNGestureHandlerPackage(),
+
             new VectorIconsPackage(),
             new TwilioPackage()
       );

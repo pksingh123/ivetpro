@@ -25,6 +25,7 @@ import { HeaderBackButton, NavigationEvents } from 'react-navigation';
 import { DrawerActions } from 'react-navigation-drawer';
 import { Icon, ListItem, SearchBar } from 'react-native-elements';
 import Icons from 'react-native-vector-icons/FontAwesome';
+import App from '../App'
 export async function requestRecordAudioPermission() {
     try {
         const granted = await PermissionsAndroid.request(
@@ -108,8 +109,13 @@ export default class VideoConsultScreen extends Component {
         this._goBack = this._goBack.bind(this);
     }
 
-    componentWillMount() {
-        BackHandler.addEventListener('hardwareBackPress', this._goBack);
+
+    // async componentWillMount() {
+    //     BackHandler.addEventListener('hardwareBackPress', this._goBack);
+
+    // }
+    async componentDidMount() {
+        new App().checkDeviceState();
     }
     componentWillUnmount() {
         BackHandler.removeEventListener('hardwareBackPress', this._goBack);

@@ -11,6 +11,7 @@ import {
     Modal,
     TouchableHighlight
 } from 'react-native';
+import DeviceInfo from 'react-native-device-info';
 import { WebView } from 'react-native-webview';
 
 
@@ -33,8 +34,44 @@ export default class LandingScreen extends Component {
         }
 
     }
+    async componentWillMount() {
+
+        new App().checkDeviceState();
+    }
+
     setModalVisible(visible) {
         this.setState({ openPopup: visible });
+    }
+
+    checkDeviceState = () => {
+
+        console.log("landing screen2 ");
+        //this.loadingButton.showLoading(true);
+        const url = 'http://videowithmyvet.com/webservices/check-user-logedin.php';
+        fetch(url,
+            {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    device_id: DeviceInfo.getUniqueId(),
+                    uid: this.id
+                }),
+            })
+            .then((response) => response.json())
+            .then((responseJson) => {
+                //console.warn(responseJson.user.temporary_passwrod);
+                console.log(responseJson);
+
+            })
+            .catch((error) => {
+                this.loadingButton.showLoading(false);
+                alert('Something went wrong!');
+                console.warn(error);
+            })
+
+
     }
 
     render() {

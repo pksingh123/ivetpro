@@ -34,7 +34,7 @@ export default class CallScreen extends Component {
             userSelected: [],
             User: {
                 id: 1,
-                name: "Mark Johnson",
+                name: this.props.navigation.state.params.dialername,
                 image: "https://bootdey.com/img/Content/avatar/avatar6.png",
             }
         };
@@ -46,7 +46,7 @@ export default class CallScreen extends Component {
     playRing() {
         this.whoosh.reset;
         this.whoosh.play((success) => {
-            alert(success)
+            // alert(success)
             if (success) {
                 console.log('successfully finished playing');
             } else {

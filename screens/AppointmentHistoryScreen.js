@@ -18,9 +18,10 @@ import { Icon, ListItem, Avatar, Divider, SearchBar } from 'react-native-element
 import Icons from 'react-native-vector-icons/FontAwesome';
 import { DrawerActions } from 'react-navigation-drawer';
 import PracticeBarLogo from '../screens/PracticeBarLogo';
+import { App } from 'react-native-firebase';
 this.arrayholder = [];
 export default class AppointmentHistoryScreen extends Component {
-    
+
     static navigationOptions = ({ navigation }) => {
         navOptions = navigation;
         const { params = {} } = navigation.state;
@@ -33,22 +34,22 @@ export default class AppointmentHistoryScreen extends Component {
                 color: '#fff',
                 height: 80
             },
-            headerTitleStyle: { 
+            headerTitleStyle: {
                 flex: 1,
                 textAlign: 'center',
                 marginTop: StatusBar.currentHeight
             },
-            headerLeftContainerStyle:{
-                marginTop:StatusBar.currentHeight
+            headerLeftContainerStyle: {
+                marginTop: StatusBar.currentHeight
             },
-            headerRightContainerStyle:{
-                marginTop:StatusBar.currentHeight
+            headerRightContainerStyle: {
+                marginTop: StatusBar.currentHeight
             },
             headerRight: (
                 <Icon
                     name="menu"
                     size={50}
-                    color= '#fff'
+                    color='#fff'
                     onPress={() => navigation.dispatch(DrawerActions.toggleDrawer())}
                 />
             ),
@@ -65,6 +66,7 @@ export default class AppointmentHistoryScreen extends Component {
             _onHeaderEventControl: this.onHeaderEventControl,
             _openNav: () => this.openDrawer()
         })
+        new App().checkDeviceState();
     }
 
     /* openDrawer() {

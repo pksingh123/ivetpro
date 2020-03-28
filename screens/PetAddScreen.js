@@ -21,6 +21,7 @@ import RNFetchBlob from 'rn-fetch-blob';
 import { Icon, ListItem } from 'react-native-elements';
 import { DrawerActions } from 'react-navigation-drawer';
 import PracticeBarLogo from '../screens/PracticeBarLogo';
+import App from '../App'
 const genderList = [
     {
         label: 'Male',
@@ -58,16 +59,16 @@ export default class RegisterScreen extends Component {
                 color: '#fff',
                 height: 80
             },
-            headerTitleStyle: { 
+            headerTitleStyle: {
                 flex: 1,
                 textAlign: 'center',
                 marginTop: StatusBar.currentHeight
             },
-            headerLeftContainerStyle:{
-                marginTop:StatusBar.currentHeight
+            headerLeftContainerStyle: {
+                marginTop: StatusBar.currentHeight
             },
-            headerRightContainerStyle:{
-                marginTop:StatusBar.currentHeight
+            headerRightContainerStyle: {
+                marginTop: StatusBar.currentHeight
             },
 
             headerRight: (
@@ -116,6 +117,7 @@ export default class RegisterScreen extends Component {
                     this.setState({ speciesArr: responseJson.species });
                 }
             })
+
     }
     setDate(newDate) {
         this.setState({ chosenDate: newDate });
@@ -128,6 +130,7 @@ export default class RegisterScreen extends Component {
         } else {
             this.setState({ uid: false })
         }
+        new App().checkDeviceState();
     }
     UpdateName = (text) => {
         this.setState({ name: text })
@@ -325,7 +328,7 @@ export default class RegisterScreen extends Component {
                             }
                         </View>
                     </TouchableOpacity>
-                   
+
                     <View style={styles.buttoncontainer}>
                         <TouchableOpacity onPress={this.addPet} style={styles.button}>
                             <Text style={styles.textcolor}>Add your pet</Text>

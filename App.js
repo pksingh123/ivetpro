@@ -23,7 +23,7 @@ import DrawerNav from './navigation/DrawerNav';
 //import StatusBarColor from './screens/components/StatusBarColor';
 import DeviceInfo from 'react-native-device-info';
 import firebase from 'react-native-firebase';
-
+import DrawerScreen from './navigation/DrawerScreen'
 
 
 export default class App extends React.Component {
@@ -136,6 +136,67 @@ export default class App extends React.Component {
     // this.createNotificationListeners();
 
   }
+  async componentWillMount() {
+    let savedValues = await AsyncStorage.getItem('userToken');
+    savedValues = JSON.parse(savedValues);
+    this.id = savedValues.user.uid;
+    //  console.log("app.js ");
+    this.checkDeviceState();
+  }
+
+  checkDeviceState = () => {
+
+    console.log("app.js checkDeviceState");
+    //this.loadingButton.showLoading(true);
+    const url = 'http://videowithmyvet.com/webservices/check-user-logedin.php';
+    fetch(url,
+      {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          device_id: DeviceInfo.getUniqueId(),
+          uid: this.id
+        }),
+      })
+      .then((response) => response.json())
+      .then((responseJson) => {
+        //console.warn(responseJson.user.temporary_passwrod);
+        console.log("app.js checkDeviceState", responseJson);
+        // alert("app.js checkDeviceState");
+        if (responseJson.status == 200) {
+          if (responseJson.active == 1) {//logout
+            console.log("app.js checkDeviceState login");
+          } else {
+            console.log("app.js checkDeviceState logout");
+            //this._signOut();
+          }
+        }
+
+      })
+      .catch((error) => {
+        this.loadingButton.showLoading(false);
+        alert('Something went wrong!');
+        console.warn(error);
+      })
+
+
+  }
+  _signOut = async () => {
+
+    new DrawerScreen()._signOut();
+
+    // await AsyncStorage.removeItem('userToken');
+    // //AsyncStorage.clear()
+    // this.props.navigation.navigate('Auth')
+    // //this.props.navigation.navigate('App');
+
+    // //this.props.navigation.navigate('AddFirstPet');
+
+  };
+
+
   _getToken() {
     const url = 'https://videowithmyvet.com/webservices/get-token.php';
     fetch(url,

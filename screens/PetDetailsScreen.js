@@ -18,6 +18,7 @@ import Icons from 'react-native-vector-icons/FontAwesome';
 import { DrawerActions } from 'react-navigation-drawer';
 import { HeaderBackButton } from 'react-navigation';
 import PracticeBarLogo from '../screens/PracticeBarLogo';
+import App from '../App'
 
 export default class PetDetailsScreen extends Component {
 
@@ -86,6 +87,7 @@ export default class PetDetailsScreen extends Component {
   componentDidMount() {
     const item = this.props.navigation.state.params.item;
     this.setState({ petAliveStatus: item.status })
+    new App().checkDeviceState();
   }
 
   _startVideoCall = () => {

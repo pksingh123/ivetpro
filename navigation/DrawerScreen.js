@@ -73,9 +73,8 @@ export default class DrawerScreen extends React.Component {
     const userToken = await AsyncStorage.getItem('userToken');
     let savedValues = await AsyncStorage.getItem('userToken');
     savedValues = JSON.parse(savedValues);
-    // console.log("appointment 1", savedValues);
     this.appointment_booking = savedValues.user.practice.appointment_bookingin_app_allowed;
-    //console.log("appointment", this.appointment_booking, savedValues);
+    // console.log("appointment", savedValues);
     if (userToken) {
       userDetails = JSON.parse(userToken);
       // console.log(userDetails);

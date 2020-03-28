@@ -33,6 +33,7 @@ import { HeaderBackButton } from 'react-navigation';
 import { DrawerActions } from 'react-navigation-drawer';
 import { Icon, ListItem, SearchBar } from 'react-native-elements';
 import Icons from 'react-native-vector-icons/FontAwesome';
+import App from '../App'
 
 export default class EditProfileScreen extends Component {
     static navigationOptions = ({ navigation }) => {
@@ -45,7 +46,7 @@ export default class EditProfileScreen extends Component {
                 color: '#fff',
                 height: 80
             },
-            headerTitleStyle: { 
+            headerTitleStyle: {
                 flex: 1,
                 textAlign: 'center',
                 marginTop: StatusBar.currentHeight
@@ -79,6 +80,8 @@ export default class EditProfileScreen extends Component {
             isLoading: true,
             refreshing: false
         }
+
+
     }
     selectPhotoTapped() {
         const options = {
@@ -111,6 +114,7 @@ export default class EditProfileScreen extends Component {
             }
         });
     }
+
 
     editProfile = () => {
 
@@ -153,6 +157,8 @@ export default class EditProfileScreen extends Component {
         this.componentDidMount()
     }
     async componentDidMount() {
+        new App().checkDeviceState();
+
         const userToken = await AsyncStorage.getItem('userToken');
         var source = '';
         if (userToken) {

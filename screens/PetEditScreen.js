@@ -29,6 +29,7 @@ import RNPickerSelect from 'react-native-picker-select';
 import ImagePicker from 'react-native-image-picker';
 import RNFetchBlob from 'rn-fetch-blob';
 import { HeaderBackButton } from 'react-navigation';
+import App from '../App'
 //import { OTSession, OTPublisher, OTSubscriber } from 'opentok-react-native';
 
 const genderList = [
@@ -76,7 +77,7 @@ export default class PetEditScreen extends Component {
                 color: '#fff',
                 height: 80
             },
-            headerTitleStyle: { 
+            headerTitleStyle: {
                 flex: 1,
                 textAlign: 'center',
                 marginTop: StatusBar.currentHeight
@@ -134,6 +135,7 @@ export default class PetEditScreen extends Component {
         this.setState({ chosenDate: newDate });
     }
     async componentDidMount() {
+        new App().checkDeviceState();
         const userToken = await AsyncStorage.getItem('userToken');
         if (userToken) {
             userDetails = JSON.parse(userToken);

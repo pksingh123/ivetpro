@@ -27,7 +27,7 @@ import firebase from 'react-native-firebase';
 
 
 export default class App extends React.Component {
-//class App extends React.Component {
+  //class App extends React.Component {
   static navigationOptions = ({ navigation }) => {
 
     return {
@@ -42,8 +42,8 @@ export default class App extends React.Component {
       ),
     };
   };
-  
-  constructor( props ) {
+
+  constructor(props) {
     super(props);
     this.state = {
       DeviceID: '',
@@ -51,7 +51,7 @@ export default class App extends React.Component {
       uid: '',
       status: 0,
     }
-    
+
   }
   getUniqueDeviceID = () => {
     var id = DeviceInfo.getUniqueId();
@@ -116,7 +116,7 @@ export default class App extends React.Component {
     }
   }
 
-  
+
   async componentDidMount() {
     //  this.props.navigation.navigate;
 
@@ -133,7 +133,7 @@ export default class App extends React.Component {
     firebase.notifications().android.createChannel(channel);
     this._requestPermissions();
     this.checkPermission();
-   // this.createNotificationListeners();
+    // this.createNotificationListeners();
 
   }
   _getToken() {

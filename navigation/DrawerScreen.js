@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, Text, StyleSheet, AsyncStorage, TouchableOpacity, Image,Platform } from 'react-native';
+import { View, Text, StyleSheet, AsyncStorage, TouchableOpacity, Image, Platform } from 'react-native';
 import { Button, Icon } from 'react-native-elements';
 import Icons from 'react-native-vector-icons/FontAwesome';
 import { StackActions, DrawerActions } from 'react-navigation';
@@ -24,21 +24,21 @@ export default class DrawerScreen extends React.Component {
   }
   _updatefcm() {
     const url = 'https://videowithmyvet.com/webservices/update-token.php';
-    fetch(url,{
+    fetch(url, {
       method: 'POST',
       headers: {
-          'Content-Type': 'application/json',
+        'Content-Type': 'application/json',
       },
       body: JSON.stringify({
-          device_id:DeviceInfo.getUniqueId()
+        device_id: DeviceInfo.getUniqueId()
       }),
-  })
+    })
       .then((response) => response.json())
       .then((responseJson) => {
         console.warn(responseJson);
         if (responseJson.status === 'ok') {
-        console.log("logout");
-         
+          console.log("logout");
+
         }
       })
       .catch((error) => {
@@ -71,6 +71,11 @@ export default class DrawerScreen extends React.Component {
   async componentDidMount() {
     this.props.navigation.setParams({ logout: this._signOutAsync });
     const userToken = await AsyncStorage.getItem('userToken');
+    let savedValues = await AsyncStorage.getItem('userToken');
+    savedValues = JSON.parse(savedValues);
+    // console.log("appointment 1", savedValues);
+    this.appointment_booking = savedValues.user.practice.appointment_bookingin_app_allowed;
+    //console.log("appointment", this.appointment_booking, savedValues);
     if (userToken) {
       userDetails = JSON.parse(userToken);
       // console.log(userDetails);
@@ -115,7 +120,11 @@ export default class DrawerScreen extends React.Component {
 
         <View style={styles.rowStyle}>
           <Text style={styles.pageName} onPress={() => navigate('Home')}>Home</Text>
-          <Text style={styles.pageName} onPress={() => navigate('Appointment')}>Book Appointment</Text>
+          {
+            this.appointment_booking == 1 ?
+              <Text style={styles.pageName} onPress={() => navigate('Appointment')}>Book Appointment</Text> : null
+          }
+
           <Text style={styles.pageName} onPress={() => navigate('AppointmentList')}>Appointment List</Text>
           <Text style={styles.pageName} onPress={() => navigate('AppointmentHistory')}>Completed Appointment </Text>
           <Text style={styles.pageName} onPress={() => navigate('AddPet')}>Add Pet </Text>
@@ -130,12 +139,17 @@ export default class DrawerScreen extends React.Component {
           <Text style={styles.pageName} onPress={this._signOut}>
             Logout
           </Text>
-          <View style={styles.buttoncontainer}>
-            <TouchableOpacity onPress={() => navigate('Appointment')}
-              style={styles.button}>
-              <Text style={styles.textcolor}>Book Appointment</Text>
-            </TouchableOpacity>
-          </View>
+          {
+            this.appointment_booking == 1 ?
+              <View style={styles.buttoncontainer}>
+                <TouchableOpacity onPress={() => navigate('Appointment')}
+                  style={styles.button}>
+                  <Text style={styles.textcolor}>Book Appointment</Text>
+                </TouchableOpacity>
+              </View>
+              : null
+          }
+
 
           {/* <Button
             title='Home'
@@ -190,17 +204,17 @@ export default class DrawerScreen extends React.Component {
     );
   }
   _signOut = async () => {
-    
+
     this._updatefcm();
-   
+
     await AsyncStorage.removeItem('userToken');
     //AsyncStorage.clear()
     this.props.navigation.navigate('Auth')
-      //this.props.navigation.navigate('App');
-    
+    //this.props.navigation.navigate('App');
+
     //this.props.navigation.navigate('AddFirstPet');
 
-};
+  };
 }
 const styles = StyleSheet.create({
   container: {
@@ -235,9 +249,9 @@ const styles = StyleSheet.create({
   },
   buttoncontainer: {
     marginTop: 40,
-    paddingHorizontal:30
-},
-button: {
+    paddingHorizontal: 30
+  },
+  button: {
     marginTop: 5,
     height: 60,
     flexDirection: 'row',
@@ -247,11 +261,11 @@ button: {
     borderRadius: 40,
     backgroundColor: "#ffffff",
     alignItems: 'center'
-},
-textcolor: {
+  },
+  textcolor: {
     color: '#09B5B5',
     fontSize: 20
-},
+  },
   ButtonStyle: {
     color: "#ffffff"
 

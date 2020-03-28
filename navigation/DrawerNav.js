@@ -58,7 +58,7 @@ const Home = createStackNavigator({
     screen: HomeScreen,
     navigationOptions: {
       headerTitle: 'Home',
-      headerTitleStyle: { flex: 1, textAlign: 'center'},
+      headerTitleStyle: { flex: 1, textAlign: 'center' },
     }
   },
 });
@@ -77,7 +77,7 @@ const PetDetails = createStackNavigator({
     screen: PetDetailsScreen,
     navigationOptions: {
       headerTitle: 'Pet Details',
-      headerTitleStyle: { flex: 1, textAlign: 'center'},
+      headerTitleStyle: { flex: 1, textAlign: 'center' },
       drawerLabel: () => null
     }
   }
@@ -94,10 +94,10 @@ const PetEdit = createStackNavigator({
 const Appointment = createStackNavigator({
   Appointment: {
     screen: BookAppointmentScreen,
-   /*  navigationOptions: {
-      headerTitle: 'Book Appointment',
-      headerTitleStyle: { flex: 1, textAlign: 'center'},
-    } */
+    /*  navigationOptions: {
+       headerTitle: 'Book Appointment',
+       headerTitleStyle: { flex: 1, textAlign: 'center'},
+     } */
   }
 })
 const AppointmentList = createStackNavigator({
@@ -158,10 +158,10 @@ export default DrawerNav = createDrawerNavigator(
     AppointmentHistory: AppointmentHistory,
     VideoConsultNow: VideoConsultNow,
     EditProfile: EditProfile,
-    
+
   },
   {
-   // hideStatusBar: true,
+    // hideStatusBar: true,
     drawerWidth: DEVICE_WIDTH,
     contentComponent: DrawerScreen,
     drawerBackgroundColor: '#26cccc',
@@ -169,15 +169,15 @@ export default DrawerNav = createDrawerNavigator(
     contentOptions: {
       activeTintColor: '#fff',
       activeBackgroundColor: '#26cccc',
-      style:{
-        color:'#fff',
-        textAlign:'center',
+      style: {
+        color: '#fff',
+        textAlign: 'center',
         fontSize: 20,
       }
     },
   },
-  
- 
+
+
 
 );
 const styles = StyleSheet.create({

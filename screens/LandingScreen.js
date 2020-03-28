@@ -29,14 +29,14 @@ export default class LandingScreen extends Component {
             isLoading: false,
             cancel: false,
             openPopup: false,
-            
+
         }
 
     }
     setModalVisible(visible) {
         this.setState({ openPopup: visible });
     }
-    
+
     render() {
 
         const { navigate } = this.props.navigation;
@@ -60,7 +60,7 @@ export default class LandingScreen extends Component {
                     <Text style={styles.slogon} >with your vet easy</Text>
 
                     <View style={styles.buttoncontainer}>
-                        
+
                         <TouchableOpacity onPress={() => navigate('Login')} style={styles.button}>
                             <Text style={styles.textcolor}>Login</Text>
                         </TouchableOpacity>
@@ -118,7 +118,7 @@ const styles = StyleSheet.create({
         width: 200,
         height: 200,
         marginVertical: 40,
-        
+
     },
     closeStyle: {
         marginRight: 15,

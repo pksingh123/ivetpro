@@ -222,6 +222,10 @@ export default class HomeScreen extends Component {
     BackHandler.addEventListener('hardwareBackPress', this.exitFromApp);
     const userToken = await AsyncStorage.getItem('userToken');
     const temporary_passwrod = await AsyncStorage.getItem('temporary_passwrod');
+    let savedValues = await AsyncStorage.getItem('userToken');
+    savedValues = JSON.parse(savedValues);
+
+    this.appointment_booking = savedValues.user.practice.appointment_bookingin_app_allowed;
     if (userToken) {
       userDetails = JSON.parse(userToken);
       if (temporary_passwrod == 1) {
@@ -394,7 +398,7 @@ export default class HomeScreen extends Component {
                 }
               </View>
               {
-                item.status == 1 ?
+                item.status == 1 && this.appointment_booking == 1 ?
                   <View style={styles.buttoncontainer}>
                     <TouchableOpacity onPress={() => this._bookAppointment(item)} style={styles.button}>
                       <Text style={styles.textcolor}>Book an appointment</Text>

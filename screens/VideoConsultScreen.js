@@ -62,7 +62,7 @@ export default class VideoConsultScreen extends Component {
                 marginTop: StatusBar.currentHeight
             },
             headerTintColor: '#ffffff',
-            headerTitleStyle: { 
+            headerTitleStyle: {
                 flex: 1,
                 textAlign: 'center',
                 marginTop: StatusBar.currentHeight

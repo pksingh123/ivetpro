@@ -135,7 +135,14 @@ export default class PetEditScreen extends Component {
         this.setState({ chosenDate: newDate });
     }
     async componentDidMount() {
-        new App().checkDeviceState();
+
+        let savedValues = await AsyncStorage.getItem('userToken');
+        savedValues = JSON.parse(savedValues);
+        this.id = savedValues.user.uid;
+        //console.log("fetUserData saved data", savedValues, this.id);
+        new App().fetUserData(this.id);
+
+
         const userToken = await AsyncStorage.getItem('userToken');
         if (userToken) {
             userDetails = JSON.parse(userToken);

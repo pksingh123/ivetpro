@@ -141,7 +141,7 @@ export default class App extends React.Component {
     savedValues = JSON.parse(savedValues);
     this.id = savedValues.user.uid;
     //  console.log("app.js ");
-    this.checkDeviceState();
+    //  this.checkDeviceState();
   }
 
   checkDeviceState = () => {
@@ -170,7 +170,7 @@ export default class App extends React.Component {
             console.log("app.js checkDeviceState login");
           } else {
             console.log("app.js checkDeviceState logout");
-            //this._signOut();
+            // this._signOut();
           }
         }
 
@@ -183,19 +183,60 @@ export default class App extends React.Component {
 
 
   }
-  _signOut = async () => {
 
-    new DrawerScreen()._signOut();
+  fetUserData = (id) => {
 
-    // await AsyncStorage.removeItem('userToken');
-    // //AsyncStorage.clear()
-    // this.props.navigation.navigate('Auth')
-    // //this.props.navigation.navigate('App');
+    console.log("app.js fetUserData", id);
+    //this.loadingButton.showLoading(true);
+    const url = 'http://videowithmyvet.com/webservices/check-app-booking-allowed.php';
+    fetch(url,
+      {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          // device_id: DeviceInfo.getUniqueId(),
+          uid: id
+        }),
+      })
+      .then((response) => response.json())
+      .then((responseJson) => {
+        //console.warn(responseJson.user.temporary_passwrod);
+        console.log("app.js fetUserData", responseJson);
+        // alert("app.js checkDeviceState");
+        if (responseJson != null) {
 
-    // //this.props.navigation.navigate('AddFirstPet');
+          this.setData(responseJson);
+        }
+
+
+
+      })
+      .catch((error) => {
+        this.loadingButton.showLoading(false);
+        alert('Something went wrong!');
+        console.warn(error);
+      })
+
+
+  }
+
+
+  setData = async (responseJson) => {
+
+    let appointment_bookingin_app_allowed = responseJson.practice.appointment_bookingin_app_allowed;
+    console.log("fetUserData", appointment_bookingin_app_allowed)
+    let userToken = await AsyncStorage.getItem('userToken');
+    userToken = JSON.parse(userToken);
+    console.log("fetUserData data 0", userToken);
+    userToken.user.practice['appointment_bookingin_app_allowed'] = appointment_bookingin_app_allowed;
+    console.log("fetUserData data 1", userToken);
+    let userData = JSON.stringify(userToken);
+    await AsyncStorage.setItem('userToken', userData);
+    console.log("fetUserData data 2", userData);
 
   };
-
 
   _getToken() {
     const url = 'https://videowithmyvet.com/webservices/get-token.php';

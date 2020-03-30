@@ -66,7 +66,7 @@ export default class AppointmentListScreen extends Component {
             _onHeaderEventControl: this.onHeaderEventControl,
             _openNav: () => this.openDrawer()
         })
-        new App().checkDeviceState();
+
     }
 
 
@@ -98,6 +98,11 @@ export default class AppointmentListScreen extends Component {
         } else {
             this.setState({ uid: false })
         }
+        let savedValues = await AsyncStorage.getItem('userToken');
+        savedValues = JSON.parse(savedValues);
+        this.id = savedValues.user.uid;
+        //console.log("fetUserData saved data", savedValues, this.id);
+        new App().fetUserData(this.id);
 
 
         const url = 'https://videowithmyvet.com/webservices/booking-appointment.php?action=AppointmentList&uid=' + this.state.uid;

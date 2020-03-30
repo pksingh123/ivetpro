@@ -227,11 +227,12 @@ export default class HomeScreen extends Component {
     BackHandler.addEventListener('hardwareBackPress', this.exitFromApp);
     const userToken = await AsyncStorage.getItem('userToken');
     const temporary_passwrod = await AsyncStorage.getItem('temporary_passwrod');
+
     let savedValues = await AsyncStorage.getItem('userToken');
     savedValues = JSON.parse(savedValues);
-    console.log("home screen ");
-
-    new App().checkDeviceState();
+    this.id = savedValues.user.uid;
+    //console.log("fetUserData saved data", savedValues, this.id);
+    new App().fetUserData(this.id);
 
     // this.id = savedValues.user.uid;
 

@@ -85,6 +85,8 @@ export default class LoginScreen extends Component {
                             { cancelable: false }
                         );
 
+                    } else if (responseJson.status === 'device_error') {
+                        alert(responseJson.message);
                     } else {
                         alert(responseJson.error);
                     }

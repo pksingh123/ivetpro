@@ -130,7 +130,7 @@ export default class RegisterScreen extends Component {
         } else {
             this.setState({ uid: false })
         }
-        new App().checkDeviceState();
+
     }
     UpdateName = (text) => {
         this.setState({ name: text })

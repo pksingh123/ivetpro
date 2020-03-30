@@ -157,7 +157,12 @@ export default class EditProfileScreen extends Component {
         this.componentDidMount()
     }
     async componentDidMount() {
-        new App().checkDeviceState();
+
+        let savedValues = await AsyncStorage.getItem('userToken');
+        savedValues = JSON.parse(savedValues);
+        this.id = savedValues.user.uid;
+        //console.log("fetUserData saved data", savedValues, this.id);
+        new App().fetUserData(this.id);
 
         const userToken = await AsyncStorage.getItem('userToken');
         var source = '';

@@ -115,7 +115,13 @@ export default class VideoConsultScreen extends Component {
 
     // }
     async componentDidMount() {
-        new App().checkDeviceState();
+        let savedValues = await AsyncStorage.getItem('userToken');
+        savedValues = JSON.parse(savedValues);
+        this.id = savedValues.user.uid;
+        //console.log("fetUserData saved data", savedValues, this.id);
+        new App().fetUserData(this.id);
+
+
     }
     componentWillUnmount() {
         BackHandler.removeEventListener('hardwareBackPress', this._goBack);

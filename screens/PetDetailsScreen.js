@@ -87,7 +87,7 @@ export default class PetDetailsScreen extends Component {
   componentDidMount() {
     const item = this.props.navigation.state.params.item;
     this.setState({ petAliveStatus: item.status })
-    new App().checkDeviceState();
+
   }
 
   _startVideoCall = () => {

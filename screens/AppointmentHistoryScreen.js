@@ -18,7 +18,7 @@ import { Icon, ListItem, Avatar, Divider, SearchBar } from 'react-native-element
 import Icons from 'react-native-vector-icons/FontAwesome';
 import { DrawerActions } from 'react-navigation-drawer';
 import PracticeBarLogo from '../screens/PracticeBarLogo';
-import { App } from 'react-native-firebase';
+import { App } from '../App';
 this.arrayholder = [];
 export default class AppointmentHistoryScreen extends Component {
 
@@ -61,13 +61,19 @@ export default class AppointmentHistoryScreen extends Component {
         params._openNav()
     }
 
-    componentDidMount() {
+    async componentDidMount() {
         this.props.navigation.setParams({
             _onHeaderEventControl: this.onHeaderEventControl,
             _openNav: () => this.openDrawer()
         })
-        new App().checkDeviceState();
+        let savedValues = await AsyncStorage.getItem('userToken');
+        savedValues = JSON.parse(savedValues);
+        this.id = savedValues.user.uid;
+        //console.log("fetUserData saved data", savedValues, this.id);
+        new App().fetUserData(this.id);
+
     }
+
 
     /* openDrawer() {
       this.props.navigation.navigate('DrawerOpen');

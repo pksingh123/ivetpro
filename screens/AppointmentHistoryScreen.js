@@ -20,6 +20,7 @@ import { DrawerActions } from 'react-navigation-drawer';
 import PracticeBarLogo from '../screens/PracticeBarLogo';
 import App from '../App'
 
+
 this.arrayholder = [];
 export default class AppointmentHistoryScreen extends Component {
 
@@ -62,12 +63,21 @@ export default class AppointmentHistoryScreen extends Component {
         params._openNav()
     }
 
+    onFocusFunction = () => {
+        // do some stuff on every screen focus
+        alert('Completed appointment');
+        this.fetchCompletedAppointmentData();
+    }
+
     componentDidMount() {
         this.props.navigation.setParams({
             _onHeaderEventControl: this.onHeaderEventControl,
             _openNav: () => this.openDrawer()
         })
-        
+        this.focusListener = this.props.navigation.addListener('didFocus', () => {
+            this.onFocusFunction()
+        })
+
     }
 
     /* openDrawer() {
@@ -88,9 +98,10 @@ export default class AppointmentHistoryScreen extends Component {
         this.signOutAsync;
 
     }
-
-    async componentWillMount() {
-        this.props.navigation.setParams({ logout: this._signOutAsync });
+    componentWillUnmount() {
+        this.focusListener.remove()
+    }
+    async fetchCompletedAppointmentData() {
         const userToken = await AsyncStorage.getItem('userToken');
         if (userToken) {
             userDetails = JSON.parse(userToken);
@@ -114,6 +125,7 @@ export default class AppointmentHistoryScreen extends Component {
                         GridViewItems: responseJson.data
                     })
                     this.arrayholder = responseJson.data;
+                    alert(responseJson.status);
                 } else {
                     this.setState({
                         isLoading: false
@@ -125,6 +137,11 @@ export default class AppointmentHistoryScreen extends Component {
                 alert('Something went wrong!');
                 console.warn(error);
             })
+    }
+    async componentWillMount() {
+        this.props.navigation.setParams({ logout: this._signOutAsync });
+        this.fetchCompletedAppointmentData();
+
     }
     updateSearch = (text) => {
 
@@ -152,6 +169,8 @@ export default class AppointmentHistoryScreen extends Component {
     renderItem = ({ item }) => {
 
         return (
+
+
             <ListItem
                 /*  title={`${item.patientName}  ${item.date}  ${item.time}`} */
                 title={<View style={styles.subtitleView}>
@@ -168,7 +187,7 @@ export default class AppointmentHistoryScreen extends Component {
             />
         )
     }
-    
+
     renderSeparator = () => {
         return (
             <View style={styles.separator}></View>

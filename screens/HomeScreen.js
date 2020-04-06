@@ -191,6 +191,9 @@ export default class HomeScreen extends Component {
       _openNav: () => this.openDrawer()
     })
     this.createNotificationListeners();
+    this.focusListener = this.props.navigation.addListener('didFocus', () => {
+      this.onFocusFunction()
+    })
   }
   constructor(props) {
     super(props);
@@ -225,6 +228,18 @@ export default class HomeScreen extends Component {
     this.exitFromApp = this.exitFromApp.bind(this);
     this._petEdit = this._petEdit.bind(this);
   }
+  onFocusFunction = async () => {
+    // do some stuff on every screen focus
+    alert('Home');
+    let savedValues = await AsyncStorage.getItem('userToken');
+    savedValues = JSON.parse(savedValues);
+    this.id = savedValues.user.uid;
+    new App().fetUserData(this.id);
+  }
+
+  componentWillUnmount() {
+    this.focusListener.remove()
+  }
   async componentWillMount() {
     this.props.navigation.setParams({ logout: this._signOutAsync });
     BackHandler.addEventListener('hardwareBackPress', this.exitFromApp);
@@ -249,7 +264,8 @@ export default class HomeScreen extends Component {
         //this.props.navigation.navigate('ChangePassword');
       }
       // console.warn(userDetails.user.practice.practice_logo_url);
-      this.setState({ uid: userDetails.user.uid ,
+      this.setState({
+        uid: userDetails.user.uid,
         practice_name: userDetails.user.practice.name,
         practice_alias_name: userDetails.user.practice.alias_name,
         practice_address: userDetails.user.practice.address,
@@ -270,7 +286,7 @@ export default class HomeScreen extends Component {
             })
             this.setState({
               GridViewItems: responseJson.pets,
-              
+
             })
             console.log(responseJson.diedpets);
             this.arrayholder = responseJson.pets;

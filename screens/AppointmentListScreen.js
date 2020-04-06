@@ -66,6 +66,7 @@ export default class AppointmentListScreen extends Component {
             _onHeaderEventControl: this.onHeaderEventControl,
             _openNav: () => this.openDrawer()
         })
+        alert("Appointment list");
 
     }
 

@@ -25,6 +25,7 @@
     "react-native-device-info": "^5.4.1",
     "react-native-dropdown-autocomplete": "^1.0.17",
     "react-native-elements": "^1.2.7",
+    "react-native-event-listeners": "^1.0.7",
     "react-native-firebase": "^5.5.0",
     "react-native-gesture-handler": "^1.4.1",
     "react-native-google-analytics-bridge": "^7.1.0",

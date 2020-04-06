@@ -24,7 +24,7 @@ import DrawerNav from './navigation/DrawerNav';
 import DeviceInfo from 'react-native-device-info';
 import firebase from 'react-native-firebase';
 import DrawerScreen from './navigation/DrawerScreen'
-
+import { EventRegister } from 'react-native-event-listeners'
 
 export default class App extends React.Component {
   //class App extends React.Component {
@@ -231,10 +231,13 @@ export default class App extends React.Component {
     userToken = JSON.parse(userToken);
     console.log("fetUserData data 0", userToken);
     userToken.user.practice['appointment_bookingin_app_allowed'] = '0';//appointment_bookingin_app_allowed;
+
+    EventRegister.emit('myCustomEvent', userToken.user.practice.appointment_bookingin_app_allowed)
     console.log("fetUserData data 1", userToken);
     let userData = JSON.stringify(userToken);
     await AsyncStorage.setItem('userToken', userData);
     console.log("fetUserData data 2", userData);
+
 
   };
 

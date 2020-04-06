@@ -6,6 +6,7 @@ import { StackActions, DrawerActions } from 'react-navigation';
 import DeviceInfo from 'react-native-device-info';
 import App from '../App'
 var booking_source = Platform.OS === 'android' ? 'Android' : 'IOS';
+import { EventRegister } from 'react-native-event-listeners'
 //var VideoConsultNow;
 export default class DrawerScreen extends React.Component {
   static navigationOptions = ({ navigation }) => {
@@ -93,6 +94,24 @@ export default class DrawerScreen extends React.Component {
         console.warn(error);
       })
   }
+  onFocusFunction = () => {
+    // do some stuff on every screen focus
+    alert('Drawer');
+
+  }
+  componentWillUnmount() {
+    this.focusListener.remove()
+    EventRegister.removeEventListener(this.listener)
+  }
+  componentWillMount() {
+    this.listener = EventRegister.addEventListener('myCustomEvent', (data) => {
+      this.setState({
+        appointment_booking: data,
+      });
+      alert("draw screen" + data);
+      this.forceUpdate();
+    })
+  }
 
   async componentDidMount() {
     this.props.navigation.setParams({ logout: this._signOutAsync });
@@ -113,6 +132,9 @@ export default class DrawerScreen extends React.Component {
     }
     //const url = 'https://videowithmyvet.com/webservices/practice-settings.php?practice_id=' + this.state.practice_id;
     this.getvideoCall(this.state.practice_id);
+    this.focusListener = this.props.navigation.addListener('didFocus', () => {
+      this.onFocusFunction()
+    })
   }
 
 

@@ -4,6 +4,7 @@ import { Button, Icon } from 'react-native-elements';
 import Icons from 'react-native-vector-icons/FontAwesome';
 import { StackActions, DrawerActions } from 'react-navigation';
 import DeviceInfo from 'react-native-device-info';
+import App from '../App'
 var booking_source = Platform.OS === 'android' ? 'Android' : 'IOS';
 //var VideoConsultNow;
 export default class DrawerScreen extends React.Component {
@@ -19,9 +20,34 @@ export default class DrawerScreen extends React.Component {
       Settings: [],
       uid: '',
       VideoConsultNow: false,
+      uniqueValue: 1,
+      appointment_booking: 0
 
     }
   }
+
+  forceRemount = () => {
+    // this.setState(({ uniqueValue }) => ({
+    //   uniqueValue: uniqueValue + 1
+    // }));
+    this.state.uniqueValue = this.setState.uniqueValue + 1;
+    alert(this.state.uniqueValue);
+
+  }
+  refresh = async () => {
+    // alert(this.state.uniqueValue);
+    let savedValues = await AsyncStorage.getItem('userToken');
+    savedValues = JSON.parse(savedValues);
+    this.id = savedValues.user.uid;
+    new App().fetUserData(this.id);
+    this.setState({ state: this.state });
+    this.forceUpdate();
+
+    let appointmentValue = savedValues.user.practice.appointment_bookingin_app_allowed;
+    this.setState({ appointment_booking: appointmentValue });
+  }
+
+
   _updatefcm() {
     const url = 'https://videowithmyvet.com/webservices/update-token.php';
     fetch(url, {
@@ -73,8 +99,11 @@ export default class DrawerScreen extends React.Component {
     const userToken = await AsyncStorage.getItem('userToken');
     let savedValues = await AsyncStorage.getItem('userToken');
     savedValues = JSON.parse(savedValues);
-    this.appointment_booking = savedValues.user.practice.appointment_bookingin_app_allowed;
-    // console.log("appointment", savedValues);
+    let appointmentValue = savedValues.user.practice.appointment_bookingin_app_allowed;
+    this.setState({ appointment_booking: appointmentValue });
+    console.log("appointment", savedValues);
+    //  this.refresh();
+    //  alert("appontment");
     if (userToken) {
       userDetails = JSON.parse(userToken);
       // console.log(userDetails);
@@ -120,7 +149,7 @@ export default class DrawerScreen extends React.Component {
         <View style={styles.rowStyle}>
           <Text style={styles.pageName} onPress={() => navigate('Home')}>Home</Text>
           {
-            this.appointment_booking == 1 ?
+            this.state.appointment_booking == 1 ?
               <Text style={styles.pageName} onPress={() => navigate('Appointment')}>Book Appointment</Text> : null
           }
 
@@ -135,11 +164,17 @@ export default class DrawerScreen extends React.Component {
               : null
           }
           <Text style={styles.pageName} onPress={() => navigate('EditProfile')}>Edit Profile </Text>
+          <Text style={styles.pageName} onPress={this.refresh}>
+            Refresh
+          </Text>
+          <View key={this.state.uniqueValue}>
+            <Button title={"Refresh value " + this.state.uniqueValue} onPress={this.forceRemount} />
+          </View>
           <Text style={styles.pageName} onPress={this._signOut}>
             Logout
           </Text>
           {
-            this.appointment_booking == 1 ?
+            this.state.appointment_booking == 1 ?
               <View style={styles.buttoncontainer}>
                 <TouchableOpacity onPress={() => navigate('Appointment')}
                   style={styles.button}>

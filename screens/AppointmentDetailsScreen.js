@@ -101,6 +101,12 @@ export default class AppointmentDetailsScreen extends Component {
             paymentSuccessMessage: '',
             paymentErrorMessage: '',
             apiKey: '',
+            practice_name: '',
+            practice_alias_name: '',
+            practice_address: '',
+            practice_post_code: '',
+            practice_email: '',
+            practice_phone_number: '',
 
         }
         this._goBack = this._goBack.bind(this);
@@ -321,6 +327,12 @@ export default class AppointmentDetailsScreen extends Component {
             this.setState({
                 uid: userDetails.user.uid,
                 practice_id: userDetails.user.practice.practice_id,
+                practice_name: userDetails.user.practice.name,
+                practice_alias_name: userDetails.user.practice.alias_name,
+                practice_address: userDetails.user.practice.address,
+                practice_post_code: userDetails.user.practice.post_code,
+                practice_email: userDetails.user.practice.email,
+                practice_phone_number: userDetails.user.practice.phone_number,
                 // userDetails.user.clientPhone
             });
         }
@@ -333,6 +345,7 @@ export default class AppointmentDetailsScreen extends Component {
                     this.setState({ apiKey: responseJson.key.publishable_key })
                 } else {
                     alert(responseJson.status);
+
                 }
             })
             .catch((error) => {
@@ -475,7 +488,7 @@ export default class AppointmentDetailsScreen extends Component {
                         <View style={styles.bgDetails}>
                             <Text style={styles.bgNameStyle}>Appointment Details</Text>
                             <Text style={styles.bgTextStyle}>{item.full_date}</Text>
-                          
+
                         </View>
                     </ImageBackground>
                     <View style={styles.container}>
@@ -491,11 +504,11 @@ export default class AppointmentDetailsScreen extends Component {
                         </View>
                         <View style={styles.clientDetails}>
                             <Text style={styles.cNameStyle}>Practice Details</Text>
-                            <Text style={styles.dTextStyle}>{item.practice.name}</Text>
-                            <Text style={styles.dTextStyle}>{item.practice.address}</Text>
-                            <Text style={styles.dTextStyle}>{item.practice.post_code}</Text>
-                            <Text style={styles.dTextStyle}>{item.practice.phone_number}</Text>
-                            <Text style={styles.dTextStyle}>{item.practice.email}</Text>
+                            <Text style={styles.dTextStyle}>{this.state.practice_name}</Text>
+                            <Text style={styles.dTextStyle}>{this.state.practice_address}</Text>
+                            <Text style={styles.dTextStyle}>{this.state.practice_post_code}</Text>
+                            <Text style={styles.dTextStyle}>{this.state.practice_phone_number}</Text>
+                            <Text style={styles.dTextStyle}>{this.state.practice_email}</Text>
                         </View>
                         <View style={styles.notesStyle}>
                             <Text style={styles.cNameStyle}>Notes</Text>

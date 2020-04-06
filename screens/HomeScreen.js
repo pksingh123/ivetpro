@@ -217,6 +217,9 @@ export default class HomeScreen extends Component {
       countDeceasedPets: 0,
       buttonText: 'Show Deceased Pet',
       refreshing: false,
+      practice_name: '',
+      practice_alias_name: '',
+      practice_address: '',
     }
     this.signOutAsync;
     this.exitFromApp = this.exitFromApp.bind(this);
@@ -246,7 +249,11 @@ export default class HomeScreen extends Component {
         //this.props.navigation.navigate('ChangePassword');
       }
       // console.warn(userDetails.user.practice.practice_logo_url);
-      this.setState({ uid: userDetails.user.uid });
+      this.setState({ uid: userDetails.user.uid ,
+        practice_name: userDetails.user.practice.name,
+        practice_alias_name: userDetails.user.practice.alias_name,
+        practice_address: userDetails.user.practice.address,
+      });
     } else {
       this.setState({ uid: false })
     }
@@ -263,8 +270,7 @@ export default class HomeScreen extends Component {
             })
             this.setState({
               GridViewItems: responseJson.pets,
-              GridViewItemsDeceased: responseJson.diedpets,
-              countDeceasedPets: responseJson.totalDiedCount
+              
             })
             console.log(responseJson.diedpets);
             this.arrayholder = responseJson.pets;
@@ -421,7 +427,7 @@ export default class HomeScreen extends Component {
                   <View style={styles.itemsContentStyle}>
                     <Text style={styles.itemHeadingStyle}>Video consultation appointment.</Text>
                     <Text style={styles.itemStyle}>{item.nextAppointment.date} at {item.nextAppointment.time}</Text>
-                    <Text style={styles.itemStyle}>{item.nextAppointment.practice.name}</Text>
+                    <Text style={styles.itemStyle}>{this.state.practice_name}</Text>
                     {item.nextAppointment.paid == 1 ?
                       <View style={styles.buttoncontainer}>
                         <TouchableOpacity onPress={() => this._videoConsultation(item.nextAppointment)} style={styles.button}>
@@ -520,6 +526,7 @@ export default class HomeScreen extends Component {
         inactiveSlideOpacity={1}
         inactiveSlideScale={1}
       />
+
       //</SafeAreaView>
     );
   }
@@ -532,7 +539,7 @@ export default class HomeScreen extends Component {
           <Text style={styles.itemHeadingStyle}>Video consultation appointment.</Text>
           <Text style={styles.itemStyle}>{data.date} at {data.time}</Text>
           {
-            <Text style={styles.itemStyle}>{data.practice.name}</Text>
+            <Text style={styles.itemStyle}>{this.state.practice_name}</Text>
           }
         </View>
       )

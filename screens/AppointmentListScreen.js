@@ -60,16 +60,24 @@ export default class AppointmentListScreen extends Component {
         const { params = {} } = navOptions.state;
         params._openNav()
     }
+    onFocusFunction = async () => {
+        // alert("Appointment List");
+        this.getAppointmentData();
+    }
 
     componentDidMount() {
         this.props.navigation.setParams({
             _onHeaderEventControl: this.onHeaderEventControl,
             _openNav: () => this.openDrawer()
         })
-        alert("Appointment list");
 
+        this.focusListener = this.props.navigation.addListener('didFocus', () => {
+            this.onFocusFunction()
+        })
     }
-
+    componentWillUnmount() {
+        this.focusListener.remove()
+    }
 
     /* openDrawer() {
       this.props.navigation.navigate('DrawerOpen');
@@ -92,6 +100,10 @@ export default class AppointmentListScreen extends Component {
 
     async componentWillMount() {
         this.props.navigation.setParams({ logout: this._signOutAsync });
+        this.getAppointmentData();
+    }
+
+    async getAppointmentData() {
         const userToken = await AsyncStorage.getItem('userToken');
         if (userToken) {
             userDetails = JSON.parse(userToken);

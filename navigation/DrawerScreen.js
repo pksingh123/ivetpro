@@ -27,14 +27,7 @@ export default class DrawerScreen extends React.Component {
     }
   }
 
-  forceRemount = () => {
-    // this.setState(({ uniqueValue }) => ({
-    //   uniqueValue: uniqueValue + 1
-    // }));
-    this.state.uniqueValue = this.setState.uniqueValue + 1;
-    alert(this.state.uniqueValue);
 
-  }
   refresh = async () => {
     // alert(this.state.uniqueValue);
     let savedValues = await AsyncStorage.getItem('userToken');
@@ -94,13 +87,9 @@ export default class DrawerScreen extends React.Component {
         console.warn(error);
       })
   }
-  onFocusFunction = () => {
-    // do some stuff on every screen focus
-    alert('Drawer');
 
-  }
   componentWillUnmount() {
-    this.focusListener.remove()
+
     EventRegister.removeEventListener(this.listener)
   }
   componentWillMount() {
@@ -108,7 +97,7 @@ export default class DrawerScreen extends React.Component {
       this.setState({
         appointment_booking: data,
       });
-      alert("draw screen" + data);
+      //  alert("draw screen" + data);
       this.forceUpdate();
     })
   }
@@ -121,7 +110,7 @@ export default class DrawerScreen extends React.Component {
     let appointmentValue = savedValues.user.practice.appointment_bookingin_app_allowed;
     this.setState({ appointment_booking: appointmentValue });
     console.log("appointment", savedValues);
-    //  this.refresh();
+
     //  alert("appontment");
     if (userToken) {
       userDetails = JSON.parse(userToken);
@@ -132,9 +121,7 @@ export default class DrawerScreen extends React.Component {
     }
     //const url = 'https://videowithmyvet.com/webservices/practice-settings.php?practice_id=' + this.state.practice_id;
     this.getvideoCall(this.state.practice_id);
-    this.focusListener = this.props.navigation.addListener('didFocus', () => {
-      this.onFocusFunction()
-    })
+
   }
 
 
@@ -186,12 +173,7 @@ export default class DrawerScreen extends React.Component {
               : null
           }
           <Text style={styles.pageName} onPress={() => navigate('EditProfile')}>Edit Profile </Text>
-          <Text style={styles.pageName} onPress={this.refresh}>
-            Refresh
-          </Text>
-          <View key={this.state.uniqueValue}>
-            <Button title={"Refresh value " + this.state.uniqueValue} onPress={this.forceRemount} />
-          </View>
+
           <Text style={styles.pageName} onPress={this._signOut}>
             Logout
           </Text>

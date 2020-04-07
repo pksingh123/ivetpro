@@ -230,7 +230,8 @@ export default class HomeScreen extends Component {
   }
   onFocusFunction = async () => {
     // do some stuff on every screen focus
-    alert('Home');
+    //alert('Home');
+    this.setHomeScreenData();
     let savedValues = await AsyncStorage.getItem('userToken');
     savedValues = JSON.parse(savedValues);
     this.id = savedValues.user.uid;
@@ -240,9 +241,7 @@ export default class HomeScreen extends Component {
   componentWillUnmount() {
     this.focusListener.remove()
   }
-  async componentWillMount() {
-    this.props.navigation.setParams({ logout: this._signOutAsync });
-    BackHandler.addEventListener('hardwareBackPress', this.exitFromApp);
+  async setHomeScreenData() {
     const userToken = await AsyncStorage.getItem('userToken');
     const temporary_passwrod = await AsyncStorage.getItem('temporary_passwrod');
 
@@ -253,8 +252,6 @@ export default class HomeScreen extends Component {
     new App().fetUserData(this.id);
 
     // this.id = savedValues.user.uid;
-
-    // this.checkDeviceState();
 
     this.appointment_booking = savedValues.user.practice.appointment_bookingin_app_allowed;
     if (userToken) {
@@ -301,6 +298,12 @@ export default class HomeScreen extends Component {
         })
 
     }
+  }
+  async componentWillMount() {
+    this.props.navigation.setParams({ logout: this._signOutAsync });
+    BackHandler.addEventListener('hardwareBackPress', this.exitFromApp);
+
+    this.setHomeScreenData();
 
 
   }
@@ -312,36 +315,6 @@ export default class HomeScreen extends Component {
       this.setState({ buttonText: 'Hide Deceased Pet' });
     }
   };
-  checkDeviceState = () => {
-
-    console.log("home screen2 checkDeviceState ");
-    //this.loadingButton.showLoading(true);
-    const url = 'http://videowithmyvet.com/webservices/check-user-logedin.php';
-    fetch(url,
-      {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          device_id: DeviceInfo.getUniqueId(),
-          uid: this.id
-        }),
-      })
-      .then((response) => response.json())
-      .then((responseJson) => {
-        //console.warn(responseJson.user.temporary_passwrod);
-        console.log("home screen2 checkDeviceState", responseJson);
-
-      })
-      .catch((error) => {
-        this.loadingButton.showLoading(false);
-        alert('Something went wrong!');
-        console.warn(error);
-      })
-
-
-  }
 
   getButtonText() {
     return this.state.showDeceasedPets ? 'Hide Deceased Pet' : 'Show Deceased Pet';

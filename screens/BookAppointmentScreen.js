@@ -52,17 +52,17 @@ export default class BookAppointmentScreen extends Component {
                     backgroundColor: '#26cccc',
                     color: '#fff',
                     height: 80
-                },               
-                headerTitleStyle: { 
+                },
+                headerTitleStyle: {
                     flex: 1,
                     textAlign: 'center',
                     marginTop: StatusBar.currentHeight
                 },
-                headerLeftContainerStyle:{
-                    marginTop:StatusBar.currentHeight
+                headerLeftContainerStyle: {
+                    marginTop: StatusBar.currentHeight
                 },
-                headerRightContainerStyle:{
-                    marginTop:StatusBar.currentHeight
+                headerRightContainerStyle: {
+                    marginTop: StatusBar.currentHeight
                 },
 
             };
@@ -76,16 +76,16 @@ export default class BookAppointmentScreen extends Component {
                     color: '#fff',
                     height: 80
                 },
-                headerTitleStyle: { 
+                headerTitleStyle: {
                     flex: 1,
                     textAlign: 'center',
                     marginTop: StatusBar.currentHeight
                 },
-                headerLeftContainerStyle:{
-                    marginTop:StatusBar.currentHeight
+                headerLeftContainerStyle: {
+                    marginTop: StatusBar.currentHeight
                 },
-                headerRightContainerStyle:{
-                    marginTop:StatusBar.currentHeight
+                headerRightContainerStyle: {
+                    marginTop: StatusBar.currentHeight
                 },
 
                 //headerLeft: <HeaderBackButton onPress={() => navigation.navigate('routePetDetails', { item: navigation.state.params.item })} />,
@@ -168,11 +168,23 @@ export default class BookAppointmentScreen extends Component {
         }
 
     }
+
+    componentWillUnmount() {
+        this.focusListener.remove()
+    }
+    onFocusFunction = async () => {
+        //alert("Booking appointment");
+    }
+
     // componentDidMount() {
 
 
     // }
     async componentDidMount() {
+        this.focusListener = this.props.navigation.addListener('didFocus', () => {
+            this.onFocusFunction()
+        })
+
         const { params } = this.props.navigation.state;
         const itemId = params ? params.item.id : null;
         const itemName = params ? params.item.name : null;
@@ -410,7 +422,7 @@ export default class BookAppointmentScreen extends Component {
         }
     }
     VetStoriaBooking = () => {
-        
+
         if (this.state.location_id == '' || this.state.VetstoriaSchedulesID == '' || this.state.slot == '' || this.state.clientPhone == '' || this.state.VetstoriaAppointmentTypesID == '' || this.state.VetstoriaSpeciesID == '' || this.state.clentNotes == '') {
             alert("Please fill all fields");
         } else {

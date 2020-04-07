@@ -109,6 +109,10 @@ export default class RegisterScreen extends Component {
         this.navigation;
     }
     componentWillMount() {
+        this.getPetsData();
+
+    }
+    async getPetsData() {
         const url = 'https://videowithmyvet.com/webservices/species.php';
         fetch(url)
             .then((response) => response.json())
@@ -117,12 +121,20 @@ export default class RegisterScreen extends Component {
                     this.setState({ speciesArr: responseJson.species });
                 }
             })
-
+    }
+    onFocusFunction = () => {
+        // alert("Add pets");
+        this.getPetsData();
     }
     setDate(newDate) {
         this.setState({ chosenDate: newDate });
     }
     async componentDidMount() {
+        // alert("Add pets c");
+        this.focusListener = this.props.navigation.addListener('didFocus', () => {
+            this.onFocusFunction()
+        })
+
         const userToken = await AsyncStorage.getItem('userToken');
         if (userToken) {
             userDetails = JSON.parse(userToken);
@@ -132,6 +144,12 @@ export default class RegisterScreen extends Component {
         }
 
     }
+
+    componentWillUnmount() {
+        this.focusListener.remove()
+    }
+
+
     UpdateName = (text) => {
         this.setState({ name: text })
     }

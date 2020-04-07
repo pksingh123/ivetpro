@@ -92,7 +92,7 @@ export default class App extends React.Component {
         Token: fcmToken
       });
       if (fcmToken) {
-        // this._getToken ();
+        // this._getToken();
         await AsyncStorage.setItem('fcmToken', fcmToken);
       }
     }
@@ -230,8 +230,8 @@ export default class App extends React.Component {
     let userToken = await AsyncStorage.getItem('userToken');
     userToken = JSON.parse(userToken);
     console.log("fetUserData data 0", userToken);
-    userToken.user.practice['appointment_bookingin_app_allowed'] = '0';//appointment_bookingin_app_allowed;
-
+    //userToken.user.practice['appointment_bookingin_app_allowed'] = '1';//appointment_bookingin_app_allowed;
+    userToken.user.practice['appointment_bookingin_app_allowed'] = appointment_bookingin_app_allowed;
     EventRegister.emit('myCustomEvent', userToken.user.practice.appointment_bookingin_app_allowed)
     console.log("fetUserData data 1", userToken);
     let userData = JSON.stringify(userToken);

@@ -226,13 +226,16 @@ export default class App extends React.Component {
   setData = async (responseJson) => {
 
     let appointment_bookingin_app_allowed = responseJson.practice.appointment_bookingin_app_allowed;
+    let allow_video_calls_without_appoinmtent = responseJson.practice.allow_video_calls_without_appoinmtent;
     console.log("fetUserData", appointment_bookingin_app_allowed)
     let userToken = await AsyncStorage.getItem('userToken');
     userToken = JSON.parse(userToken);
     console.log("fetUserData data 0", userToken);
     //userToken.user.practice['appointment_bookingin_app_allowed'] = '1';//appointment_bookingin_app_allowed;
     userToken.user.practice['appointment_bookingin_app_allowed'] = appointment_bookingin_app_allowed;
+    userToken.user.practice['allow_video_calls_without_appoinmtent'] = allow_video_calls_without_appoinmtent;
     EventRegister.emit('myCustomEvent', userToken.user.practice.appointment_bookingin_app_allowed)
+    EventRegister.emit('VideoAppointmentData', userToken.user.practice.allow_video_calls_without_appoinmtent)
     console.log("fetUserData data 1", userToken);
     let userData = JSON.stringify(userToken);
     await AsyncStorage.setItem('userToken', userData);

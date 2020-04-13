@@ -22,6 +22,7 @@ export default class DrawerScreen extends React.Component {
       uid: '',
       VideoConsultNow: false,
       uniqueValue: 1,
+      videoConsultNowWithoutAppointment: 0,
       appointment_booking: 0
 
     }
@@ -67,8 +68,8 @@ export default class DrawerScreen extends React.Component {
       })
   }
 
-  getvideoCall() {
-    const url = 'https://videowithmyvet.com/webservices/video-consult-now.php?checkIsCall=1&practice_id=47';
+  getvideoCall(practice_id) {
+    const url = 'https://videowithmyvet.com/webservices/video-consult-now.php?checkIsCall=1&practice_id=' + practice_id;
     fetch(url)
       .then((response) => response.json())
       .then((responseJson) => {
@@ -91,6 +92,7 @@ export default class DrawerScreen extends React.Component {
   componentWillUnmount() {
 
     EventRegister.removeEventListener(this.listener)
+    EventRegister.removeEventListener(this.listener2)
   }
   componentWillMount() {
     this.listener = EventRegister.addEventListener('myCustomEvent', (data) => {
@@ -100,6 +102,11 @@ export default class DrawerScreen extends React.Component {
       //  alert("draw screen" + data);
       this.forceUpdate();
     })
+    this.listener2 = EventRegister.addEventListener('VideoAppointmentData', (data) => {
+      // alert("data" + data);
+      this.setState({ videoConsultNowWithoutAppointment: data });
+      this.forceUpdate();
+    });
   }
 
   async componentDidMount() {
@@ -109,6 +116,8 @@ export default class DrawerScreen extends React.Component {
     savedValues = JSON.parse(savedValues);
     let appointmentValue = savedValues.user.practice.appointment_bookingin_app_allowed;
     this.setState({ appointment_booking: appointmentValue });
+    let videoConsultNowWoutAppnt = savedValues.user.practice.allow_video_calls_without_appoinmtent
+    this.setState({ videoConsultNowWithoutAppointment: videoConsultNowWoutAppnt })
     console.log("appointment", savedValues);
 
     //  alert("appontment");
@@ -166,7 +175,7 @@ export default class DrawerScreen extends React.Component {
           <Text style={styles.pageName} onPress={() => navigate('AppointmentHistory')}>Completed Appointment </Text>
           <Text style={styles.pageName} onPress={() => navigate('AddPet')}>Add Pet </Text>
           {
-            this.state.VideoConsultNow && booking_source == 'Android' ?
+            this.state.VideoConsultNow == true && this.state.videoConsultNowWithoutAppointment == 1 ?
               <Text style={styles.pageName} onPress={() => navigate('VideoConsultNow')}>
                 Video Consult Now
               </Text>

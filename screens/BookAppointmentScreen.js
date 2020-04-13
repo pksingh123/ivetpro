@@ -360,6 +360,7 @@ export default class BookAppointmentScreen extends Component {
                 })
                 .then((response) => response.json())
                 .then((responseJson) => {
+                    console.log("Time data ", responseJson);
                     if (responseJson.slotlist.length > 0) {
                         this.setState({ slotList: responseJson.slotlist, isSlot: true, isBooking: true })
                     } else {
@@ -408,7 +409,7 @@ export default class BookAppointmentScreen extends Component {
                 .then((responseJson) => {
                     console.warn(responseJson);
                     if (responseJson.status === 'ok') {
-                        //console.warn(responseJson.slotlist);
+                        console.warn(responseJson.slotlist);
                         this.setState({ slotList: responseJson.slotlist, isSlot: true, isBooking: true })
                     } else {
                         alert(responseJson.error);

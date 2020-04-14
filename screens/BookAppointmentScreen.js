@@ -351,10 +351,59 @@ export default class BookAppointmentScreen extends Component {
         fetch(url)
             .then((response) => response.json())
             .then((responseJson) => {
-                // console.warn(responseJson);
+                console.warn(responseJson);
                 if (responseJson.status === 'ok') {
-                    this.setState({ localTimeArr: responseJson.record })
-                    // console.log(responseJson);
+                    // this.setState({ localTimeArr: responseJson.record })
+                    let timeArray = responseJson.record;
+                    let localTimeArray = [];
+                    for (let i = 0; i < timeArray.length; i++) {
+                        let value = timeArray[i].label;
+                        let hour = this.timeToDecimal(value)
+                        let hourString = ''; let hourString24 = '' + hour;
+                        if (hour < 10) {
+                            hourString24 = '0' + hour;
+                        }
+                        let amPm = 'AM'
+                        if (hour > 12) {
+                            amPm = 'PM'
+                            hour = hour - 12;
+                        }
+                        if (hour == 12) {
+                            amPm = 'PM'
+
+                        }
+                        hourString = '' + hour;
+
+                        if (hour < 10) {
+                            hourString = '0' + hour;
+
+                        }
+                        let time1 = hourString + ':' + '00 ' + amPm;
+                        let value1 = hourString24 + ':00';
+                        localTimeArray.push({ label: time1, value: value1 });
+
+                        if (i < timeArray.length - 1) {
+
+
+                            let time2 = hourString + ':' + '15 ' + amPm;
+                            let time3 = hourString + ':' + '30 ' + amPm;
+                            let time4 = hourString + ':' + '45 ' + amPm;
+
+                            let value2 = hourString24 + ':15';
+                            let value3 = hourString24 + ':30';
+                            let value4 = hourString24 + ':45';
+
+
+                            localTimeArray.push({ label: time2, value: value2 });
+                            localTimeArray.push({ label: time3, value: value3 });
+                            localTimeArray.push({ label: time4, value: value4 });
+                        }
+
+
+                        console.log("hour ", hour);
+                    }
+                    this.setState({ localTimeArr: localTimeArray })
+                    console.log("new array data ", localTimeArray);
                 } else {
                     alert(responseJson.status);
                 }
@@ -363,6 +412,12 @@ export default class BookAppointmentScreen extends Component {
                 alert('Something went wrong!');
                 console.warn(error);
             })
+    }
+    timeToDecimal = (t) => {
+        var arr = t.split(':');
+        var dec = parseInt((arr[1] / 6) * 10, 10);
+
+        return parseFloat(parseInt(arr[0], 10) + '.' + (dec < 10 ? '0' : '') + dec);
     }
 
     findSpeciesId = (petId, index) => {
@@ -892,7 +947,7 @@ export default class BookAppointmentScreen extends Component {
                     // Collection of dates that have to be marked. Default = {}
                     current={this.state.appointmentDate}
                     minDate={this.startDate}
-                    onDayPress={(day) => { console.log('selected day', day); this.setState({ appointmentDate: day.dateString }); this.localAppointmentTime(day.dateString) }}
+                    onDayPress={(day) => { console.log('selected day', day); this.setState({ appointmentDate: day.dateString }); this.localAppointmentTime(day.dateString); }}
                     markedDates={this.markedDates
                         //'2012-05-16': {selected: true, marked: true, selectedColor: 'blue'}
                     }
@@ -932,6 +987,7 @@ export default class BookAppointmentScreen extends Component {
                 useNativeAndroidPickerStyle={false}
                 placeholderTextColor='#555'
                 onValueChange={value => {
+                    alert("selected value" + value);
                     this.setState({ appointmentTime: value });
                 }}
                 value={this.state.appointmentTime}

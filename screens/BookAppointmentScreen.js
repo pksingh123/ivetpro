@@ -20,6 +20,7 @@ import { DrawerActions } from 'react-navigation-drawer';
 import DatePicker from 'react-native-datepicker';
 import RNPickerSelect from 'react-native-picker-select';
 import PracticeBarLogo from '../screens/PracticeBarLogo';
+import { Calendar, CalendarList, Agenda } from 'react-native-calendars';
 import moment from "moment";
 import { HeaderBackButton } from 'react-navigation';
 
@@ -164,9 +165,29 @@ export default class BookAppointmentScreen extends Component {
             GridViewItems: [
 
             ],
+            showCalendar: false,
 
         }
+        this.setMarkedDateInCalendar();
 
+    }
+
+    setMarkedDateInCalendar = () => {
+        //alert(this.state.appointmentDate);
+        this.markedDates = {
+
+            [moment().format('YYYY-MM-DD')]: { marked: false, dotColor: 'grey' }, // mark today with a red dot
+            [this.state.appointmentDate]: { selected: true }
+        }
+
+        for (let i = 1; i < 365; i++) { // figure out if the next X days are weekend days and if so disable them
+
+            let day = moment().add(i, 'd')
+
+            if (day.isoWeekday() === 6 || day.isoWeekday() === 7) {
+                this.markedDates[day.format('YYYY-MM-DD')] = { disabled: true, disableTouchEvent: true }
+            }
+        }
     }
 
     componentWillUnmount() {
@@ -174,6 +195,16 @@ export default class BookAppointmentScreen extends Component {
     }
     onFocusFunction = async () => {
         //alert("Booking appointment");
+    }
+    appointmentSelectDate = () => {
+        // alert('slected date');
+        let value = this.state.showCalendar;
+
+        if (value == true) {
+            this.setState({ showCalendar: false })
+        } else {
+            this.setState({ showCalendar: true })
+        }
     }
 
     // componentDidMount() {
@@ -191,6 +222,28 @@ export default class BookAppointmentScreen extends Component {
         const speciesVetId = params ? params.item.vetstoriaId : null;
         const speciesLocId = params ? params.item.species : null;
         const fromPetDetailPage = params ? true : false;
+        this.startDate = new Date().getDate();
+
+        let day = new Date().getDate(); //Current Date
+        let month = new Date().getMonth(); //Current Month
+        let year = new Date().getFullYear(); //Current Year
+
+        const tomorrowDate = new Date(year, month, day + 1) // PLUS 1 DAY
+
+
+        this.cdate = tomorrowDate.getDate(); //Current Date
+        let c_month = tomorrowDate.getMonth() + 1; //Current Month
+        this.cyear = tomorrowDate.getFullYear(); //Current Year
+        //  alert('month' + c_month);
+        if (c_month < 10) {
+            this.cmonth = '0' + c_month
+        } else {
+            this.cmonth = '' + c_month
+        }
+
+        this.startDate = this.cyear + '-' + this.cmonth + '-' + this.cdate;
+
+        alert("date" + this.startDate);
 
         this.setState({ petID: itemId, petName: itemName, VetstoriaSpeciesID: speciesVetId, speciesLocalId: speciesLocId, fromPetDetailPage: fromPetDetailPage })
         this.props.navigation.setParams({ logout: this._signOutAsync });
@@ -284,6 +337,13 @@ export default class BookAppointmentScreen extends Component {
 
     }
     localAppointmentTime = (item) => {
+        this.setState({ showCalendar: false });
+        console.log("selected date", item);
+        let currentObj = this;
+        setTimeout(function () {
+            currentObj.setMarkedDateInCalendar();
+        }, 1000)
+
         this.setState({ appointmentDate: item });
 
         //console.warn(`https://videowithmyvet.com/webservices/booking-appointment.php?action=LocalAppointmentTime&checkDate=${item}&practice_id=${this.state.practice_id}`);
@@ -821,7 +881,24 @@ export default class BookAppointmentScreen extends Component {
                     <Text style={styles.text} > {'\u00A3'}{this.state.amount} </Text>
                 </View> 
             </View>*/}
-            <DatePicker
+            <TouchableOpacity onPress={this.appointmentSelectDate}>
+                <View style={styles.calendarView} >
+                    <Text style={this.state.appointmentDate == '' ? styles.calendarText : styles.calendarTextDark}> {this.state.appointmentDate == '' ? 'Select Date' : this.state.appointmentDate}
+                    </Text>
+                </View>
+            </TouchableOpacity>
+            {this.state.showCalendar ?
+                <Calendar
+                    // Collection of dates that have to be marked. Default = {}
+                    current={this.state.appointmentDate}
+                    minDate={this.startDate}
+                    onDayPress={(day) => { console.log('selected day', day); this.setState({ appointmentDate: day.dateString }); this.localAppointmentTime(day.dateString) }}
+                    markedDates={this.markedDates
+                        //'2012-05-16': {selected: true, marked: true, selectedColor: 'blue'}
+                    }
+                />
+                : null}
+            {/* <DatePicker
                 style={styles.datePicker}
                 date={this.state.appointmentDate}
                 mode="date"
@@ -831,7 +908,7 @@ export default class BookAppointmentScreen extends Component {
                 confirmBtnText="Done"
                 cancelBtnText="Cancel"
                 onDateChange={this.localAppointmentTime}
-                /* onDateChange={(date) => { this.setState({ appointmentDate: date }) }}*/
+              
                 customStyles={{
                     dateInput: {
                         borderWidth: 0,
@@ -847,7 +924,7 @@ export default class BookAppointmentScreen extends Component {
                         color: '#555'
                     }
                 }}
-            />
+            /> */}
 
             <RNPickerSelect
                 placeholder={LocalTimePlaceholder}
@@ -1055,6 +1132,28 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
         alignItems: 'center',
         height: 80
+    },
+    calendarText: {
+        color: '#555',
+        fontSize: 16,
+        justifyContent: 'center',
+        paddingVertical: 10,
+    },
+    calendarTextDark: {
+        color: '#000',
+        fontSize: 16,
+        justifyContent: 'center',
+        paddingVertical: 10,
+    },
+    calendarView: {
+        paddingHorizontal: 10,
+        marginTop: 20,
+        marginBottom: 20,
+        color: '#555',
+        height: 50,
+        alignContent: 'flex-start',
+        alignItems: 'flex-start',
+        backgroundColor: '#F6F6F6',
     },
 
 });

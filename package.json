@@ -20,6 +20,7 @@
     "react-native": "0.59.2",
     "react-native-animate-loading-button": "^1.0.3",
     "react-native-autocomplete-input": "^4.1.0",
+    "react-native-calendars": "^1.265.0",
     "react-native-datepicker": "^1.7.2",
     "react-native-deck-swiper": "^1.6.7",
     "react-native-device-info": "^5.4.1",

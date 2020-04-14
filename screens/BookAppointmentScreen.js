@@ -20,6 +20,7 @@ import { DrawerActions } from 'react-navigation-drawer';
 import DatePicker from 'react-native-datepicker';
 import RNPickerSelect from 'react-native-picker-select';
 import PracticeBarLogo from '../screens/PracticeBarLogo';
+import Picker from 'react-native-picker';
 import { Calendar, CalendarList, Agenda } from 'react-native-calendars';
 import moment from "moment";
 import { HeaderBackButton } from 'react-navigation';
@@ -126,6 +127,7 @@ export default class BookAppointmentScreen extends Component {
             SitesAppointmentTypesID: '',
             appointmentDate: '',
             appointmentTime: '',
+            appointmentTimeShow: '',
             isSlot: false,
             isBooking: false,
             slot: '',
@@ -160,6 +162,7 @@ export default class BookAppointmentScreen extends Component {
             practice_address: '',
             speciesLocalId: '',
             localTimeArr: [],
+            hourArrayData: [],
             fromPetDetailPage: false,
             refreshing: false,
             GridViewItems: [
@@ -188,6 +191,83 @@ export default class BookAppointmentScreen extends Component {
                 this.markedDates[day.format('YYYY-MM-DD')] = { disabled: true, disableTouchEvent: true }
             }
         }
+    }
+    setPickerDone = (data) => {
+        console.log(data);
+        let h_string = data[0]; let min_string = data[1]; let amPm = data[2];
+        h_string = h_string.charAt(0) == '0' ? h_string.replace('0', '') : h_string;
+        let h = Number(h_string);
+        min_string = min_string.charAt(0) == '0' ? min_string.replace('0', '') : min_string;
+        let min = Number(min_string);
+        if (amPm == 'PM' && h != 12) {
+            h = h + 12;
+        }
+        if (h == 12 && amPm == 'AM') {
+            h = h - 12;
+        }
+        let t_min = h * 60 + min;
+
+        let fromTime = this.state.hourArrayData[0];
+        let len = this.state.hourArrayData.length;
+        let tillTime = this.state.hourArrayData[len - 1];
+        console.log("total minute", t_min, fromTime, tillTime);
+        if (t_min >= fromTime * 60 && t_min <= tillTime * 60) {//correct timeing 
+            let selectedTime = '';
+            let hour = h;
+            // if(amPm == 'PM'){
+            //     hour = hour + 12;
+            // }
+            this.setState({ appointmentTimeShow: data[0] + ':' + data[1] + ' ' + data[2] })
+
+            selectedTime = hour + ':' + min;
+            console.log('selected time ', selectedTime);
+            this.setState({ appointmentTime: selectedTime })
+        } else {
+            let st = ''; let et = '';
+            st = fromTime + 'AM';
+            et = tillTime + 'AM';
+            if (fromTime > 12) {
+                st = (fromTime - 12) + 'PM';
+            }
+            if (tillTime > 12) {
+                et = (tillTime - 12) + 'PM';
+            }
+
+            this.showTimeIncorrectAlert(st, et);
+        }
+    }
+    setPickerData() {
+        Picker.init({
+            pickerData: this.state.localTimeArr,
+            //selectedValue: [],
+
+            onPickerConfirm: data => {
+
+            },
+            onPickerCancel: data => {
+                console.log(data);
+            },
+            onPickerSelect: data => {
+                console.log(data);
+
+            }
+        });
+    }
+    onTimePickerSelect = () => {
+        // alert('time picker');
+
+        Picker.show();
+    }
+    showTimeIncorrectAlert = (am, pm) => {
+        Alert.alert(
+            'Incorrect',
+            'Please select timing between ' + am + ' and ' + pm,
+            [
+
+                { text: 'OK', onPress: () => { console.log('OK Pressed'); Picker.show(); } },
+            ],
+            { cancelable: false },
+        );
     }
 
     componentWillUnmount() {
@@ -243,7 +323,7 @@ export default class BookAppointmentScreen extends Component {
 
         this.startDate = this.cyear + '-' + this.cmonth + '-' + this.cdate;
 
-        alert("date" + this.startDate);
+        //  alert("date" + this.startDate);
 
         this.setState({ petID: itemId, petName: itemName, VetstoriaSpeciesID: speciesVetId, speciesLocalId: speciesLocId, fromPetDetailPage: fromPetDetailPage })
         this.props.navigation.setParams({ logout: this._signOutAsync });
@@ -355,6 +435,41 @@ export default class BookAppointmentScreen extends Component {
                 if (responseJson.status === 'ok') {
                     this.setState({ localTimeArr: responseJson.record })
                     // console.log(responseJson);
+
+                    console.log(responseJson);
+                    let arrayData = responseJson.record;
+                    let hourArrayData = [];
+                    let hour12ArrayData = []
+                    for (let i = 0; i < arrayData.length; i++) {
+                        let value = arrayData[i].value
+
+                        let hour = this.timeToDecimal(value)
+                        console.log("hour", hour);
+                        hourArrayData.push(hour);
+                        if (hour > 12) {
+                            hour = hour - 12;
+                        }
+                        if (hour < 10) {
+                            hour12ArrayData.push('0' + hour);
+                        } else {
+                            hour12ArrayData.push('' + hour);
+                        }
+
+                    }
+
+                    this.setState({ hourArrayData: hourArrayData });
+
+                    let bigArrayData = [];
+
+                    let minutesArrayData = ['00', '15', '30', '45'];
+                    let amPmArray = ['AM', 'PM'];
+
+                    bigArrayData.push(hour12ArrayData);
+                    bigArrayData.push(minutesArrayData);
+                    bigArrayData.push(amPmArray);
+                    this.setState({ localTimeArr: bigArrayData });
+                    //  this.setPickerData();
+
                 } else {
                     alert(responseJson.status);
                 }
@@ -363,6 +478,12 @@ export default class BookAppointmentScreen extends Component {
                 alert('Something went wrong!');
                 console.warn(error);
             })
+    }
+    timeToDecimal = (t) => {
+        var arr = t.split(':');
+        var dec = parseInt((arr[1] / 6) * 10, 10);
+
+        return parseFloat(parseInt(arr[0], 10) + '.' + (dec < 10 ? '0' : '') + dec);
     }
 
     findSpeciesId = (petId, index) => {
@@ -625,6 +746,11 @@ export default class BookAppointmentScreen extends Component {
                     console.warn(error);
                 })
         }
+    }
+    _onPressHandle() {
+        //  this.picker.toggle();
+        this.picker.current.show()
+        // this.picker.
     }
 
     render() {
@@ -898,35 +1024,24 @@ export default class BookAppointmentScreen extends Component {
                     }
                 />
                 : null}
-            {/* <DatePicker
-                style={styles.datePicker}
-                date={this.state.appointmentDate}
-                mode="date"
-                placeholderTextColor='#555'
-                placeholder="Select Date"
-                format="YYYY-MM-DD"
-                confirmBtnText="Done"
-                cancelBtnText="Cancel"
-                onDateChange={this.localAppointmentTime}
-              
-                customStyles={{
-                    dateInput: {
-                        borderWidth: 0,
-                        alignItems: 'flex-start',
-                    },
-                    dateIcon: {
-                        width: 0,
-                        height: 0,
-                    },
-                    dateText: {
 
-                    }, placeholderText: {
-                        color: '#555'
-                    }
+
+            {/* <TouchableOpacity style={{ marginTop: 20 }} onPress={this._onPressHandle.bind(this)}>
+                <Text>点我</Text>
+            </TouchableOpacity>
+            <Picker
+                ref={picker => this.picker = picker}
+                style={{ height: 320 }}
+                showDuration={300}
+                pickerData={['2015年', '12月', '12日']}
+                selectedValue={['2015年', '12月', '12日']}
+                onPickerDone={(pickedValue) => {
+                    console.log(pickedValue);
                 }}
             /> */}
 
-            <RNPickerSelect
+
+            {/* <RNPickerSelect
                 placeholder={LocalTimePlaceholder}
                 items={this.state.localTimeArr}
                 useNativeAndroidPickerStyle={false}
@@ -936,7 +1051,7 @@ export default class BookAppointmentScreen extends Component {
                 }}
                 value={this.state.appointmentTime}
                 style={pickerSelectStyles}
-            />
+            /> */}
             <TextInput placeholder="Notes"
                 underlineColorAndroid="transparent"
                 placeholderTextColor='#555'

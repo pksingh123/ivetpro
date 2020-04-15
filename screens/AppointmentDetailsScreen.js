@@ -107,7 +107,7 @@ export default class AppointmentDetailsScreen extends Component {
             practice_post_code: '',
             practice_email: '',
             practice_phone_number: '',
-
+            prevent_phone_app_calling_agent: 1, // if 1 then hide video call 
         }
         this._goBack = this._goBack.bind(this);
     }
@@ -118,6 +118,7 @@ export default class AppointmentDetailsScreen extends Component {
     componentWillUnmount() {
 
         BackHandler.removeEventListener('hardwareBackPress', this._goBack);
+        this.focusListener.remove()
     }
     _goBack() {
         const item = this.props.navigation.state.params.item;
@@ -141,6 +142,18 @@ export default class AppointmentDetailsScreen extends Component {
 
         this.setState({ appointmentStatus: item.status })
 
+        this.focusListener = this.props.navigation.addListener('didFocus', () => {
+            this.onFocusFunction()
+        })
+
+    }
+    onFocusFunction = async () => {
+        let savedValues = await AsyncStorage.getItem('userToken');
+        savedValues = JSON.parse(savedValues);
+        let prevent_calling = savedValues.user.practice.prevent_phone_app_calling_agent;
+        this.setState({ prevent_phone_app_calling_agent: prevent_calling });
+
+        console.log("onFocusFunction", prevent_calling);
     }
     _showAlert = (item) => {
 
@@ -321,6 +334,8 @@ export default class AppointmentDetailsScreen extends Component {
     async componentWillMount() {
         this.props.navigation.setParams({ logout: this._signOutAsync });
         const userToken = await AsyncStorage.getItem('userToken');
+
+
         if (userToken) {
             userDetails = JSON.parse(userToken);
             console.warn(userDetails);
@@ -455,7 +470,7 @@ export default class AppointmentDetailsScreen extends Component {
                 <Text style={styles.link} onPress={() => this._showAlert(item)}>Cancel Appointment</Text>
             </View>
             : null
-        var statusHtml_2 = this.state.appointmentStatus == 2 ?
+        var statusHtml_2 = this.state.appointmentStatus == 2 && this.state.prevent_phone_app_calling_agent == 0 ?
             <View>
                 {<TouchableOpacity onPress={() => this._startConfrence(item)} style={styles.button}>
                     <Text style={styles.textcolor}>Start Video Call</Text>

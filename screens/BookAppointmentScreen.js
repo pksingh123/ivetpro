@@ -243,7 +243,7 @@ export default class BookAppointmentScreen extends Component {
 
         this.startDate = this.cyear + '-' + this.cmonth + '-' + this.cdate;
 
-        alert("date" + this.startDate);
+        // alert("date" + this.startDate);
 
         this.setState({ petID: itemId, petName: itemName, VetstoriaSpeciesID: speciesVetId, speciesLocalId: speciesLocId, fromPetDetailPage: fromPetDetailPage })
         this.props.navigation.setParams({ logout: this._signOutAsync });
@@ -380,7 +380,7 @@ export default class BookAppointmentScreen extends Component {
                         }
                         let time1 = hourString + ':' + '00 ' + amPm;
                         let value1 = hourString24 + ':00';
-                        localTimeArray.push({ label: time1, value: value1 });
+                        localTimeArray.push({ label: time1, value: value1, color: 'black' });
 
                         if (i < timeArray.length - 1) {
 
@@ -394,16 +394,16 @@ export default class BookAppointmentScreen extends Component {
                             let value4 = hourString24 + ':45';
 
 
-                            localTimeArray.push({ label: time2, value: value2 });
-                            localTimeArray.push({ label: time3, value: value3 });
-                            localTimeArray.push({ label: time4, value: value4 });
+                            localTimeArray.push({ label: time2, value: value2, color: 'black' });
+                            localTimeArray.push({ label: time3, value: value3, color: 'black' });
+                            localTimeArray.push({ label: time4, value: value4, color: 'black' });
                         }
 
 
                         console.log("hour ", hour);
                     }
                     this.setState({ localTimeArr: localTimeArray })
-                    console.log("new array data ", localTimeArray);
+                    // console.log("new array data ", localTimeArray);
                 } else {
                     alert(responseJson.status);
                 }
@@ -984,10 +984,10 @@ export default class BookAppointmentScreen extends Component {
             <RNPickerSelect
                 placeholder={LocalTimePlaceholder}
                 items={this.state.localTimeArr}
-                useNativeAndroidPickerStyle={false}
+                useNativeAndroidPickerStyle={true}
                 placeholderTextColor='#555'
                 onValueChange={value => {
-                    alert("selected value" + value);
+                    // alert("selected value" + value);
                     this.setState({ appointmentTime: value });
                 }}
                 value={this.state.appointmentTime}

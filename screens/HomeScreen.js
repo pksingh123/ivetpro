@@ -223,6 +223,7 @@ export default class HomeScreen extends Component {
       practice_name: '',
       practice_alias_name: '',
       practice_address: '',
+      prevent_phone_app_calling_agent: 1, // if 1 hide video consult 
     }
     this.signOutAsync;
     this.exitFromApp = this.exitFromApp.bind(this);
@@ -254,6 +255,8 @@ export default class HomeScreen extends Component {
     // this.id = savedValues.user.uid;
 
     this.appointment_booking = savedValues.user.practice.appointment_bookingin_app_allowed;
+    let prevent_calling = savedValues.user.practice.prevent_phone_app_calling_agent;
+    this.setState({ prevent_phone_app_calling_agent: prevent_calling })
     if (userToken) {
       userDetails = JSON.parse(userToken);
       if (temporary_passwrod == 1) {
@@ -417,10 +420,10 @@ export default class HomeScreen extends Component {
                     <Text style={styles.itemHeadingStyle}>Video consultation appointment.</Text>
                     <Text style={styles.itemStyle}>{item.nextAppointment.date} at {item.nextAppointment.time}</Text>
                     <Text style={styles.itemStyle}>{this.state.practice_name}</Text>
-                    {item.nextAppointment.paid == 1 ?
+                    {item.nextAppointment.paid == 1 && this.state.prevent_phone_app_calling_agent == 0 ?
                       <View style={styles.buttoncontainer}>
                         <TouchableOpacity onPress={() => this._videoConsultation(item.nextAppointment)} style={styles.button}>
-                          <Text style={styles.textcolor}>Video Consultation</Text>
+                          <Text style={styles.textcolor}>Video Consultation </Text>
                         </TouchableOpacity>
                       </View>
                       : null

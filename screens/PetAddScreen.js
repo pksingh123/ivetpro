@@ -201,7 +201,11 @@ export default class RegisterScreen extends Component {
     }
     addPet = () => {
         if (this.state.name == '') {
-            alert("Please fill all fields");
+            alert("Please add your pet name");
+        } else if (this.state.species == '' || this.state.species == null) {
+            alert("Please select species field");
+        } else if (this.state.sex == '' || this.state.sex == null) {
+            alert("Please select sex field");
         } else {
             this.setState({ isLoading: true });
             RNFetchBlob.fetch('POST', 'https://videowithmyvet.com/webservices/add-pet.php', {
@@ -260,13 +264,14 @@ export default class RegisterScreen extends Component {
         return (
             <View style={styles.maincontainer} >
                 <ScrollView style={styles.container}>
+
                     <TextInput placeholder="Name"
                         underlineColorAndroid="transparent"
                         placeholderTextColor='#555'
-                        style={styles.input}
+                        style={styles.inputNoBottomMargin}
                         onChangeText={this.UpdateName}
-
                     />
+                    <Text style={styles.requiredStyle}>*Required</Text>
                     {/* <TextInput placeholder="Species"
                         underlineColorAndroid="transparent"
                         placeholderTextColor='#555'
@@ -286,6 +291,7 @@ export default class RegisterScreen extends Component {
                         value={this.state.species}
                         style={pickerSelectStyles}
                     />
+                    <Text style={styles.requiredStyle}>*Required</Text>
                     <TextInput placeholder="Breed"
                         underlineColorAndroid="transparent"
                         placeholderTextColor='#555'
@@ -304,6 +310,7 @@ export default class RegisterScreen extends Component {
                         value={this.state.sex}
                         style={pickerSelectStyles}
                     />
+                    <Text style={styles.requiredStyle}>*Required</Text>
                     <DatePicker
                         style={styles.datePicker}
                         date={this.state.dob}
@@ -371,6 +378,15 @@ const styles = StyleSheet.create({
         height: 50,
         backgroundColor: '#F6F6F6',
         marginBottom: 20,
+        paddingHorizontal: 10,
+        borderRadius: 0,
+        borderColor: '#F6F6F6',
+        borderWidth: 0
+
+    },
+    inputNoBottomMargin: {
+        height: 50,
+        backgroundColor: '#F6F6F6',
         paddingHorizontal: 10,
         borderRadius: 0,
         borderColor: '#F6F6F6',
@@ -450,6 +466,12 @@ const styles = StyleSheet.create({
         borderColor: '#028b53',
         marginTop: 20
     },
+    requiredStyle: {
+        color: "red",
+        marginBottom: 17,
+        fontSize: 8,
+        marginLeft: 5
+    }
 });
 const pickerSelectStyles = StyleSheet.create({
     inputIOS: {
@@ -460,7 +482,7 @@ const pickerSelectStyles = StyleSheet.create({
         paddingRight: 30, // to ensure the text is never behind the icon
         height: 50,
         backgroundColor: '#F6F6F6',
-        marginBottom: 20,
+        // marginBottom: 20,
         paddingHorizontal: 10,
         borderRadius: 10,
         borderColor: '#F6F6F6',
@@ -475,7 +497,7 @@ const pickerSelectStyles = StyleSheet.create({
         paddingRight: 30,
         height: 50,
         backgroundColor: '#F6F6F6',
-        marginBottom: 20,
+        // marginBottom: 20,
         paddingHorizontal: 10,
         borderRadius: 0,
         borderWidth: 0,

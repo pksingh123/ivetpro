@@ -100,7 +100,7 @@ const styles = StyleSheet.create({
         marginTop: 60,
 
     },
-    headingstyletop:{
+    headingstyletop: {
         color: '#ffffff',
         alignSelf: "center",
         marginTop: 10,

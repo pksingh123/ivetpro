@@ -253,7 +253,11 @@ export default class PetEditScreen extends Component {
     editPet = () => {
 
         if (this.state.name == '') {
-            alert("Please fill all fields");
+            alert("Please add your pet name");
+        } else if (this.state.species == '' || this.state.species == null) {
+            alert("Please select species field");
+        } else if (this.state.sex == '' || this.state.sex == null) {
+            alert("Please select sex field");
         } else {
             console.warn(this.state.setDate);
             RNFetchBlob.fetch('POST', 'https://videowithmyvet.com/webservices/add-pet.php?PetID=' + this.state.petid, {

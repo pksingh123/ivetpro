@@ -36,6 +36,8 @@ export default class CallScreen extends Component {
                 id: 1,
                 name: this.props.navigation.state.params.dialername,
                 image: "https://bootdey.com/img/Content/avatar/avatar6.png",
+
+
             }
         };
     }
@@ -92,7 +94,11 @@ export default class CallScreen extends Component {
                     <Text style={styles.subText}>CALLING</Text>
                 </View>
 
-                <Image style={[styles.image]} source={{ uri: this.state.User.image }} />
+                {/* <Image style={[styles.image]} source={{ uri: this.state.User.image }} /> */}
+                <TouchableOpacity onPress={() => this.pickPhone()}>
+                    <Image style={[styles.image]} source={require('./images/phonecall2.png')} />
+                </TouchableOpacity>
+
                 <View style={styles.bottomBar}>
 
                     <TouchableOpacity style={[styles.btnAction, styles.shadow, { backgroundColor: "green" }]} onPress={() => this.pickPhone()}>

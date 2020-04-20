@@ -65,7 +65,7 @@ export default class AppointmentHistoryScreen extends Component {
 
     onFocusFunction = () => {
         // do some stuff on every screen focus
-        alert('Completed appointment');
+        // alert('Completed appointment');
         this.fetchCompletedAppointmentData();
     }
 

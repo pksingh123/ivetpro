@@ -18,6 +18,7 @@ import {
   Image,
   ImageBackground,
   StatusBar,
+  Linking,
 } from 'react-native';
 
 import { Icon, ListItem, Avatar, Divider, SearchBar } from 'react-native-elements';
@@ -29,6 +30,7 @@ import Dialog, { DialogTitle, DialogFooter, DialogButton, DialogContent } from '
 import PracticeBarLogo from './PracticeBarLogo';
 import Carousel from 'react-native-snap-carousel';
 import DeviceInfo from 'react-native-device-info';
+import { getAppstoreAppMetadata } from "react-native-appstore-version-checker";
 import App from '../App'
 
 
@@ -194,6 +196,53 @@ export default class HomeScreen extends Component {
     this.focusListener = this.props.navigation.addListener('didFocus', () => {
       this.onFocusFunction()
     })
+
+    getAppstoreAppMetadata("com.videowithmyvet") //put any apps packageId here
+      .then(metadata => {
+        console.log(
+          "clashofclans android app version on playstore",
+          metadata.version,
+          "published on",
+          metadata.currentVersionReleaseDate
+        );
+        // alert("version " + metadata.version);
+
+        let local = DeviceInfo.getVersion();
+
+        let appStoreVersion = metadata.version;
+        // let local = "302.110.102";
+        let lastdot = local.lastIndexOf(".");
+        let firstdot = local.indexOf(".");
+        let cFirst = local.substring(0, firstdot);
+        let cMiddle = local.substring(firstdot + 1, lastdot);
+        let cLast = local.substring(lastdot + 1, local.length);
+
+        let lastdotx = appStoreVersion.lastIndexOf(".");
+        let firstdotx = appStoreVersion.indexOf(".");
+        let aFirst = appStoreVersion.substring(0, firstdotx);
+        let aMiddle = appStoreVersion.substring(firstdotx + 1, lastdotx);
+        let aLast = appStoreVersion.substring(lastdotx + 1, appStoreVersion.length);
+        //console.log("current app version ", local, appStoreVersion, cFirst, cMiddle, cLast, aFirst, aMiddle, aLast);
+        if (Number(aFirst) > Number(cFirst)) {
+          // show alert to donwload;
+          this.showAlertToUpdateApp();
+          return;
+        }
+        if (Number(aMiddle) > Number(cMiddle)) {
+          // show alert to donwload;
+          this.showAlertToUpdateApp();
+          return;
+        }
+        if (Number(aLast) > Number(cLast)) {
+          // show alert to donwload;
+          this.showAlertToUpdateApp();
+          return;
+        }
+
+      })
+      .catch(err => {
+        console.log("error occurred", err);
+      });
   }
   constructor(props) {
     super(props);
@@ -237,6 +286,21 @@ export default class HomeScreen extends Component {
     savedValues = JSON.parse(savedValues);
     this.id = savedValues.user.uid;
     new App().fetUserData(this.id);
+  }
+  showAlertToUpdateApp() {
+    Alert.alert(
+      'New Update',
+      'A new update is available. Update now.',
+      [
+        { text: 'Ask me later', onPress: () => console.log('Ask me later pressed') },
+
+        { text: 'OK', onPress: () => { console.log('OK Pressed'); this.openAppStore(); } },
+      ],
+      { cancelable: false },
+    );
+  }
+  openAppStore = async () => {
+    await Linking.openURL("market://details?id=com.videowithmyvet");
   }
 
   componentWillUnmount() {

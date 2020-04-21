@@ -3,6 +3,7 @@ package com.videowithmyvet;
 import android.app.Application;
 
 import com.facebook.react.ReactApplication;
+import com.masteratul.RNAppstoreVersionCheckerPackage;
 import com.zmxv.RNSound.RNSoundPackage;
 import com.learnium.RNDeviceInfo.RNDeviceInfo;
 import io.invertase.firebase.RNFirebasePackage;
@@ -16,7 +17,6 @@ import com.facebook.react.ReactPackage;
 import com.facebook.react.shell.MainReactPackage;
 import com.facebook.soloader.SoLoader;
 import com.twiliorn.library.TwilioPackage;
-
 import java.util.Arrays;
 import java.util.List;
 import io.invertase.firebase.RNFirebasePackage;
@@ -35,6 +35,7 @@ public class MainApplication extends Application implements ReactApplication {
     protected List<ReactPackage> getPackages() {
       return Arrays.<ReactPackage>asList(
           new MainReactPackage(),
+            new RNAppstoreVersionCheckerPackage(),
               new RNGestureHandlerPackage(),
             new RNSoundPackage(),
             new RNDeviceInfo(),
@@ -44,7 +45,7 @@ public class MainApplication extends Application implements ReactApplication {
             new RNCWebViewPackage(),
             new RNFetchBlobPackage(),
             new ImagePickerPackage(),
-
+       
             new VectorIconsPackage(),
             new TwilioPackage()
       );

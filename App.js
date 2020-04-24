@@ -25,6 +25,7 @@ import DeviceInfo from 'react-native-device-info';
 import firebase from 'react-native-firebase';
 import DrawerScreen from './navigation/DrawerScreen'
 import { EventRegister } from 'react-native-event-listeners'
+//import crashlytics from '@react-native-firebase/crashlytics';
 
 export default class App extends React.Component {
   //class App extends React.Component {
@@ -116,6 +117,11 @@ export default class App extends React.Component {
     }
   }
 
+  // async enableCrashlytics() {
+  //   await crashlytics()
+  //     .setCrashlyticsCollectionEnabled(true)
+  //     .then(() => console.log("enabled crashlytics "));
+  // }
 
   async componentDidMount() {
     //  this.props.navigation.navigate;
@@ -134,7 +140,11 @@ export default class App extends React.Component {
     this._requestPermissions();
     this.checkPermission();
     // this.createNotificationListeners();
-
+   this.enableCrashlytics();
+    crashlytics().crash();
+  
+    // let divide = 1/0;
+    // console.log("reseult ", divide);
   }
   async componentWillMount() {
     let savedValues = await AsyncStorage.getItem('userToken');

@@ -1,4 +1,5 @@
 apply plugin: "com.android.application"
+apply plugin: 'io.fabric'
 
 import com.android.build.OutputFile
 
@@ -186,3 +187,7 @@ android {
         into 'libs'
     }
     apply plugin: 'com.google.gms.google-services'
+
+crashlytics {
+  enableNdk true
+}

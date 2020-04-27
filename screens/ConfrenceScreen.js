@@ -251,13 +251,18 @@ export default class ConfrenceScreen extends Component {
 
               </View>
               */}
-
-            <View
-              style={styles.optionsContainer}>
+            <View style={styles.remoteGrid} >
               <TwilioVideoLocalView
                 enabled={true}
-                style={styles.localVideo}
+                style={styles.remoteVideo}
               />
+            </View>
+            <View
+              style={styles.optionsContainer}>
+              {/* <TwilioVideoLocalView
+                enabled={true}
+                style={styles.localVideo}
+              /> */}
               <TouchableOpacity
                 style={styles.optionButton}
                 onPress={this._onEndButtonPress}>

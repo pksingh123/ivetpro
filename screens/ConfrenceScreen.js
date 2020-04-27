@@ -273,10 +273,10 @@ export default class ConfrenceScreen extends Component {
                 {/* <Text style={{ fontSize: 12 }}>{this.state.isAudioEnabled ? "Mute" : "Unmute"}</Text> */}
                 {this.state.isAudioEnabled ?
                   <Image style={{
-                    height: 43, width: 43,
+                    height: 40, width: 40,
                   }} source={require('./images/mute_voice.png')} />
                   : <Image style={{
-                    height: 43, width: 43,
+                    height: 40, width: 40,
                   }} source={require('./images/unmute.png')} />
                 }
               </TouchableOpacity>

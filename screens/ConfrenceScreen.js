@@ -8,6 +8,7 @@ import {
   Text,
   TextInput,
   Button,
+  Image,
   TouchableOpacity,
   ActivityIndicator,
   BackHandler,
@@ -50,9 +51,9 @@ export default class ConfrenceScreen extends Component {
     return {
       headerTitle: 'Video Call Started',
       headerLeft: <HeaderBackButton onPress={() => this._goBack} />,
-      headerLeftContainerStyle:{
-        marginTop:StatusBar.currentHeight
-    },
+      headerLeftContainerStyle: {
+        marginTop: StatusBar.currentHeight
+      },
     }
   }
   constructor(props) {
@@ -260,17 +261,32 @@ export default class ConfrenceScreen extends Component {
               <TouchableOpacity
                 style={styles.optionButton}
                 onPress={this._onEndButtonPress}>
-                <Text style={{ fontSize: 12 }}>End</Text>
+                {/* <Text style={{ fontSize: 12 }}>End</Text> */}
+                <Image style={{
+                  height: 50, width: 50,
+                }} source={require('./images/end_end.png')} />
               </TouchableOpacity>
+
               <TouchableOpacity
                 style={styles.optionButton}
                 onPress={this._onMuteButtonPress}>
-                <Text style={{ fontSize: 12 }}>{this.state.isAudioEnabled ? "Mute" : "Unmute"}</Text>
+                {/* <Text style={{ fontSize: 12 }}>{this.state.isAudioEnabled ? "Mute" : "Unmute"}</Text> */}
+                {this.state.isAudioEnabled ?
+                  <Image style={{
+                    height: 40, width: 40,
+                  }} source={require('./images/mute_voice.png')} />
+                  : <Image style={{
+                    height: 40, width: 40,
+                  }} source={require('./images/unmute.png')} />
+                }
               </TouchableOpacity>
               <TouchableOpacity
                 style={styles.optionButton}
                 onPress={this._onFlipButtonPress}>
-                <Text style={{ fontSize: 12 }}>Flip</Text>
+                {/* <Text style={{ fontSize: 12 }}>Flip</Text> */}
+                <Image style={{
+                  height: 50, width: 50,
+                }} source={require('./images/switch_camera.png')} />
               </TouchableOpacity>
 
             </View>
@@ -285,7 +301,7 @@ export default class ConfrenceScreen extends Component {
           onParticipantAddedVideoTrack={this._onParticipantAddedVideoTrack}
           onParticipantRemovedVideoTrack={this.onParticipantRemovedVideoTrack}
         />
-      </View>
+      </View >
     );
   }
 }
@@ -356,7 +372,7 @@ const styles = StyleSheet.create({
     marginLeft: 10,
     marginRight: 10,
     borderRadius: 100 / 2,
-    backgroundColor: 'grey',
+    backgroundColor: 'white',
     justifyContent: 'center',
     alignItems: "center"
   },
@@ -366,4 +382,5 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     height: 80
   },
+
 });

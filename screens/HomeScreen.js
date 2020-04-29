@@ -26,6 +26,7 @@ import Icons from 'react-native-vector-icons/FontAwesome';
 import { DrawerActions } from 'react-navigation-drawer';
 import SwitchToggle from 'react-native-switch-toggle';
 import firebase from 'react-native-firebase';
+
 import Dialog, { DialogTitle, DialogFooter, DialogButton, DialogContent } from 'react-native-popup-dialog';
 import PracticeBarLogo from './PracticeBarLogo';
 import Carousel from 'react-native-snap-carousel';
@@ -188,6 +189,8 @@ export default class HomeScreen extends Component {
     params._openNav()
   }
   componentDidMount() {
+    firebase.crashlytics().enableCrashlyticsCollection();
+  
     this.props.navigation.setParams({
       _onHeaderEventControl: this.onHeaderEventControl,
       _openNav: () => this.openDrawer()

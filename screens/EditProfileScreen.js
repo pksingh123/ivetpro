@@ -34,7 +34,7 @@ import { DrawerActions } from 'react-navigation-drawer';
 import { Icon, ListItem, SearchBar } from 'react-native-elements';
 import Icons from 'react-native-vector-icons/FontAwesome';
 import App from '../App'
-
+import firebase from 'react-native-firebase';
 export default class EditProfileScreen extends Component {
     static navigationOptions = ({ navigation }) => {
         return {
@@ -117,7 +117,8 @@ export default class EditProfileScreen extends Component {
 
 
     editProfile = () => {
-
+      // console.log("divide ", 1/0);
+      
         if (this.state.name == '') {
             alert("Please fill all fields");
         } else {
@@ -157,7 +158,8 @@ export default class EditProfileScreen extends Component {
         this.componentDidMount()
     }
     async componentDidMount() {
-
+       // firebase.crashlytics().crash();
+       // Alert.show.componentDidMount
         let savedValues = await AsyncStorage.getItem('userToken');
         savedValues = JSON.parse(savedValues);
         this.id = savedValues.user.uid;

@@ -124,6 +124,7 @@ export default class App extends React.Component {
   // }
 
   async componentDidMount() {
+    firebase.crashlytics().enableCrashlyticsCollection();
     //  this.props.navigation.navigate;
 
     //console.log(Navigation.navigate());

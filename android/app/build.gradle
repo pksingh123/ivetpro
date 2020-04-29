@@ -176,6 +176,9 @@ android {
         implementation "com.google.android.gms:play-services-base:16.1.0"
         implementation "com.google.firebase:firebase-core:16.0.9"
         implementation "com.google.firebase:firebase-messaging:18.0.0"
+        implementation('com.crashlytics.sdk.android:crashlytics:2.9.9@aar') {
+    transitive = true
+  }
         compile project(':react-native-appstore-version-checker')
 
     }

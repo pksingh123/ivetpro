@@ -240,10 +240,14 @@ export default class BookAppointmentScreen extends Component {
         } else {
             this.cmonth = '' + c_month
         }
+        this.cdateString = '' + this.cdate;
+        if (this.cdate < 10) {
+            this.cdateString = '0' + this.cdate;
+        }
 
-        this.startDate = this.cyear + '-' + this.cmonth + '-' + this.cdate;
+        this.startDate = this.cyear + '-' + this.cmonth + '-' + this.cdateString;
 
-        // alert("date" + this.startDate);
+        alert("date" + this.startDate);
 
         this.setState({ petID: itemId, petName: itemName, VetstoriaSpeciesID: speciesVetId, speciesLocalId: speciesLocId, fromPetDetailPage: fromPetDetailPage })
         this.props.navigation.setParams({ logout: this._signOutAsync });
@@ -945,7 +949,7 @@ export default class BookAppointmentScreen extends Component {
             {this.state.showCalendar ?
                 <Calendar
                     // Collection of dates that have to be marked. Default = {}
-                    current={this.state.appointmentDate}
+                    current={this.state.appointmentDate == '' ? this.startDate : this.state.appointmentDate}
                     minDate={this.startDate}
                     onDayPress={(day) => { console.log('selected day', day); this.setState({ appointmentDate: day.dateString }); this.localAppointmentTime(day.dateString); }}
                     markedDates={this.markedDates

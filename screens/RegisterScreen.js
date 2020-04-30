@@ -58,7 +58,7 @@ export default class RegisterScreen extends Component {
             serverData: [],
             itemSelected: true,
             openPopup: false,
-            fcmtoken:'',
+            fcmtoken: '',
 
         }
 
@@ -156,7 +156,7 @@ export default class RegisterScreen extends Component {
     register = () => {
         var paswd = /^(?=.*[0-9])(?=.*[~!@#$%^&*()_+?><.,:-;])[a-zA-Z0-9~!@#$%^&*()_+?><.,:-;]{10,15}$/;
         if (paswd.test(this.state.password) === false) {
-            alert("Password must only contains a-z, 0-9, '@', '_' and min 10 chars and max 15");
+            alert('Password requires 10 to 15 chars, letters, numbers, capital letter and one of these special chars @ _ ; : .');
             return false;
         }
         console.warn(this.state.email + '&' + this.state.password + '&' + this.state.firstName + '&' + this.state.lastName + '&' + this.state.mobile + '&' + this.state.practiceCode + '&' + this.state.practiceCodeId + '&' + this.state.postalCode);
@@ -171,7 +171,7 @@ export default class RegisterScreen extends Component {
             this.setState({
                 isLoading: true
             })
-            const url = 'https://videowithmyvet.com/webservices/user-register.php';
+            const url = 'https://videowithmyvet.com/webservices/user-register.ph';
             fetch(url,
                 {
                     method: 'POST',
@@ -187,8 +187,8 @@ export default class RegisterScreen extends Component {
                         company_name: this.state.practiceCode,
                         practice_id: this.state.practiceCodeId,
                         postal_code: this.state.postalCode,
-                        device_id:DeviceInfo.getUniqueId(),
-                        token:this.state.fcmtoken
+                        device_id: DeviceInfo.getUniqueId(),
+                        token: this.state.fcmtoken
                     }),
                 })
                 .then((response) => response.json())
@@ -219,8 +219,8 @@ export default class RegisterScreen extends Component {
 
     }
     setModalVisible(visible) {
-        this.setState({openPopup: visible});
-      }
+        this.setState({ openPopup: visible });
+    }
     ontouch = (item) => {
         console.log(item);
     }
@@ -377,7 +377,7 @@ export default class RegisterScreen extends Component {
                         </View>
 
                         <View style={styles.buttoncontainer}>
-                            
+
                             <TouchableOpacity onPress={this.register} disabled={this.state.registerButton} style={styles.button}>
                                 <Text style={styles.textcolor}>Create account</Text>
                             </TouchableOpacity>
@@ -385,27 +385,27 @@ export default class RegisterScreen extends Component {
                         </View>
                     </View>
                 </ScrollView>
-                <View style={{padding:5}}>
-                <Modal
-                    animationType="slide"
-                    transparent={false}
-                    visible={this.state.openPopup}
-                    onRequestClose={() => {
-                        this.setState({ openPopup: false });
-                    }}>
-                      
-                    <TouchableHighlight
-                        onPress={() => {
-                            this.setModalVisible(false);
+                <View style={{ padding: 5 }}>
+                    <Modal
+                        animationType="slide"
+                        transparent={false}
+                        visible={this.state.openPopup}
+                        onRequestClose={() => {
+                            this.setState({ openPopup: false });
                         }}>
-                        <Text style={styles.closeStyle}>X</Text>
-                    </TouchableHighlight>
-                    <WebView
-                        source={{ uri: 'https://videowithmyvet.com/terms-conditions/' }}
-                        style={{ marginTop: 20 }}
-                    />
-                   
-                </Modal>
+
+                        <TouchableHighlight
+                            onPress={() => {
+                                this.setModalVisible(false);
+                            }}>
+                            <Text style={styles.closeStyle}>X</Text>
+                        </TouchableHighlight>
+                        <WebView
+                            source={{ uri: 'https://videowithmyvet.com/terms-conditions/' }}
+                            style={{ marginTop: 20 }}
+                        />
+
+                    </Modal>
                 </View>
 
             </View>
@@ -452,11 +452,11 @@ const styles = StyleSheet.create({
         marginVertical: 20
 
     },
-    closeStyle:{
+    closeStyle: {
         marginRight: 15,
-        marginTop: 10, 
-        fontSize: 20, 
-        textAlign: 'right' 
+        marginTop: 10,
+        fontSize: 20,
+        textAlign: 'right'
     },
     link: {
         color: '#ffffff',

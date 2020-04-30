@@ -56,7 +56,7 @@ export default class RegisterPractice extends Component {
     }
 
     componentDidMount() {
-        
+
         const url = 'https://videowithmyvet.com/webservices/get-practice-code-list.php';
         fetch(url)
             .then((response) => response.json())
@@ -95,7 +95,7 @@ export default class RegisterPractice extends Component {
     }
 
     nextRegister = () => {
-        
+
         this.props.navigation.navigate('Register', {
             'practice_id': this.state.practiceCodeId,
             'practiceCode': this.state.practiceCode,

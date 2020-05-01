@@ -247,7 +247,7 @@ export default class BookAppointmentScreen extends Component {
 
         this.startDate = this.cyear + '-' + this.cmonth + '-' + this.cdateString;
 
-        alert("date" + this.startDate);
+       // alert("date" + this.startDate);
 
         this.setState({ petID: itemId, petName: itemName, VetstoriaSpeciesID: speciesVetId, speciesLocalId: speciesLocId, fromPetDetailPage: fromPetDetailPage })
         this.props.navigation.setParams({ logout: this._signOutAsync });

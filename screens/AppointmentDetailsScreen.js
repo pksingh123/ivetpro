@@ -348,6 +348,7 @@ export default class AppointmentDetailsScreen extends Component {
                 practice_post_code: userDetails.user.practice.post_code,
                 practice_email: userDetails.user.practice.email,
                 practice_phone_number: userDetails.user.practice.phone_number,
+                currencySymbol: userDetails.user.practice.currencys_symbol,
                 // userDetails.user.clientPhone
             });
         }
@@ -464,7 +465,7 @@ export default class AppointmentDetailsScreen extends Component {
         var statusHtml_1 = this.state.appointmentStatus == 1 ?
             <View>
                 <TouchableOpacity onPress={() => this._paymentOpenPopup()} style={styles.button}>
-                    <Text style={styles.textcolor}>Pay({'\u00A3'} {item.amount})</Text>
+                    <Text style={styles.textcolor}>Pay ({this.state.currencySymbol} {item.amount})</Text>
                 </TouchableOpacity>
 
                 <Text style={styles.link} onPress={() => this._showAlert(item)}>Cancel Appointment</Text>

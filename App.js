@@ -141,9 +141,9 @@ export default class App extends React.Component {
     this._requestPermissions();
     this.checkPermission();
     // this.createNotificationListeners();
-   this.enableCrashlytics();
+    this.enableCrashlytics();
     crashlytics().crash();
-  
+
     // let divide = 1/0;
     // console.log("reseult ", divide);
   }
@@ -239,7 +239,7 @@ export default class App extends React.Component {
     let appointment_bookingin_app_allowed = responseJson.practice.appointment_bookingin_app_allowed;
     let allow_video_calls_without_appoinmtent = responseJson.practice.allow_video_calls_without_appoinmtent;
     let prevent_phone_app_calling_agent = responseJson.practice.prevent_phone_app_calling_agent;
-    console.log("fetUserData", prevent_phone_app_calling_agent)
+    // console.log("fetUserData", prevent_phone_app_calling_agent)
     let userToken = await AsyncStorage.getItem('userToken');
     userToken = JSON.parse(userToken);
     //  console.log("fetUserData data 0", userToken);
@@ -252,7 +252,7 @@ export default class App extends React.Component {
     // console.log("fetUserData data 1", userToken);
     let userData = JSON.stringify(userToken);
     await AsyncStorage.setItem('userToken', userData);
-    console.log("fetUserData data 2", userData);
+    // console.log("fetUserData data 2", userData);
 
 
   };

@@ -114,6 +114,7 @@ export default class BookAppointmentScreen extends Component {
             clientLastName: '',
             clientPhone: '',
             clentNotes: '',
+            currencySymbol: '',
             petID: '',
             petName: '',
             SitesLocation: [],
@@ -163,7 +164,6 @@ export default class BookAppointmentScreen extends Component {
             fromPetDetailPage: false,
             refreshing: false,
             GridViewItems: [
-
             ],
             showCalendar: false,
 
@@ -207,10 +207,6 @@ export default class BookAppointmentScreen extends Component {
         }
     }
 
-    // componentDidMount() {
-
-
-    // }
     async componentDidMount() {
         this.focusListener = this.props.navigation.addListener('didFocus', () => {
             this.onFocusFunction()
@@ -247,13 +243,17 @@ export default class BookAppointmentScreen extends Component {
 
         this.startDate = this.cyear + '-' + this.cmonth + '-' + this.cdateString;
 
-       // alert("date" + this.startDate);
+        // alert("date" + this.startDate);
+
 
         this.setState({ petID: itemId, petName: itemName, VetstoriaSpeciesID: speciesVetId, speciesLocalId: speciesLocId, fromPetDetailPage: fromPetDetailPage })
+
         this.props.navigation.setParams({ logout: this._signOutAsync });
         const userToken = await AsyncStorage.getItem('userToken');
+
         if (userToken) {
             userDetails = JSON.parse(userToken);
+            console.log("booking ", userDetails);
             console.warn(userDetails);
             this.setState({
                 uid: userDetails.user.uid,
@@ -267,8 +267,8 @@ export default class BookAppointmentScreen extends Component {
                 practice_name: userDetails.user.practice.name,
                 practice_alias_name: userDetails.user.practice.alias_name,
                 practice_address: userDetails.user.practice.address,
+                currencySymbol: userDetails.user.practice.currencys_symbol,
                 // userDetails.user.clientPhone
-
             });
             console.warn(userDetails.user.practice.is_vetstoria);
             if (userDetails.user.practice.is_vetstoria == 1) {
@@ -667,7 +667,7 @@ export default class BookAppointmentScreen extends Component {
                 })
                 .then((response) => response.json())
                 .then((responseJson) => {
-                    console.warn(responseJson);
+                    console.log("reaponse booking ", responseJson);
                     if (responseJson.status === 'ok') {
 
                         this.props.navigation.navigate('routeBookingConfirmation', { bookingId: responseJson.bookingId });
@@ -855,7 +855,8 @@ export default class BookAppointmentScreen extends Component {
                         <Text style={styles.bookingTotalLable}>Booking Total</Text>
                     </View>
                     <View style={{ flex: 1 }}>
-                        <Text style={styles.bookingTotalAmount} > {'\u00A3'}{this.state.amount} </Text>
+                        {/* <Text style={styles.bookingTotalAmount} > {'\u00A3'}{this.state.amount} </Text> */}
+                        <Text style={styles.bookingTotalAmount} > {this.state.currencySymbol}{this.state.amount} </Text>
                     </View>
 
                 </View>
@@ -1012,7 +1013,8 @@ export default class BookAppointmentScreen extends Component {
                     <Text style={styles.bookingTotalLable}>Booking Total</Text>
                 </View>
                 <View style={{ flex: 1 }}>
-                    <Text style={styles.bookingTotalAmount} > {'\u00A3'}{this.state.amount} </Text>
+                    {/* <Text style={styles.bookingTotalAmount} > {'\u00A3'}{this.state.amount} </Text> */}
+                    <Text style={styles.bookingTotalAmount} > {this.state.currencySymbol}{this.state.amount} </Text>
                 </View>
 
             </View>

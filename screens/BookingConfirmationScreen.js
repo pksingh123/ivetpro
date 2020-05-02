@@ -91,10 +91,11 @@ export default class BookingConfirmationScreen extends Component {
             paymentSuccessMessage: '',
             paymentErrorMessage: '',
             isLoading: true,
-            bookingData: [],
+            bookingData: {},
             practice_id: '',
             apiKey: '',
-            firstapps: ''
+            firstapps: '',
+            currencySymbol: '',
 
 
         }
@@ -126,7 +127,7 @@ export default class BookingConfirmationScreen extends Component {
             this.setState({
                 uid: userDetails.user.uid,
                 practice_id: userDetails.user.practice.practice_id,
-
+                currencySymbol: userDetails.user.practice.currencys_symbol,
             });
         } else {
             this.setState({ uid: false })
@@ -136,7 +137,7 @@ export default class BookingConfirmationScreen extends Component {
         fetch(url)
             .then((response) => response.json())
             .then((responseJson) => {
-                // console.warn(responseJson);
+                console.log("confirmation booking ", responseJson);
                 if (responseJson.status === 'ok') {
                     this.setState({
                         bookingData: responseJson.booking_data,
@@ -148,7 +149,7 @@ export default class BookingConfirmationScreen extends Component {
                 }
             })
             .catch((error) => {
-                alert('Something went wrong!');
+                alert('Something went wrong  from !');
                 console.warn(error);
             })
 
@@ -288,7 +289,7 @@ export default class BookingConfirmationScreen extends Component {
                     </Text>
                     <Text style={styles.baseStyle}>
                         <Text style={styles.labelStyle}>{this.state.total_amount}</Text>
-                        <Text style={styles.textStyle}> {this.state.bookingData.amount}</Text>
+                        <Text style={styles.textStyle}> {this.state.currencySymbol} {this.state.bookingData.amount}</Text>
                     </Text>
 
                     <Text style={styles.baseStyle}>
@@ -302,7 +303,7 @@ export default class BookingConfirmationScreen extends Component {
                     {this.state.bookingData.amount > 0 && this.state.pay ?
                         <View>
                             <TouchableOpacity onPress={() => this._paymentOpenPopup()} style={styles.button}>
-                                <Text style={styles.textcolor}>Pay Now({'\u00A3'} {this.state.bookingData.amount})</Text>
+                                <Text style={styles.textcolor}>Pay Now ({this.state.currencySymbol} {this.state.bookingData.amount})</Text>
                             </TouchableOpacity>
                             <TouchableOpacity onPress={() => this.state.firstapps == 1 ? this.props.navigation.push('AddAnotherPet', { petName: this.state.bookingData.patientName, petId: this.state.bookingData.patientId }) : this._goBack()} style={styles.button}>
                                 <Text style={styles.textcolor}>Pay Later</Text>
@@ -469,7 +470,7 @@ const styles = StyleSheet.create({
     },
     labelStyle: {
         fontWeight: "bold",
-        color:'#ffffff'
+        color: '#ffffff'
     },
     textStyle: {
         color: '#ffffff',

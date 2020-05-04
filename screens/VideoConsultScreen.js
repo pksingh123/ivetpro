@@ -6,6 +6,7 @@ import {
     PermissionsAndroid,
     View,
     Text,
+    Image,
     TextInput,
     Button,
     TouchableOpacity,
@@ -323,26 +324,46 @@ export default class VideoConsultScreen extends Component {
                                 (this.state.status === 'connected' || this.state.status === 'connecting') &&
                                 <View style={styles.callContainer}>
                                     {participantScreen}
-                                    <View
-                                        style={styles.optionsContainer}>
+                                    <View style={styles.remoteGrid} >
                                         <TwilioVideoLocalView
                                             enabled={true}
-                                            style={styles.localVideo}
+                                            style={styles.remoteVideo}
                                         />
+                                    </View>
+                                    <View
+                                        style={styles.optionsContainer}>
+                                        {/* <TwilioVideoLocalView
+                                            enabled={true}
+                                            style={styles.localVideo}
+                                        /> */}
                                         <TouchableOpacity
                                             style={styles.optionButton}
                                             onPress={this._onEndButtonPress}>
-                                            <Text style={{ fontSize: 12 }}>End</Text>
+                                            {/* <Text style={{ fontSize: 12 }}>End</Text> */}
+                                            <Image style={{
+                                                height: 45, width: 45,
+                                            }} source={require('./images/end_end.png')} />
                                         </TouchableOpacity>
                                         <TouchableOpacity
                                             style={styles.optionButton}
                                             onPress={this._onMuteButtonPress}>
-                                            <Text style={{ fontSize: 12 }}>{this.state.isAudioEnabled ? "Mute" : "Unmute"}</Text>
+                                            {/* <Text style={{ fontSize: 12 }}>{this.state.isAudioEnabled ? "Mute" : "Unmute"}</Text> */}
+                                            {this.state.isAudioEnabled ?
+                                                <Image style={{
+                                                    height: 35, width: 35,
+                                                }} source={require('./images/mute_voice.png')} />
+                                                : <Image style={{
+                                                    height: 35, width: 35,
+                                                }} source={require('./images/unmute.png')} />
+                                            }
                                         </TouchableOpacity>
                                         <TouchableOpacity
                                             style={styles.optionButton}
                                             onPress={this._onFlipButtonPress}>
-                                            <Text style={{ fontSize: 12 }}>Flip</Text>
+                                            {/* <Text style={{ fontSize: 12 }}>Flip</Text> */}
+                                            <Image style={{
+                                                height: 45, width: 45,
+                                            }} source={require('./images/switch_camera.png')} />
                                         </TouchableOpacity>
 
                                     </View>
@@ -453,14 +474,14 @@ const styles = StyleSheet.create({
         left: 0,
         bottom: 0,
         right: 0,
-        height: 80,
+        height: 65,
         backgroundColor: 'blue',
         flexDirection: "row",
         alignItems: "center"
     },
     optionButton: {
-        width: 60,
-        height: 60,
+        width: 50,
+        height: 50,
         marginLeft: 10,
         marginRight: 10,
         borderRadius: 100 / 2,

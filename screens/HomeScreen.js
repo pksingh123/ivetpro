@@ -33,7 +33,7 @@ import Carousel from 'react-native-snap-carousel';
 import DeviceInfo from 'react-native-device-info';
 import { getAppstoreAppMetadata } from "react-native-appstore-version-checker";
 import App from '../App'
-
+import { EventRegister } from 'react-native-event-listeners'
 
 const DEVICE_WIDTH = Dimensions.get('window').width;
 
@@ -101,9 +101,13 @@ export default class HomeScreen extends Component {
   * Triggered when a particular notification has been received in foreground
   * */
     this.notificationListener = firebase.notifications().onNotification((notification) => {
+      console.log("data only 1 ", notification);
       const { title, body } = notification;
       if (notification._data.type === 'calling') {
         this.showAlert(title, body, notification);
+      }
+      if (notification._data.type === 'logout') {
+        EventRegister.emit('appExpire', "");
       }
 
     });
@@ -114,7 +118,10 @@ export default class HomeScreen extends Component {
     * */
     this.notificationOpenedListener = firebase.notifications().onNotificationOpened((notificationOpen) => {
       // const { title, body } = notificationOpen.notification._data.message;
-      console.log(notificationOpen.notification._data.type);
+      console.log("data only 2 ", notificationOpen);
+      if (notificationOpen.notification._data.type === 'logout') {
+        EventRegister.emit('appExpire', "");
+      }
       if (notificationOpen.notification._data.type === 'calling') {
         this.showAlert(notificationOpen.notification._data.title, notificationOpen.notification._data.body, notificationOpen.notification);
       }
@@ -135,8 +142,10 @@ export default class HomeScreen extends Component {
     * */
     this.messageListener = firebase.messaging().onMessage((message) => {
       //process data message
-      console.log(JSON.stringify(message));
+      console.log("data only 3 ", JSON.stringify(message));
     });
+
+
   }
 
 
@@ -168,6 +177,10 @@ export default class HomeScreen extends Component {
   componentWillUnmount() {
     BackHandler.removeEventListener('hardwareBackPress', this.exitFromApp);
   }
+  setAppLogoutData = async () => {
+
+    EventRegister.emit('appExpire', "");
+  }
 
   exitFromApp = () => {
 
@@ -190,7 +203,7 @@ export default class HomeScreen extends Component {
   }
   componentDidMount() {
     firebase.crashlytics().enableCrashlyticsCollection();
-  
+
     this.props.navigation.setParams({
       _onHeaderEventControl: this.onHeaderEventControl,
       _openNav: () => this.openDrawer()
@@ -289,6 +302,10 @@ export default class HomeScreen extends Component {
     savedValues = JSON.parse(savedValues);
     this.id = savedValues.user.uid;
     new App().fetUserData(this.id);
+    let isAppLoginExpire = await AsyncStorage.getItem('isLoginExpire')
+    if (isAppLoginExpire == 'Yes') {
+      EventRegister.emit('appExpire', "")
+    }
   }
   showAlertToUpdateApp() {
     Alert.alert(

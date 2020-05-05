@@ -252,8 +252,14 @@ export default class App extends React.Component {
     // console.log("fetUserData data 1", userToken);
     let userData = JSON.stringify(userToken);
     await AsyncStorage.setItem('userToken', userData);
-    // console.log("fetUserData data 2", userData);
 
+
+    let activeDeviceId = responseJson.device_id;
+    let myDeviceId = DeviceInfo.getUniqueId();
+    console.log("device in app js ", activeDeviceId, myDeviceId);
+    if (activeDeviceId != myDeviceId) {//if not equal then logout 
+      EventRegister.emit('appExpire', "")
+    }
 
   };
 

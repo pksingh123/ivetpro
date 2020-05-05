@@ -168,6 +168,7 @@ export default class LoginScreen extends Component {
     _signInAsync = async (json) => {
         const value = JSON.stringify(json);
         // console.log(json);
+        await AsyncStorage.setItem('isLoginExpire', "NO");
         await AsyncStorage.setItem('userToken', value);
         await AsyncStorage.setItem('temporary_passwrod', json.user.temporary_passwrod);
         this.setState({ isLoading: false });

@@ -91,8 +91,9 @@ export default class DrawerScreen extends React.Component {
 
   componentWillUnmount() {
 
-    EventRegister.removeEventListener(this.listener)
-    EventRegister.removeEventListener(this.listener2)
+    EventRegister.removeEventListener(this.listener);
+    EventRegister.removeEventListener(this.listener2);
+    EventRegister.removeEventListener(this.logoutLinstener);
   }
   componentWillMount() {
     this.listener = EventRegister.addEventListener('myCustomEvent', (data) => {
@@ -106,6 +107,11 @@ export default class DrawerScreen extends React.Component {
       // alert("data" + data);
       this.setState({ videoConsultNowWithoutAppointment: data });
       this.forceUpdate();
+    });
+    this.logoutLinstener = EventRegister.addEventListener('appExpire', (data) => {
+      // alert("data" + data);
+      console.log("logoutLinstener");
+      this._signOut();
     });
   }
 

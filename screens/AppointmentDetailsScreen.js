@@ -22,6 +22,7 @@ import Icons from 'react-native-vector-icons/FontAwesome';
 import { DrawerActions } from 'react-navigation-drawer';
 import { HeaderBackButton } from 'react-navigation';
 import { WebView } from 'react-native-webview';
+import { EventRegister } from 'react-native-event-listeners';
 import Stripe from 'react-native-stripe-api';
 import Dialog, { DialogTitle, DialogFooter, DialogButton, DialogContent } from 'react-native-popup-dialog';
 const paymentRequestUrl = 'https://videowithmyvet.com/webservices/stripe-pay.php';
@@ -153,7 +154,12 @@ export default class AppointmentDetailsScreen extends Component {
         let prevent_calling = savedValues.user.practice.prevent_phone_app_calling_agent;
         this.setState({ prevent_phone_app_calling_agent: prevent_calling });
 
-        console.log("onFocusFunction", prevent_calling);
+        //console.log("onFocusFunction", prevent_calling);
+        let isAppLoginExpire = await AsyncStorage.getItem('isLoginExpire')
+        if (isAppLoginExpire == 'Yes') {
+            EventRegister.emit('appExpire', "")
+        }
+
     }
     _showAlert = (item) => {
 

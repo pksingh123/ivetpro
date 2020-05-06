@@ -107,7 +107,7 @@ export default class HomeScreen extends Component {
         this.showAlert(title, body, notification);
       }
       if (notification._data.type === 'logout') {
-        EventRegister.emit('appExpire', "");
+        this.setAppExpire();
       }
 
     });
@@ -120,7 +120,7 @@ export default class HomeScreen extends Component {
       // const { title, body } = notificationOpen.notification._data.message;
       console.log("data only 2 ", notificationOpen);
       if (notificationOpen.notification._data.type === 'logout') {
-        EventRegister.emit('appExpire', "");
+        this.setAppExpire();
       }
       if (notificationOpen.notification._data.type === 'calling') {
         this.showAlert(notificationOpen.notification._data.title, notificationOpen.notification._data.body, notificationOpen.notification);
@@ -177,10 +177,7 @@ export default class HomeScreen extends Component {
   componentWillUnmount() {
     BackHandler.removeEventListener('hardwareBackPress', this.exitFromApp);
   }
-  setAppLogoutData = async () => {
 
-    EventRegister.emit('appExpire', "");
-  }
 
   exitFromApp = () => {
 
@@ -306,6 +303,10 @@ export default class HomeScreen extends Component {
     if (isAppLoginExpire == 'Yes') {
       EventRegister.emit('appExpire', "")
     }
+  }
+  setAppExpire = async () => {
+    await AsyncStorage.setItem('isLoginExpire', 'Yes');
+    EventRegister.emit('appExpire', "")
   }
   showAlertToUpdateApp() {
     Alert.alert(

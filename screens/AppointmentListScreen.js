@@ -19,6 +19,7 @@ import Icons from 'react-native-vector-icons/FontAwesome';
 import { DrawerActions } from 'react-navigation-drawer';
 import PracticeBarLogo from '../screens/PracticeBarLogo';
 import App from '../App'
+import { EventRegister } from 'react-native-event-listeners'
 this.arrayholder = [];
 export default class AppointmentListScreen extends Component {
     navOptions
@@ -63,6 +64,10 @@ export default class AppointmentListScreen extends Component {
     onFocusFunction = async () => {
         // alert("Appointment List");
         this.getAppointmentData();
+        let isAppLoginExpire = await AsyncStorage.getItem('isLoginExpire')
+        if (isAppLoginExpire == 'Yes') {
+            EventRegister.emit('appExpire', "")
+        }
     }
 
     componentDidMount() {

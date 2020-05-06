@@ -19,7 +19,7 @@ import Icons from 'react-native-vector-icons/FontAwesome';
 import { DrawerActions } from 'react-navigation-drawer';
 import PracticeBarLogo from '../screens/PracticeBarLogo';
 import App from '../App'
-
+import { EventRegister } from 'react-native-event-listeners';
 
 this.arrayholder = [];
 export default class AppointmentHistoryScreen extends Component {
@@ -63,10 +63,14 @@ export default class AppointmentHistoryScreen extends Component {
         params._openNav()
     }
 
-    onFocusFunction = () => {
+    onFocusFunction = async () => {
         // do some stuff on every screen focus
         // alert('Completed appointment');
         this.fetchCompletedAppointmentData();
+        let isAppLoginExpire = await AsyncStorage.getItem('isLoginExpire')
+        if (isAppLoginExpire == 'Yes') {
+            EventRegister.emit('appExpire', "")
+        }
     }
 
     componentDidMount() {

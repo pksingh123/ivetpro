@@ -23,6 +23,7 @@ import PracticeBarLogo from '../screens/PracticeBarLogo';
 import { Calendar, CalendarList, Agenda } from 'react-native-calendars';
 import moment from "moment";
 import { HeaderBackButton } from 'react-navigation';
+import { EventRegister } from 'react-native-event-listeners';
 
 import RadioForm, { RadioButton, RadioButtonInput, RadioButtonLabel } from 'react-native-simple-radio-button';
 var booking_source = Platform.OS === 'android' ? 'Android' : 'IOS';
@@ -195,6 +196,10 @@ export default class BookAppointmentScreen extends Component {
     }
     onFocusFunction = async () => {
         //alert("Booking appointment");
+        let isAppLoginExpire = await AsyncStorage.getItem('isLoginExpire')
+        if (isAppLoginExpire == 'Yes') {
+            EventRegister.emit('appExpire', "")
+        }
     }
     appointmentSelectDate = () => {
         // alert('slected date');

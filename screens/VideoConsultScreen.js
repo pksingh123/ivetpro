@@ -26,7 +26,9 @@ import { HeaderBackButton, NavigationEvents } from 'react-navigation';
 import { DrawerActions } from 'react-navigation-drawer';
 import { Icon, ListItem, SearchBar } from 'react-native-elements';
 import Icons from 'react-native-vector-icons/FontAwesome';
-import App from '../App'
+import App from '../App';
+import { EventRegister } from 'react-native-event-listeners';
+
 export async function requestRecordAudioPermission() {
     try {
         const granted = await PermissionsAndroid.request(
@@ -116,6 +118,10 @@ export default class VideoConsultScreen extends Component {
 
     // }
     async componentDidMount() {
+        this.focusListener = this.props.navigation.addListener('didFocus', () => {
+            this.onFocusFunction()
+        })
+
         let savedValues = await AsyncStorage.getItem('userToken');
         savedValues = JSON.parse(savedValues);
         this.id = savedValues.user.uid;
@@ -132,6 +138,13 @@ export default class VideoConsultScreen extends Component {
         this.refs.twilioVideo.disconnect()
         this.props.navigation.push('Home');
         return true;
+    }
+    onFocusFunction = async () => {
+        //alert("Booking appointment");
+        let isAppLoginExpire = await AsyncStorage.getItem('isLoginExpire')
+        if (isAppLoginExpire == 'Yes') {
+            EventRegister.emit('appExpire', "")
+        }
     }
 
     async componentWillMount() {

@@ -33,8 +33,8 @@ export default class FutureAppointmentScreen extends Component {
             headerTitle: 'Future Appointment',
             //headerLeft: <PracticeBarLogo />,
             headerLeft: <HeaderBackButton onPress={() => navigation.push('Home')} />,
-            headerLeftContainerStyle:{
-                marginTop:StatusBar.currentHeight
+            headerLeftContainerStyle: {
+                marginTop: StatusBar.currentHeight
             },
             headerTintColor: '#ffffff',
             headerStyle: {
@@ -42,7 +42,7 @@ export default class FutureAppointmentScreen extends Component {
                 color: '#fff',
                 height: 80
             },
-            headerTitleStyle: { 
+            headerTitleStyle: {
                 flex: 1,
                 textAlign: 'center',
                 marginTop: StatusBar.currentHeight
@@ -306,9 +306,9 @@ export default class FutureAppointmentScreen extends Component {
                     <View style={styles.buttonContainerWrr}>
                         {item.status == 1 ?
                             <View style={styles.buttoncontainer}>
-                            <TouchableOpacity onPress={() => this._paymentOpenPopup2(item)} style={styles.button}>
-                                <Text style={styles.textcolor}>Pay Now {'\u00A3'} {item.amount}</Text>
-                            </TouchableOpacity>
+                                <TouchableOpacity onPress={() => this._paymentOpenPopup2(item)} style={styles.button}>
+                                    <Text style={styles.textcolor}>Pay Now {'\u00A3'} {item.amount}</Text>
+                                </TouchableOpacity>
                             </View>
                             : <View><Text style={styles.textButtonStyle}>Paid</Text></View>
                         }
@@ -407,26 +407,26 @@ export default class FutureAppointmentScreen extends Component {
                                 this.state.paymentContainer ?
                                     <View>
                                         <TextInput style={styles.input}
-                                        placeholderTextColor='#555'
+                                            placeholderTextColor='#555'
                                             onChangeText={(CardNumber) => this.setState({ cardNumber: CardNumber })}
                                             value={this.state.cardNumber}
                                             placeholder={"Card Number"}
                                             keyboardType={'numeric'}
                                         />
                                         <TextInput style={styles.input}
-                                        placeholderTextColor='#555'
+                                            placeholderTextColor='#555'
                                             onChangeText={(expMonth) => this.setState({ expMonth: expMonth })}
                                             placeholder={"MM"}
                                             keyboardType={'numeric'}
                                         />
                                         <TextInput style={styles.input}
-                                        placeholderTextColor='#555'
+                                            placeholderTextColor='#555'
                                             onChangeText={(expYear) => this.setState({ expYear: expYear })}
                                             placeholder={"YY"}
                                             keyboardType={'numeric'}
                                         />
                                         <TextInput style={styles.input}
-                                        placeholderTextColor='#555'
+                                            placeholderTextColor='#555'
                                             onChangeText={(cvc) => this.setState({ cvc: cvc })}
                                             placeholder={"cvc"}
                                             secureTextEntry={true}
@@ -467,8 +467,8 @@ const styles = StyleSheet.create({
         paddingTop: 10
 
     },
-    buttonContainerWrr:{
-        marginTop:10
+    buttonContainerWrr: {
+        marginTop: 10
     },
     buttoncontainer: {
         paddingHorizontal: 20,
@@ -516,7 +516,7 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         height: 80
     },
-    
+
     button: {
         /* marginTop: 5,
         height: 40,
@@ -562,7 +562,7 @@ const styles = StyleSheet.create({
         paddingHorizontal: 10,
         borderRadius: 10,
         borderColor: '#d2d4d6',
-        borderWidth:2
+        borderWidth: 2
     },
 
 

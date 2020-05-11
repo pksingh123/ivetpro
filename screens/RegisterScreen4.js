@@ -16,7 +16,7 @@ import {
     Image,
     Alert
 } from 'react-native';
-
+import Constant from './Constants';
 export default class RegisterScreen4 extends Component {
     static navigationOptions = {
         title: 'Register',
@@ -38,7 +38,7 @@ export default class RegisterScreen4 extends Component {
         this.setState({ verificationCode: text })
     }
     resend = () => {
-        const url = `https://videowithmyvet.com/webservices/resend-verification-otp.php?uid=${this.state.user_id}`;
+        const url = Constant.rootUrl + `webservices/resend-verification-otp.php?uid=${this.state.user_id}`;
         fetch(url)
             .then((response) => response.json())
             .then((responseJson) => {
@@ -59,7 +59,7 @@ export default class RegisterScreen4 extends Component {
         if (this.state.verificationCode == '') {
             alert('Please enter verification code!')
         } else {
-            const url = "https://videowithmyvet.com/webservices/email-verify.php";
+            const url = Constant.rootUrl + 'webservices/email-verify.php';
             fetch(url,
                 {
                     method: 'POST',

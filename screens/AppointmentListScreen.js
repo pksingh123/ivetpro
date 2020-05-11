@@ -13,6 +13,7 @@ import {
     RefreshControl,
     StatusBar
 } from 'react-native';
+import Constant from './Constants';
 import { FlatList } from 'react-native-gesture-handler';
 import { Icon, ListItem, SearchBar } from 'react-native-elements';
 import Icons from 'react-native-vector-icons/FontAwesome';
@@ -123,7 +124,7 @@ export default class AppointmentListScreen extends Component {
         new App().fetUserData(this.id);
 
 
-        const url = 'https://videowithmyvet.com/webservices/booking-appointment.php?action=AppointmentList&uid=' + this.state.uid;
+        const url = Constant.rootUrl + 'webservices/booking-appointment.php?action=AppointmentList&uid=' + this.state.uid;
 
         fetch(url)
             .then((response) => response.json())

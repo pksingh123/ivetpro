@@ -21,6 +21,7 @@ import {
     Modal,
     TouchableHighlight
 } from 'react-native';
+import Constant from './Constants';
 import Autocomplete from 'react-native-autocomplete-input';
 import { CheckBox } from 'react-native-elements';
 import { WebView } from 'react-native-webview';
@@ -116,7 +117,7 @@ export default class RegisterScreen extends Component {
             postalCode: params.postalCode,
             practiceCode: params.practiceCode
         });
-        const url = 'https://videowithmyvet.com/webservices/get-practice-code-list.php';
+        const url = Constant.rootUrl + 'webservices/get-practice-code-list.php';
         fetch(url)
             .then((response) => response.json())
             .then((responseJson) => {
@@ -171,7 +172,7 @@ export default class RegisterScreen extends Component {
             this.setState({
                 isLoading: true
             })
-            const url = 'https://videowithmyvet.com/webservices/user-register.ph';
+            const url = Constant.rootUrl + 'webservices/user-register.ph';
             fetch(url,
                 {
                     method: 'POST',
@@ -401,7 +402,7 @@ export default class RegisterScreen extends Component {
                             <Text style={styles.closeStyle}>X</Text>
                         </TouchableHighlight>
                         <WebView
-                            source={{ uri: 'https://videowithmyvet.com/terms-conditions/' }}
+                            source={{ uri: Constant.rootUrl + 'terms-conditions/' }}
                             style={{ marginTop: 20 }}
                         />
 
@@ -420,7 +421,7 @@ export default class RegisterScreen extends Component {
 
         return (
             <WebView
-                source={{ uri: 'https://videowithmyvet.com/terms-conditions/' }}
+                source={{ uri: Constant.rootUrl + 'terms-conditions/' }}
                 style={{ marginTop: 20 }}
             />
         );

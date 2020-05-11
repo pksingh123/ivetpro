@@ -15,6 +15,7 @@ import {
   Platform,
   StatusBar
 } from 'react-native';
+import Constant from './Constants';
 import {
   TwilioVideoLocalView,
   TwilioVideoParticipantView,
@@ -98,7 +99,7 @@ export default class ConfrenceScreen extends Component {
     } else {
       this.setState({ uid: false })
     }
-    const url = 'https://videowithmyvet.com/token?room=' + this.state.roomName;
+    const url = Constant.rootUrl + 'token?room=' + this.state.roomName;
     fetch(url)
       .then((response) => response.json())
       .then((responseJson) => {

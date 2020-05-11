@@ -12,7 +12,7 @@ import {
     RefreshControl,
     StatusBar
 } from 'react-native';
-
+import Constant from './Constants';
 import RNFetchBlob from 'rn-fetch-blob';
 import { HeaderBackButton } from 'react-navigation';
 import RNPasswordStrengthMeter from 'react-native-password-strength-meter';
@@ -22,9 +22,9 @@ export default class ChangePasswordScreen extends Component {
         return {
             headerTitle: 'Change Password',
             headerLeft: <HeaderBackButton onPress={() => navigation.push('Home')} />,
-            headerLeftContainerStyle:{
-                marginTop:StatusBar.currentHeight
-              },
+            headerLeftContainerStyle: {
+                marginTop: StatusBar.currentHeight
+            },
             headerTintColor: '#ffffff',
             headerStyle: {
                 backgroundColor: '#26cccc',
@@ -37,7 +37,7 @@ export default class ChangePasswordScreen extends Component {
         super(props)
         this.state = {
             uid: false,
-            oldPass:'',
+            oldPass: '',
             Password: '',
             confirmPass: '',
             isLoading: false,
@@ -48,7 +48,7 @@ export default class ChangePasswordScreen extends Component {
         this.setState({ password: password })
         console.log(password, score, { label, labelColor, activeBarColor });
     }
-    
+
     updatConfirmPass = (text) => {
         this.setState({ confirmPass: text })
     }
@@ -58,8 +58,8 @@ export default class ChangePasswordScreen extends Component {
 
     changePassword = () => {
 
-      //  var paswd = /^(?=.*[0-9])(?=.*[@_])[a-zA-Z0-9@_]{10,15}$/;
-      var paswd = /^(?=.*[0-9])(?=.*[~!@#$%^&*()_+?><.,:-;])[a-zA-Z0-9~!@#$%^&*()_+?><.,:-;]{10,15}$/;
+        //  var paswd = /^(?=.*[0-9])(?=.*[@_])[a-zA-Z0-9@_]{10,15}$/;
+        var paswd = /^(?=.*[0-9])(?=.*[~!@#$%^&*()_+?><.,:-;])[a-zA-Z0-9~!@#$%^&*()_+?><.,:-;]{10,15}$/;
         if (paswd.test(this.state.password) === false) {
             alert("Password must only contains a-z, 0-9, '@', '_' and min 10 chars and max 15");
             return false;
@@ -69,7 +69,7 @@ export default class ChangePasswordScreen extends Component {
         } else if (this.state.password != this.state.confirmPass) {
             alert('password and confirm password not match');
         } else {
-            const url = 'https://videowithmyvet.com/webservices/change-password.php';
+            const url = Constant.rootUrl + 'webservices/change-password.php';
             fetch(url, {
                 method: 'POST',
                 headers: {
@@ -77,8 +77,8 @@ export default class ChangePasswordScreen extends Component {
                 },
                 body: JSON.stringify({
                     'uid': this.state.uid,
-                    'newPass':this.state.password,
-                    'oldPass':this.state.oldPass
+                    'newPass': this.state.password,
+                    'oldPass': this.state.oldPass
                 }),
             })
                 .then((response) => response.json())
@@ -87,7 +87,7 @@ export default class ChangePasswordScreen extends Component {
                     if (responseJson.status === 'ok') {
                         this._removeTempPwdAsync();
                         this.props.navigation.navigate('App');
-                    } else if(responseJson.status === 'error'){
+                    } else if (responseJson.status === 'error') {
                         alert(responseJson.error);
                     }
                 })
@@ -114,7 +114,7 @@ export default class ChangePasswordScreen extends Component {
         if (userToken) {
             userDetails = JSON.parse(userToken);
             this.setState({ uid: userDetails.user.uid, isLoading: false });
-        } 
+        }
 
     }
     _removeTempPwdAsync = async () => {
@@ -160,7 +160,7 @@ export default class ChangePasswordScreen extends Component {
                         inputWrapperStyle={styles.inputWrapperStyle}
                         inputStyle={styles.inputStyle}
                         meterType="bar"
-                       // inputProps= { placeholder = 'New Password' }
+                        // inputProps= { placeholder = 'New Password' }
                         minLength="10"
                     />
                     <TextInput placeholder="Confirm Password"

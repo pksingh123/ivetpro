@@ -16,7 +16,7 @@ import {
     TouchableHighlight,
     StatusBar
 } from 'react-native';
-
+import Constant from './Constants';
 import {
     TwilioVideoLocalView,
     TwilioVideoParticipantView,
@@ -164,7 +164,7 @@ export default class VideoConsultScreen extends Component {
     }
     _updateCall = () => {
 
-        const url = 'https://videowithmyvet.com/webservices/video-consult-now.php?cancelCall=1&userId=' + this.state.uid;
+        const url = Constant.rootUrl + 'webservices/video-consult-now.php?cancelCall=1&userId=' + this.state.uid;
         fetch(url)
             .then((response) => response.json())
             .then((responseJson) => {
@@ -182,7 +182,7 @@ export default class VideoConsultScreen extends Component {
     }
     _onConnectButtonPress = () => {
         this.setState({ isLoading: true })
-        const url = 'https://videowithmyvet.com/webservices/video-consult-now.php?userId=' + this.state.uid + '&practice_id=' + this.state.practice_id;
+        const url = Constant.rootUrl + 'webservices/video-consult-now.php?userId=' + this.state.uid + '&practice_id=' + this.state.practice_id;
         fetch(url)
             .then((response) => response.json())
             .then((responseJson) => {

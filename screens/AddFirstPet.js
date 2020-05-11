@@ -12,7 +12,7 @@ import {
     TouchableOpacity,
     Alert,
 } from 'react-native';
-
+import Constant from './Constants';
 export default class AddFirstPet extends Component {
     static navigationOptions = {
         title: 'Add First Pet',

@@ -8,7 +8,7 @@ import {
   StatusBar,
   Alert,
 } from 'react-native';
-
+import Constant from './screens/Constants';
 const instructions = Platform.select({
   ios: 'Press Cmd+R to reload,\n' + 'Cmd+D or shake for dev menu',
   android:
@@ -159,7 +159,7 @@ export default class App extends React.Component {
 
     console.log("app.js checkDeviceState");
     //this.loadingButton.showLoading(true);
-    const url = 'http://videowithmyvet.com/webservices/check-user-logedin.php';
+    const url = Constant.rootUrl + 'webservices/check-user-logedin.php';
     fetch(url,
       {
         method: 'POST',
@@ -199,7 +199,7 @@ export default class App extends React.Component {
 
     console.log("app.js fetUserData", id);
     //this.loadingButton.showLoading(true);
-    const url = 'http://videowithmyvet.com/webservices/check-app-booking-allowed.php';
+    const url = Constant.rootUrl + 'webservices/check-app-booking-allowed.php';
     fetch(url,
       {
         method: 'POST',
@@ -265,7 +265,7 @@ export default class App extends React.Component {
   };
 
   _getToken() {
-    const url = 'https://videowithmyvet.com/webservices/get-token.php';
+    const url = Constant.rootUrl + 'webservices/get-token.php';
     fetch(url,
       {
         method: 'POST',

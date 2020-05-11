@@ -13,6 +13,7 @@ import {
     TextInput,
     TouchableOpacity
 } from 'react-native';
+import Constant from './Constants';
 import { Icon, ListItem } from 'react-native-elements';
 import Icons from 'react-native-vector-icons/FontAwesome';
 import { DrawerActions } from 'react-navigation-drawer';
@@ -162,7 +163,7 @@ export default class FirstBookAppointmentScreen extends Component {
         } else {
             this.setState({ uid: false })
         }
-        const url = 'https://videowithmyvet.com/webservices/booking-appointment.php?action=componentWillMount&uid=' + this.state.uid + '&is_vetstoria=' + this.state.is_vetstoria + '&practice_id=' + this.state.practice_id + '&location_id=' + this.state.location_id;
+        const url = Constant.rootUrl + 'webservices/booking-appointment.php?action=componentWillMount&uid=' + this.state.uid + '&is_vetstoria=' + this.state.is_vetstoria + '&practice_id=' + this.state.practice_id + '&location_id=' + this.state.location_id;
 
         fetch(url)
             .then((response) => response.json())
@@ -199,7 +200,7 @@ export default class FirstBookAppointmentScreen extends Component {
 
         })
         this.setState({ VetstoriaAppointmentTypesID: item, SitesAppointmentTypesID: item });
-        const url = 'https://videowithmyvet.com/webservices/booking-appointment.php?action=appointmentTypesAmouint&appointment_type_id=' + item;
+        const url = Constant.rootUrl + 'webservices/booking-appointment.php?action=appointmentTypesAmouint&appointment_type_id=' + item;
         fetch(url)
             .then((response) => response.json())
             .then((responseJson) => {
@@ -225,8 +226,8 @@ export default class FirstBookAppointmentScreen extends Component {
     localAppointmentTime = (item) => {
         this.setState({ appointmentDate: item });
 
-        //console.warn(`https://videowithmyvet.com/webservices/booking-appointment.php?action=LocalAppointmentTime&checkDate=${item}&practice_id=${this.state.practice_id}`);
-        const url = `https://videowithmyvet.com/webservices/booking-appointment.php?action=LocalAppointmentTime&checkDate=${item}&practice_id=${this.state.practice_id}`;
+        //console.warn(Constant.rootUrl + ' webservices/booking-appointment.php?action=LocalAppointmentTime&checkDate=${item}&practice_id=${this.state.practice_id}`);
+        const url = Constant.rootUrl + `webservices/booking-appointment.php?action=LocalAppointmentTime&checkDate=${item}&practice_id=${this.state.practice_id}`;
         fetch(url)
             .then((response) => response.json())
             .then((responseJson) => {
@@ -249,7 +250,7 @@ export default class FirstBookAppointmentScreen extends Component {
         if (petId == 0) {
             this.setState({ VetstoriaSpeciesID: 1, speciesLocalId: 1, petID: 0, petName: 'None' });
         } else {
-            const url = `https://videowithmyvet.com/webservices/find-species-id.php?petId=${petId}`;
+            const url = Constant.rootUrl + `webservices/find-species-id.php?petId=${petId}`;
             fetch(url)
                 .then((response) => response.json())
                 .then((responseJson) => {
@@ -274,7 +275,7 @@ export default class FirstBookAppointmentScreen extends Component {
         } else {
 
             this.setState({ isLoading: true, isSlot: false, isBooking: false })
-            const url = 'https://videowithmyvet.com/webservices/booking-appointment.php?action=VetStoriaCheckSlot';
+            const url = Constant.rootUrl + 'webservices/booking-appointment.php?action=VetStoriaCheckSlot';
             fetch(url,
                 {
                     method: 'POST',
@@ -320,7 +321,7 @@ export default class FirstBookAppointmentScreen extends Component {
         } else {
 
             this.setState({ isLoading: true, isSlot: false, isBooking: false })
-            const url = 'https://videowithmyvet.com/webservices/booking-appointment.php?action=VetStoriaCheckSlot';
+            const url = Constant.rootUrl + 'webservices/booking-appointment.php?action=VetStoriaCheckSlot';
             fetch(url,
                 {
                     method: 'POST',
@@ -362,13 +363,13 @@ export default class FirstBookAppointmentScreen extends Component {
         }
     }
     VetStoriaBooking = () => {
-        
+
         if (this.state.location_id == '' || this.state.VetstoriaSchedulesID == '' || this.state.slot == '' || this.state.clientPhone == '' || this.state.VetstoriaAppointmentTypesID == '' || this.state.VetstoriaSpeciesID == '' || this.state.clentNotes == '') {
             alert("Please fill all fields");
         } else {
             this.setState({})
             this.setState({ isSlot: false, isBooking: false, isLoading: true })
-            const url = 'https://videowithmyvet.com/webservices/booking-appointment.php?action=VetStoriaBooking';
+            const url = Constant.rootUrl + 'webservices/booking-appointment.php?action=VetStoriaBooking';
             fetch(url,
                 {
                     method: 'POST',
@@ -430,7 +431,7 @@ export default class FirstBookAppointmentScreen extends Component {
                 isLoading: true
             })
             this.setState({ isSlot: false, isBooking: false })
-            const url = 'https://videowithmyvet.com/webservices/booking-appointment.php?action=SiteBooking';
+            const url = Constant.rootUrl + 'webservices/booking-appointment.php?action=SiteBooking';
             fetch(url,
                 {
                     method: 'POST',

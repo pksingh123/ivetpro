@@ -13,6 +13,7 @@ import {
     RefreshControl,
     StatusBar
 } from 'react-native';
+import Constant from './Constants';
 import { FlatList } from 'react-native-gesture-handler';
 import { Icon, ListItem, Avatar, Divider, SearchBar } from 'react-native-elements';
 import Icons from 'react-native-vector-icons/FontAwesome';
@@ -115,7 +116,7 @@ export default class AppointmentHistoryScreen extends Component {
         }
 
 
-        const url = 'https://videowithmyvet.com/webservices/booking-appointment.php?action=AppointmentList&status=5&uid=' + this.state.uid;
+        const url = Constant.rootUrl + 'webservices/booking-appointment.php?action=AppointmentList&status=5&uid=' + this.state.uid;
 
         fetch(url)
             .then((response) => response.json())
@@ -129,7 +130,7 @@ export default class AppointmentHistoryScreen extends Component {
                         GridViewItems: responseJson.data
                     })
                     this.arrayholder = responseJson.data;
-                    alert(responseJson.status);
+                    //alert(responseJson.status);
                 } else {
                     this.setState({
                         isLoading: false

@@ -14,6 +14,7 @@ import {
     Dimensions,
     StatusBar
 } from 'react-native';
+import Constant from './Constants';
 import { FlatList } from 'react-native-gesture-handler';
 import { Icon, Avatar, Divider } from 'react-native-elements';
 import Icons from 'react-native-vector-icons/FontAwesome';
@@ -22,7 +23,7 @@ import { HeaderBackButton } from 'react-navigation';
 import PracticeBarLogo from '../screens/PracticeBarLogo';
 import Stripe from 'react-native-stripe-api';
 import Dialog, { DialogTitle, DialogFooter, DialogButton, DialogContent } from 'react-native-popup-dialog';
-const paymentRequestUrl = 'https://videowithmyvet.com/webservices/stripe-pay.php';
+const paymentRequestUrl = Constant.rootUrl + 'webservices/stripe-pay.php';
 const SCREEN_HEIGHT = Dimensions.get("window").height;
 
 export default class FutureAppointmentScreen extends Component {
@@ -105,7 +106,7 @@ export default class FutureAppointmentScreen extends Component {
         });
 
         this.setState({ isLoading: true, });
-        const url1 = 'https://videowithmyvet.com/webservices/booking-appointment.php?action=GetPubKey&practice_id=' + this.state.practice_id;
+        const url1 = Constant.rootUrl + 'webservices/booking-appointment.php?action=GetPubKey&practice_id=' + this.state.practice_id;
         fetch(url1)
             .then((response) => response.json())
             .then((responseJson) => {
@@ -223,7 +224,7 @@ export default class FutureAppointmentScreen extends Component {
         }
 
         this.setState({ petAliveStatus: item.status, name: item.name })
-        const url = 'https://videowithmyvet.com/webservices/booking-appointment.php?action=FutureAppointment&patientId=' + item.id;
+        const url = Constant.rootUrl + 'webservices/booking-appointment.php?action=FutureAppointment&patientId=' + item.id;
         fetch(url)
             .then((response) => response.json())
             .then((responseJson) => {

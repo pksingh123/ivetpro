@@ -12,7 +12,7 @@ import {
     Image,
 
 } from 'react-native';
-
+import Constant from './Constants';
 import AuthLoadingScreen from './AuthLoadingScreen';
 import DatePicker from 'react-native-datepicker';
 import RNPickerSelect from 'react-native-picker-select';
@@ -115,7 +115,7 @@ export default class RegisterScreen extends Component {
 
     }
     async getPetsData() {
-        const url = 'https://videowithmyvet.com/webservices/species.php';
+        const url = Constant.rootUrl + 'webservices/species.php';
         fetch(url)
             .then((response) => response.json())
             .then((responseJson) => {
@@ -214,7 +214,7 @@ export default class RegisterScreen extends Component {
             alert("Please select sex field");
         } else {
             this.setState({ isLoading: true });
-            RNFetchBlob.fetch('POST', 'https://videowithmyvet.com/webservices/add-pet.php', {
+            RNFetchBlob.fetch('POST', Constant.rootUrl + 'webservices/add-pet.php', {
                 'Content-Type': 'multipart/form-data',
             }, [
                 { name: 'image', filename: 'image.png', type: 'image/png', data: this.state.data },
@@ -230,6 +230,7 @@ export default class RegisterScreen extends Component {
             ])
                 .then((response) => response.json())
                 .then((responseJson) => {
+                    Console.log("pets added ", responseJson);
                     this.setState({ isLoading: false });
                     if (responseJson.status === 'ok') {
 

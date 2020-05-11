@@ -22,8 +22,9 @@ import { HeaderBackButton } from 'react-navigation';
 import { WebView } from 'react-native-webview';
 import Stripe from 'react-native-stripe-api';
 import Dialog, { DialogTitle, DialogFooter, DialogButton, DialogContent } from 'react-native-popup-dialog';
-const paymentRequestUrl = 'https://videowithmyvet.com/webservices/stripe-pay.php';
+const paymentRequestUrl = Constant.rootUrl + 'webservices/stripe-pay.php';
 const DEVICE_WIDTH = Dimensions.get('window').width;
+import Constant from './Constants';
 export default class AppointmentDetailsScreen extends Component {
 
     static navigationOptions = ({ navigation }) => {
@@ -31,7 +32,7 @@ export default class AppointmentDetailsScreen extends Component {
         if (item.status == 5) {
             return {
                 headerTitle: 'Appointment Details',
-               
+
                 headerLeft: <HeaderBackButton onPress={() => navigation.navigate('AppointmentHistory')} />,
                 headerTintColor: '#ffffff',
                 headerStyle: {
@@ -46,20 +47,20 @@ export default class AppointmentDetailsScreen extends Component {
 
             return {
                 headerTitle: 'Appointment Details',
-                backgroundColor: 'transparent' ,
+                backgroundColor: 'transparent',
                 headerLeft: <HeaderBackButton onPress={() => navigation.navigate('AppointmentList')} />,
                 headerTintColor: '#ffffff',
                 headerStyle: {
                     backgroundColor: '#26cccc',
                     color: '#fff'
                 },
-                headerBackground:(
-                    
-                    <ImageBackground source={{uri: item.picture}}
-                    style={styles.imgStyle}
-                >
-                    <Text>fghgfhgfhh</Text>
-                </ImageBackground>
+                headerBackground: (
+
+                    <ImageBackground source={{ uri: item.picture }}
+                        style={styles.imgStyle}
+                    >
+                        <Text>fghgfhgfhh</Text>
+                    </ImageBackground>
                 )
 
             }
@@ -130,7 +131,7 @@ export default class AppointmentDetailsScreen extends Component {
         return true;
     }
 
-    headerImage =()=>{
+    headerImage = () => {
 
     }
 
@@ -172,7 +173,7 @@ export default class AppointmentDetailsScreen extends Component {
         if (this.state.cancelreason == '') {
             alert("Please enter cancel reason details!");
         } else {
-            const url = "https://videowithmyvet.com/webservices/booking-appointment.php?action=AppointmentCancel";
+            const url = Constant.rootUrl + 'webservices/booking-appointment.php?action=AppointmentCancel';
             this.setState({ isLoading: true });
             fetch(url,
                 {
@@ -221,7 +222,7 @@ export default class AppointmentDetailsScreen extends Component {
 
     }
     _SiteAppointmentCancel = (item) => {
-        const url = "https://videowithmyvet.com/webservices/booking-appointment.php?action=AppointmentCancel";
+        const url = Constant.rootUrl + 'webservices/booking-appointment.php?action=AppointmentCancel';
         this.setState({ isLoading: true });
         fetch(url,
             {
@@ -284,7 +285,7 @@ export default class AppointmentDetailsScreen extends Component {
         if (this.state.refundreason == '') {
             alert("Please enter refund reason details!");
         } else {
-            const url = "https://videowithmyvet.com/webservices/booking-appointment.php?action=AppointmentRefundRequest";
+            const url = Constant.rootUrl + 'webservices/booking-appointment.php?action=AppointmentRefundRequest';
             this.setState({ isLoading: true });
             fetch(url,
                 {
@@ -333,7 +334,7 @@ export default class AppointmentDetailsScreen extends Component {
                 // userDetails.user.clientPhone
             });
         }
-        const url = 'https://videowithmyvet.com/webservices/booking-appointment.php?action=GetPubKey&practice_id=' + this.state.practice_id;
+        const url = Constant.rootUrl + 'webservices/booking-appointment.php?action=GetPubKey&practice_id=' + this.state.practice_id;
         fetch(url)
             .then((response) => response.json())
             .then((responseJson) => {
@@ -463,11 +464,11 @@ export default class AppointmentDetailsScreen extends Component {
                 <Text style={styles.textStyle}> {item.refund_status_lbl}</Text>
             </Text>
             : null
-        
+
         return (
             <View style={styles.mainContainer}>
-               
-               <StatusBar translucent backgroundColor="transparent" />
+
+                <StatusBar translucent backgroundColor="transparent" />
 
 
 
@@ -684,8 +685,8 @@ export default class AppointmentDetailsScreen extends Component {
 }
 const styles = StyleSheet.create({
     mainContainer: {
-        flex: 1, 
-        alignItems: 'center', 
+        flex: 1,
+        alignItems: 'center',
         justifyContent: 'center'
     },
     container: {
@@ -728,8 +729,8 @@ const styles = StyleSheet.create({
 
     },
     imgStyle: {
-        
-       
+
+
         //resizeMode: "cover",
         width: DEVICE_WIDTH,
         height: 300

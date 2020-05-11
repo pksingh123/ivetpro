@@ -12,7 +12,7 @@ import {
     TouchableOpacity,
     Alert,
 } from 'react-native';
-
+import Constant from './Constants';
 export default class AddAnotherPet extends Component {
     static navigationOptions = {
         title: 'Add First Pet',
@@ -39,7 +39,7 @@ export default class AddAnotherPet extends Component {
     }
 
     componentDidMount() {
-        const url = 'https://videowithmyvet.com/webservices/client-pet-by-id.php?action=alive&petid=' + this.state.petId;
+        const url = Constant.rootUrl + 'webservices/client-pet-by-id.php?action=alive&petid=' + this.state.petId;
         fetch(url)
             .then((response) => response.json())
             .then((responseJson) => {

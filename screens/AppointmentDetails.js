@@ -1,7 +1,7 @@
 
 import React, { Component } from 'react';
 import {
-    ActivityIndicator,
+  ActivityIndicator,
   AsyncStorage,
   Button,
   StatusBar,
@@ -11,24 +11,24 @@ import {
   TextInput,
   ScrollView,
 } from 'react-native';
-
+import Constant from './Constants';
 export default class AppointmentDetails extends Component {
-    static navigationOptions = {
-        title: 'Lots of features here',
-      };
-    
-      render() {
-        return this._signOutAsync;
-      }
-    
-      _signOutAsync = async () => {
-        await AsyncStorage.clear();
-        this.props.navigation.navigate('Auth');
-      };
+  static navigationOptions = {
+    title: 'Lots of features here',
+  };
+
+  render() {
+    return this._signOutAsync;
+  }
+
+  _signOutAsync = async () => {
+    await AsyncStorage.clear();
+    this.props.navigation.navigate('Auth');
+  };
 }
 const styles = StyleSheet.create({
-    container: {
-      
-    },
-  
-  });
+  container: {
+
+  },
+
+});

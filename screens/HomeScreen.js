@@ -20,7 +20,7 @@ import {
   StatusBar,
   Linking,
 } from 'react-native';
-
+import Constant from './Constants';
 import { Icon, ListItem, Avatar, Divider, SearchBar } from 'react-native-elements';
 import Icons from 'react-native-vector-icons/FontAwesome';
 import { DrawerActions } from 'react-navigation-drawer';
@@ -359,7 +359,8 @@ export default class HomeScreen extends Component {
       this.setState({ uid: false })
     }
     if (this.state.uid) {
-      const url = 'https://videowithmyvet.com/webservices/client-pet.php?action=alive&uid=' + this.state.uid;
+      // alert(Constant.rootUrl);
+      const url = Constant.rootUrl + 'webservices/client-pet.php?action=alive&uid=' + this.state.uid;
       fetch(url)
         .then((response) => response.json())
         .then((responseJson) => {

@@ -11,6 +11,7 @@ import {
     ScrollView,
     TouchableOpacity,
 } from 'react-native';
+import Constant from './Constants';
 import AnimateLoadingButton from 'react-native-animate-loading-button';
 export default class ForgotPasswordScreen extends Component {
     static navigationOptions = {
@@ -38,13 +39,13 @@ export default class ForgotPasswordScreen extends Component {
             alert("Please enter email!");
         }
         else {
-           // alert(this.state.email);
-            const url = 'https://videowithmyvet.com/webservices/reset-password.php';
+            // alert(this.state.email);
+            const url = Constant.rootUrl + 'webservices/reset-password.php';
             fetch(url,
                 {
                     method: 'POST',
                     headers: {
-                        'Accept': 'application/json', 
+                        'Accept': 'application/json',
                         'Content-Type': 'application/json'
                     },
                     body: JSON.stringify({

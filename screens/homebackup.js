@@ -14,6 +14,7 @@ import {
   FlatList,
   RefreshControl
 } from 'react-native';
+import Constant from './Constants';
 //import { FlatList } from 'react-native-gesture-handler';
 import { Icon, ListItem, Avatar, Divider, SearchBar } from 'react-native-elements';
 import Icons from 'react-native-vector-icons/FontAwesome';
@@ -134,7 +135,7 @@ export default class HomeScreen extends Component {
     }
 
 
-    const url = 'https://videowithmyvet.com/webservices/client-pet.php?action=alive&uid=' + this.state.uid;
+    const url = Constant.rootUrl + 'webservices/client-pet.php?action=alive&uid=' + this.state.uid;
 
     fetch(url)
       .then((response) => response.json())

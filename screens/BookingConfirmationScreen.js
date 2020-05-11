@@ -13,12 +13,13 @@ import {
     Button,
     StatusBar
 } from 'react-native';
+import Constant from './Constants';
 import { Icon, Avatar, Divider } from 'react-native-elements';
 import Icons from 'react-native-vector-icons/FontAwesome';
 import { HeaderBackButton } from 'react-navigation';
 import Stripe from 'react-native-stripe-api';
 import Dialog, { DialogTitle, DialogFooter, DialogButton, DialogContent } from 'react-native-popup-dialog';
-const paymentRequestUrl = 'https://videowithmyvet.com/webservices/stripe-pay.php';
+const paymentRequestUrl = Constant.rootUrl + 'webservices/stripe-pay.php';
 
 export default class BookingConfirmationScreen extends Component {
 
@@ -132,7 +133,7 @@ export default class BookingConfirmationScreen extends Component {
         } else {
             this.setState({ uid: false })
         }
-        const url = 'https://videowithmyvet.com/webservices/booking-appointment.php?action=BookingConfirmation&uid=' + this.state.uid + '&bookingId=' + this.state.bookingId;
+        const url = Constant.rootUrl + 'webservices/booking-appointment.php?action=BookingConfirmation&uid=' + this.state.uid + '&bookingId=' + this.state.bookingId;
         console.warn(url);
         fetch(url)
             .then((response) => response.json())
@@ -227,7 +228,7 @@ export default class BookingConfirmationScreen extends Component {
 
     _paymentOpenPopup = () => {
         this.setState({ isLoading: true, });
-        const url1 = 'https://videowithmyvet.com/webservices/booking-appointment.php?action=GetPubKey&practice_id=' + this.state.practice_id;
+        const url1 = Constant.rootUrl + 'webservices/booking-appointment.php?action=GetPubKey&practice_id=' + this.state.practice_id;
         fetch(url1)
             .then((response) => response.json())
             .then((responseJson) => {

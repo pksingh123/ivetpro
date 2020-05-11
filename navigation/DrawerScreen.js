@@ -1,4 +1,5 @@
 import React from 'react';
+import Constant from '../screens/Constants';
 import { View, Text, StyleSheet, AsyncStorage, TouchableOpacity, Image, Platform } from 'react-native';
 import { Button, Icon } from 'react-native-elements';
 import Icons from 'react-native-vector-icons/FontAwesome';
@@ -44,7 +45,7 @@ export default class DrawerScreen extends React.Component {
 
 
   _updatefcm() {
-    const url = 'https://videowithmyvet.com/webservices/update-token.php';
+    const url = Constant.rootUrl + 'webservices/update-token.php';
     fetch(url, {
       method: 'POST',
       headers: {
@@ -69,7 +70,7 @@ export default class DrawerScreen extends React.Component {
   }
 
   getvideoCall(practice_id) {
-    const url = 'https://videowithmyvet.com/webservices/video-consult-now.php?checkIsCall=1&practice_id=' + practice_id;
+    const url = Constant.rootUrl + 'webservices/video-consult-now.php?checkIsCall=1&practice_id=' + practice_id;
     fetch(url)
       .then((response) => response.json())
       .then((responseJson) => {
@@ -134,7 +135,7 @@ export default class DrawerScreen extends React.Component {
     } else {
       this.setState({ uid: false })
     }
-    //const url = 'https://videowithmyvet.com/webservices/practice-settings.php?practice_id=' + this.state.practice_id;
+    //const url = Constant.rootUrl + 'webservices/practice-settings.php?practice_id=' + this.state.practice_id;
     this.getvideoCall(this.state.practice_id);
 
   }

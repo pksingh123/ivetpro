@@ -21,7 +21,7 @@ import {
     Dimensions,
     PixelRatio,
 } from 'react-native';
-
+import Constant from './Constants';
 import AuthLoadingScreen from './AuthLoadingScreen';
 import DatePicker from 'react-native-datepicker';
 import RNPickerSelect from 'react-native-picker-select';
@@ -99,7 +99,7 @@ export default class AddFirstPetDetails extends Component {
         this.navigation;
     }
     componentWillMount() {
-        const url = 'https://videowithmyvet.com/webservices/species.php';
+        const url = Constant.rootUrl + 'webservices/species.php';
         fetch(url)
             .then((response) => response.json())
             .then((responseJson) => {
@@ -175,7 +175,7 @@ export default class AddFirstPetDetails extends Component {
         } else {
             this.setState({ isLoading: true });
 
-            RNFetchBlob.fetch('POST', 'https://videowithmyvet.com/webservices/add-pet.php', {
+            RNFetchBlob.fetch('POST', Constant.rootUrl + 'webservices/add-pet.php', {
                 'Content-Type': 'multipart/form-data',
             }, [
                 { name: 'image', filename: 'image.png', type: 'image/png', data: this.state.data },

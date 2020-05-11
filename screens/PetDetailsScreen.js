@@ -12,6 +12,7 @@ import {
   BackHandler,
   StatusBar
 } from 'react-native';
+import Constant from './Constants';
 import { FlatList } from 'react-native-gesture-handler';
 import { Icon, Avatar, Divider } from 'react-native-elements';
 import Icons from 'react-native-vector-icons/FontAwesome';

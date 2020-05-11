@@ -11,6 +11,7 @@ import {
     Modal,
     TouchableHighlight
 } from 'react-native';
+import Constant from './Constants';
 import DeviceInfo from 'react-native-device-info';
 import { WebView } from 'react-native-webview';
 import App from '../App';
@@ -98,7 +99,7 @@ export default class LandingScreen extends Component {
                         <Text style={styles.closeStyle}>X</Text>
                     </TouchableHighlight>
                     <WebView
-                        source={{ uri: 'https://videowithmyvet.com/how-it-works-2/' }}
+                        source={{ uri: Constant.rootUrl + 'how-it-works-2/' }}
                         style={{ marginTop: 20 }}
                     />
                 </Modal>

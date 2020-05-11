@@ -20,6 +20,7 @@ import {
     Dimensions,
     Modal
 } from 'react-native';
+import Constant from './Constants';
 import Autocomplete from 'react-native-autocomplete-input';
 
 export default class RegisterPractice extends Component {
@@ -57,7 +58,7 @@ export default class RegisterPractice extends Component {
 
     componentDidMount() {
 
-        const url = 'https://videowithmyvet.com/webservices/get-practice-code-list.php';
+        const url = Constant.rootUrl + 'webservices/get-practice-code-list.php';
         fetch(url)
             .then((response) => response.json())
             .then((responseJson) => {

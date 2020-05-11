@@ -14,6 +14,7 @@ import {
   FlatList,
   RefreshControl
 } from 'react-native';
+import Constant from './Constants';
 //import { FlatList } from 'react-native-gesture-handler';
 import { Icon, ListItem, Avatar, Divider, SearchBar } from 'react-native-elements';
 import Icons from 'react-native-vector-icons/FontAwesome';
@@ -138,7 +139,7 @@ export default class HomeScreen extends Component {
     }
 
 
-    const url = 'https://videowithmyvet.com/webservices/client-pet.php?action=alive&uid=' + this.state.uid;
+    const url = Constant.rootUrl + 'webservices/client-pet.php?action=alive&uid=' + this.state.uid;
 
     fetch(url)
       .then((response) => response.json())
@@ -255,13 +256,13 @@ export default class HomeScreen extends Component {
     })
     this.componentWillMount()
   }
-  _renderItem ({item, index}) {
-        return (
-            <View style={styles.slide}>
-                <Text style={styles.title}>{ item.name }</Text>
-            </View>
-        );
-    }
+  _renderItem({ item, index }) {
+    return (
+      <View style={styles.slide}>
+        <Text style={styles.title}>{item.name}</Text>
+      </View>
+    );
+  }
 
 
 
@@ -280,8 +281,8 @@ export default class HomeScreen extends Component {
     return (
 
       <SafeAreaView style={styles.container}>
-        
-        
+
+
         {/* <ScrollView refreshControl={
           <RefreshControl
             refreshing={this.state.refreshing}
@@ -291,8 +292,8 @@ export default class HomeScreen extends Component {
         }> */}
 
 
-       
-         {/*  <View>
+
+        {/*  <View>
             {
               this.state.GridViewItems.map((item, index) => (
                 <ListItem
@@ -307,21 +308,21 @@ export default class HomeScreen extends Component {
             }
           </View> */}
 
-        
- 
-         
-          
-       {/*  </ScrollView> */}
 
-     
-          <Carousel
-              ref={(c) => { this._carousel = c; }}
-              data={this.state.GridViewItems}
-              renderItem={this._renderItem}
-              sliderWidth={sliderWidth}
-              itemWidth={itemWidth}
-            />
- 
+
+
+
+        {/*  </ScrollView> */}
+
+
+        <Carousel
+          ref={(c) => { this._carousel = c; }}
+          data={this.state.GridViewItems}
+          renderItem={this._renderItem}
+          sliderWidth={sliderWidth}
+          itemWidth={itemWidth}
+        />
+
 
 
       </SafeAreaView>

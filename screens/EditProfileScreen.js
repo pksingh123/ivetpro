@@ -23,7 +23,7 @@ import {
     BackHandler,
     RefreshControl
 } from 'react-native';
-
+import Constant from './Constants';
 import AuthLoadingScreen from './AuthLoadingScreen';
 import DatePicker from 'react-native-datepicker';
 import RNPickerSelect from 'react-native-picker-select';
@@ -117,14 +117,14 @@ export default class EditProfileScreen extends Component {
 
 
     editProfile = () => {
-      // console.log("divide ", 1/0);
-      
+        // console.log("divide ", 1/0);
+
         if (this.state.name == '') {
             alert("Please fill all fields");
         } else {
             console.warn(this.state.setDate);
             this.setState({ isLoading: true })
-            RNFetchBlob.fetch('POST', 'https://videowithmyvet.com/webservices/edit-profile.php', {
+            RNFetchBlob.fetch('POST', Constant.rootUrl + 'webservices/edit-profile.php', {
                 'Content-Type': 'multipart/form-data',
             }, [
                 { name: 'image', filename: 'image.png', type: 'image/png', data: this.state.data },
@@ -158,8 +158,8 @@ export default class EditProfileScreen extends Component {
         this.componentDidMount()
     }
     async componentDidMount() {
-       // firebase.crashlytics().crash();
-       // Alert.show.componentDidMount
+        // firebase.crashlytics().crash();
+        // Alert.show.componentDidMount
         let savedValues = await AsyncStorage.getItem('userToken');
         savedValues = JSON.parse(savedValues);
         this.id = savedValues.user.uid;
@@ -172,7 +172,7 @@ export default class EditProfileScreen extends Component {
             userDetails = JSON.parse(userToken);
             // console.warn(userDetails.user.practice.practice_logo_url);
             this.setState({ uid: userDetails.user.uid });
-            const url = 'https://videowithmyvet.com/webservices/edit-profile.php';
+            const url = Constant.rootUrl + 'webservices/edit-profile.php';
 
             fetch(url, {
                 method: 'POST',

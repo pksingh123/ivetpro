@@ -8,8 +8,9 @@ import {
     TouchableHighlight,
     ScrollView
 } from 'react-native';
+import Constant from './Constants';
 import Stripe from 'react-native-stripe-api';
-const url = 'https://videowithmyvet.com/webservices/charge.php';
+const url = Constant.rootUrl + 'webservices/charge.php';
 
 export default class PaymentScreen extends Component {
 
@@ -23,7 +24,7 @@ export default class PaymentScreen extends Component {
             token: '',
             email: '',
             uid: '',
-            bookingId:'',
+            bookingId: '',
 
             canPay: false,
         }
@@ -167,7 +168,7 @@ const styles = StyleSheet.create({
         paddingHorizontal: 10,
         borderRadius: 10,
         borderColor: '#d2d4d6',
-        borderWidth:2
+        borderWidth: 2
     },
     buttoncontainer: {
         marginTop: 40,

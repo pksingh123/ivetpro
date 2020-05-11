@@ -8,7 +8,7 @@ import {
     Dimensions,
     Alert
 } from 'react-native';
-
+import Constant from './Constants';
 // Import the react-native-sound module
 var Sound = require('react-native-sound');
 // Enable playback in silence mode

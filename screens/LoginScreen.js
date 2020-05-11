@@ -11,6 +11,7 @@ import {
     Alert,
     Image
 } from 'react-native';
+import Constant from './Constants';
 import AnimateLoadingButton from 'react-native-animate-loading-button';
 import DeviceInfo from 'react-native-device-info';
 export default class LoginScreen extends Component {
@@ -49,7 +50,7 @@ export default class LoginScreen extends Component {
             alert('Please enter email and password!');
         } else {
             //this.loadingButton.showLoading(true);
-            const url = 'https://videowithmyvet.com/webservices/user-login.php';
+            const url = Constant.rootUrl + 'webservices/user-login.php';
             fetch(url,
                 {
                     method: 'POST',

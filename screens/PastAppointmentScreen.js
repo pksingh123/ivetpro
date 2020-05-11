@@ -6,6 +6,7 @@ import {
     Text,
     BackHandler
 } from 'react-native';
+import Constant from './Constants';
 import { FlatList } from 'react-native-gesture-handler';
 import { Icon, Avatar, Divider } from 'react-native-elements';
 import Icons from 'react-native-vector-icons/FontAwesome';
@@ -57,7 +58,7 @@ export default class PastAppointmentScreen extends Component {
     componentDidMount() {
         const item = this.props.navigation.state.params.item;
         this.setState({ petAliveStatus: item.status, name: item.name })
-        const url = 'https://videowithmyvet.com/webservices/booking-appointment.php?action=PastAppointment&patientId=' + item.id;
+        const url = Constant.rootUrl + 'webservices/booking-appointment.php?action=PastAppointment&patientId=' + item.id;
         fetch(url)
             .then((response) => response.json())
             .then((responseJson) => {

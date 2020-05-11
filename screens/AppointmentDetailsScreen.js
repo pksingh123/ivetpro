@@ -16,6 +16,7 @@ import {
     ScrollView,
     SafeAreaView
 } from 'react-native';
+import Constant from './Constants';
 import { FlatList } from 'react-native-gesture-handler';
 import { Icon, Avatar, Divider } from 'react-native-elements';
 import Icons from 'react-native-vector-icons/FontAwesome';
@@ -25,7 +26,7 @@ import { WebView } from 'react-native-webview';
 import { EventRegister } from 'react-native-event-listeners';
 import Stripe from 'react-native-stripe-api';
 import Dialog, { DialogTitle, DialogFooter, DialogButton, DialogContent } from 'react-native-popup-dialog';
-const paymentRequestUrl = 'https://videowithmyvet.com/webservices/stripe-pay.php';
+const paymentRequestUrl = Constant.rootUrl + 'webservices/stripe-pay.php';
 const DEVICE_WIDTH = Dimensions.get('window').width;
 
 export default class AppointmentDetailsScreen extends Component {
@@ -196,7 +197,7 @@ export default class AppointmentDetailsScreen extends Component {
         if (this.state.cancelreason == '') {
             alert("Please enter cancel reason details!");
         } else {
-            const url = "https://videowithmyvet.com/webservices/booking-appointment.php?action=AppointmentCancel";
+            const url = Constant.rootUrl + 'webservices/booking-appointment.php?action=AppointmentCancel';
             this.setState({ isLoading: true });
             fetch(url,
                 {
@@ -245,7 +246,7 @@ export default class AppointmentDetailsScreen extends Component {
 
     }
     _SiteAppointmentCancel = (item) => {
-        const url = "https://videowithmyvet.com/webservices/booking-appointment.php?action=AppointmentCancel";
+        const url = Constant.rootUrl + 'webservices/booking-appointment.php?action=AppointmentCancel';
         this.setState({ isLoading: true });
         fetch(url,
             {
@@ -300,7 +301,7 @@ export default class AppointmentDetailsScreen extends Component {
         if (this.state.refundreason == '') {
             alert("Please enter refund reason details!");
         } else {
-            const url = "https://videowithmyvet.com/webservices/booking-appointment.php?action=AppointmentRefundRequest";
+            const url = Constant.rootUrl + 'webservices/booking-appointment.php?action=AppointmentRefundRequest';
             this.setState({ isLoading: true });
             fetch(url,
                 {
@@ -358,7 +359,7 @@ export default class AppointmentDetailsScreen extends Component {
                 // userDetails.user.clientPhone
             });
         }
-        const url = 'https://videowithmyvet.com/webservices/booking-appointment.php?action=GetPubKey&practice_id=' + this.state.practice_id;
+        const url = Constant.rootUrl + 'webservices/booking-appointment.php?action=GetPubKey&practice_id=' + this.state.practice_id;
         fetch(url)
             .then((response) => response.json())
             .then((responseJson) => {

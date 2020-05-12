@@ -129,7 +129,7 @@ export default class AppointmentHistoryScreen extends Component {
                         GridViewItems: responseJson.data
                     })
                     this.arrayholder = responseJson.data;
-                    alert(responseJson.status);
+                    //alert(responseJson.status);
                 } else {
                     this.setState({
                         isLoading: false

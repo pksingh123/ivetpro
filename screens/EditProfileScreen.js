@@ -117,8 +117,8 @@ export default class EditProfileScreen extends Component {
 
 
     editProfile = () => {
-      // console.log("divide ", 1/0);
-      
+        // console.log("divide ", 1/0);
+
         if (this.state.name == '') {
             alert("Please fill all fields");
         } else {
@@ -135,7 +135,7 @@ export default class EditProfileScreen extends Component {
             ])
                 .then((response) => response.json())
                 .then((responseJson) => {
-                    console.warn(responseJson);
+                    //  console.log("upload edit profile ", responseJson);
                     if (responseJson.status === 'ok') {
                         this.setState({ isLoading: false })
                         alert(responseJson.success_msg);
@@ -158,8 +158,8 @@ export default class EditProfileScreen extends Component {
         this.componentDidMount()
     }
     async componentDidMount() {
-       // firebase.crashlytics().crash();
-       // Alert.show.componentDidMount
+        // firebase.crashlytics().crash();
+        // Alert.show.componentDidMount
         let savedValues = await AsyncStorage.getItem('userToken');
         savedValues = JSON.parse(savedValues);
         this.id = savedValues.user.uid;
@@ -186,7 +186,7 @@ export default class EditProfileScreen extends Component {
             })
                 .then((response) => response.json())
                 .then((responseJson) => {
-                    console.warn(responseJson);
+                    console.log("edit profile ", responseJson);
                     if (responseJson.status === 'ok') {
                         responseJson.user.profile_pic ?
                             source = { uri: responseJson.user.profile_pic }
@@ -237,6 +237,7 @@ export default class EditProfileScreen extends Component {
                         title="Loading..."
                     />
                 } style={styles.container}>
+                    <Text style={styles.textLable}>Email Id</Text>
                     <TextInput placeholder="Email"
                         underlineColorAndroid="transparent"
                         placeholderTextColor='#555'
@@ -244,6 +245,7 @@ export default class EditProfileScreen extends Component {
                         defaultValue={this.state.email}
                         editable={false}
                     />
+                    <Text style={styles.textLable}>First name</Text>
                     <TextInput placeholder="First Name"
                         underlineColorAndroid="transparent"
                         placeholderTextColor='#555'
@@ -252,6 +254,7 @@ export default class EditProfileScreen extends Component {
                         onChangeText={(firstname) => this.setState({ firstname })}
                         value={this.state.firstname}
                     />
+                    <Text style={styles.textLable}>Last name</Text>
                     <TextInput placeholder="Last Name"
                         underlineColorAndroid="transparent"
                         placeholderTextColor='#555'
@@ -298,6 +301,11 @@ const styles = StyleSheet.create({
         borderRadius: 0,
         borderColor: '#F6F6F6',
         borderWidth: 0
+    },
+    textLable: {
+        color: '#777777',
+        fontSize: 14,
+        padding: 5,
     },
     activityIndicator: {
         flex: 1,

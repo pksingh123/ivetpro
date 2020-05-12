@@ -152,6 +152,7 @@ export default class PetEditScreen extends Component {
         }
 
         const item = this.props.navigation.state.params.item;
+
         let source = '';
         item.id ?
             this.setState({
@@ -174,9 +175,9 @@ export default class PetEditScreen extends Component {
                 sex: item.sex
             })
             : null
-        item.currentWeight ?
+        item.CurrentWeight ?
             this.setState({
-                currentWeight: item.currentWeight
+                currentWeight: item.CurrentWeight
             })
             : null
         source ?
@@ -193,12 +194,15 @@ export default class PetEditScreen extends Component {
         item.breed ?
             this.setState({ breed: item.breed })
             : null
-        item.currentWeight ?
-            this.setState({ currentWeight: item.currentWeight })
+        item.CurrentWeight ?
+            this.setState({ currentWeight: item.CurrentWeight })
             : null
         item.practiceCode ?
             this.setState({ practiceCode: item.practiceCode })
             : null
+
+        //  console.log("weight ", this.state.currentWeight, item.CurrentWeight);
+        // alert("weight2 ", this.state.currentWeight, item.CurrentWeight);
 
     }
     UpdateName = (text) => {

@@ -180,7 +180,7 @@ export default class HomeScreen extends Component {
 
 
   exitFromApp = () => {
-
+    // this.props.navigation.popToTop();
     // Put your own code here, which you want to exexute on back button press.
     Alert.alert(
       ' Exit From App ',
@@ -539,9 +539,13 @@ export default class HomeScreen extends Component {
                   justifyContent: 'space-between'
                 }}>
                   <Text style={styles.headingstyle}>Past Appointments</Text>
-                  <TouchableOpacity onPress={() => this._PastAppointments(item)}>
-                    <Text style={styles.seeAllStyle}>See all</Text>
-                  </TouchableOpacity>
+                  {item.pastAppointment && item.pastAppointment.length ?
+                    <TouchableOpacity onPress={() => this._PastAppointments(item)}>
+                      <Text style={styles.seeAllStyle}>See all</Text>
+                    </TouchableOpacity>
+                    :
+                    null
+                  }
                 </View>
                 {
                   item.pastAppointment && item.pastAppointment.length ?
@@ -559,12 +563,13 @@ export default class HomeScreen extends Component {
     );
   }
   _petEdit = (item) => {
-    // alert();
+    //alert(item.CurrentWeight);
     this.props.navigation.navigate('routePetEdit', { item });
   }
   _bookAppointment = (item) => {
     console.warn(item)
     this.props.navigation.navigate('routeBookAppointment', { item });
+
   }
   _videoConsultation = (item) => {
 
@@ -576,6 +581,7 @@ export default class HomeScreen extends Component {
   }
   _PastAppointments = (item) => {
     this.props.navigation.navigate('routePastAppointment', { item });
+
   }
 
   render() {

@@ -28,7 +28,10 @@ import DatePicker from 'react-native-datepicker';
 import RNPickerSelect from 'react-native-picker-select';
 import ImagePicker from 'react-native-image-picker';
 import RNFetchBlob from 'rn-fetch-blob';
+import PracticeBarLogo from './PracticeBarLogo';
 import { HeaderBackButton } from 'react-navigation';
+import { Icon, ListItem, Avatar, Divider, SearchBar } from 'react-native-elements';
+import { DrawerActions } from 'react-navigation-drawer';
 import App from '../App'
 //import { OTSession, OTPublisher, OTSubscriber } from 'opentok-react-native';
 
@@ -67,11 +70,8 @@ export default class PetEditScreen extends Component {
                 />
             ), */
 
-            headerLeft: <HeaderBackButton onPress={() => navigation.navigate('Home', { item: navigation.state.params.item })} />,
+            headerLeft: <PracticeBarLogo />,
             headerTintColor: '#ffffff',
-            headerLeftContainerStyle: {
-                marginTop: StatusBar.currentHeight
-            },
             headerStyle: {
                 backgroundColor: '#26cccc',
                 color: '#fff',
@@ -82,6 +82,21 @@ export default class PetEditScreen extends Component {
                 textAlign: 'center',
                 marginTop: StatusBar.currentHeight
             },
+            headerLeftContainerStyle: {
+                marginTop: StatusBar.currentHeight
+            },
+            headerRightContainerStyle: {
+                marginTop: StatusBar.currentHeight
+            },
+            headerRight: (
+                <Icon
+                    name="menu"
+                    size={50}
+                    color='#fff'
+                    onPress={() => navigation.dispatch(DrawerActions.toggleDrawer())}
+                />
+            ),
+
         }
     };
     constructor(props) {
@@ -151,8 +166,11 @@ export default class PetEditScreen extends Component {
             this.setState({ uid: false })
         }
 
-        const item = this.props.navigation.state.params.item;
+        const item = this.props.navigation.getParam('item');
 
+        if (item == undefined) {
+            return;
+        }
         let source = '';
         item.id ?
             this.setState({

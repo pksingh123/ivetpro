@@ -73,6 +73,7 @@ export default class BookAppointmentScreen extends Component {
             return {
                 headerTitle: 'Book Appointment',
                 headerLeft: <HeaderBackButton onPress={() => navigation.push('Home')} />,
+                // headerLeft: <PracticeBarLogo />,
                 headerTintColor: '#ffffff',
                 headerStyle: {
                     backgroundColor: '#26cccc',
@@ -90,6 +91,14 @@ export default class BookAppointmentScreen extends Component {
                 headerRightContainerStyle: {
                     marginTop: StatusBar.currentHeight
                 },
+                headerRight: (
+                    <Icon
+                        name="menu"
+                        size={50}
+                        color='#fff'
+                        onPress={() => navigation.dispatch(DrawerActions.toggleDrawer())}
+                    />
+                ),
 
                 //headerLeft: <HeaderBackButton onPress={() => navigation.navigate('routePetDetails', { item: navigation.state.params.item })} />,
 

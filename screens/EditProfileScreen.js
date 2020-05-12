@@ -29,6 +29,7 @@ import DatePicker from 'react-native-datepicker';
 import RNPickerSelect from 'react-native-picker-select';
 import ImagePicker from 'react-native-image-picker';
 import RNFetchBlob from 'rn-fetch-blob';
+import PracticeBarLogo from './PracticeBarLogo';
 import { HeaderBackButton } from 'react-navigation';
 import { DrawerActions } from 'react-navigation-drawer';
 import { Icon, ListItem, SearchBar } from 'react-native-elements';
@@ -39,7 +40,7 @@ export default class EditProfileScreen extends Component {
     static navigationOptions = ({ navigation }) => {
         return {
             headerTitle: 'Edit Profile',
-            headerLeft: <HeaderBackButton onPress={() => navigation.push('Home')} />,
+            headerLeft: <PracticeBarLogo />,
             headerTintColor: '#ffffff',
             headerStyle: {
                 backgroundColor: '#26cccc',
@@ -217,7 +218,7 @@ export default class EditProfileScreen extends Component {
     }
 
     render() {
-        console.warn(this.state.uid)
+        console.warn(this.state.uid);
         if (this.state.isLoading) {
             return (
                 <View style={{ flex: 1, padding: 20 }}>

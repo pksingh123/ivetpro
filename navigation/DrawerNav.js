@@ -85,10 +85,10 @@ const PetDetails = createStackNavigator({
 const PetEdit = createStackNavigator({
   PetEdit: {
     screen: PetEditScreen,
-    /* navigationOptions: {
-      headerTitle: 'Edit Pet',
-      headerTitleStyle: { flex: 1, textAlign: 'center'},
-    } */
+    // navigationOptions: {
+    //   headerTitle: 'Edit Pet',
+    //   headerTitleStyle: { flex: 1, textAlign: 'center' },
+    // }
   }
 })
 const Appointment = createStackNavigator({
@@ -158,7 +158,7 @@ export default DrawerNav = createDrawerNavigator(
     AppointmentHistory: AppointmentHistory,
     VideoConsultNow: VideoConsultNow,
     EditProfile: EditProfile,
-
+    PetEdit: PetEdit,
   },
   {
     // hideStatusBar: true,

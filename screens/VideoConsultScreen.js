@@ -23,6 +23,7 @@ import {
     TwilioVideo
 } from 'react-native-twilio-video-webrtc';
 import { HeaderBackButton, NavigationEvents } from 'react-navigation';
+import PracticeBarLogo from './PracticeBarLogo';
 import { DrawerActions } from 'react-navigation-drawer';
 import { Icon, ListItem, SearchBar } from 'react-native-elements';
 import Icons from 'react-native-vector-icons/FontAwesome';
@@ -58,7 +59,7 @@ export default class VideoConsultScreen extends Component {
     static navigationOptions = ({ navigation }) => {
         return {
             headerTitle: 'Video Call Started',
-            headerLeft: <HeaderBackButton onPress={() => navigation.navigate('Home')} />,
+            headerLeft: <PracticeBarLogo />,
             headerLeftContainerStyle: {
                 marginTop: StatusBar.currentHeight
             },

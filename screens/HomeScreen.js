@@ -182,15 +182,16 @@ export default class HomeScreen extends Component {
   exitFromApp = () => {
     // this.props.navigation.popToTop();
     // Put your own code here, which you want to exexute on back button press.
-    Alert.alert(
-      ' Exit From App ',
-      ' Do you want to exit From App ?',
-      [
-        { text: 'Yes', onPress: () => BackHandler.exitApp() },
-        { text: 'No', onPress: () => console.log('NO Pressed') }
-      ],
-      { cancelable: false },
-    );
+    this.props.navigation.navigate('Home');
+    // Alert.alert(
+    //   ' Exit From App ',
+    //   ' Do you want to exit From App ?',
+    //   [
+    //     { text: 'Yes', onPress: () => BackHandler.exitApp() },
+    //     { text: 'No', onPress: () => console.log('NO Pressed') }
+    //   ],
+    //   { cancelable: false },
+    // );
     // Return true to enable back button over ride.
     return true;
   }
@@ -564,11 +565,13 @@ export default class HomeScreen extends Component {
   }
   _petEdit = (item) => {
     //alert(item.CurrentWeight);
-    this.props.navigation.navigate('routePetEdit', { item });
+    this.props.navigation.navigate('routePetEdit', { item });// stack navigation 
+    //this.props.navigation.navigate('PetEdit', { item }); // drawer navigation
   }
   _bookAppointment = (item) => {
     console.warn(item)
     this.props.navigation.navigate('routeBookAppointment', { item });
+    //this.props.navigation.navigate('Appointment', { item });
 
   }
   _videoConsultation = (item) => {

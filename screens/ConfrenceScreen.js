@@ -71,7 +71,11 @@ export default class ConfrenceScreen extends Component {
       token: '',
       trackSid: '',
       isParticipant: false,
-      isLoading: true
+      isLoading: true,
+      petId: '',
+      userId: '',
+      practice_id: '',
+      bookingId: '',
     }
     this._goBack = this._goBack.bind(this);
   }
@@ -89,13 +93,21 @@ export default class ConfrenceScreen extends Component {
   }
 
   async componentWillMount() {
-
+    const { params } = this.props.navigation.state;
+    const petDetails = params ? params.item : null;
+    console.log("conference screen1 ", petDetails);
+    if (petDetails != null) {
+      let bookingId = petDetails.bookingId ? petDetails.bookingId : petDetails.nextAppointment.bookingId;
+      let petId = petDetails.id ? petDetails.id : petDetails.patientId;
+      this.setState({ petId: petId, bookingId: bookingId });
+    }
     this.props.navigation.setParams({ logout: this._signOutAsync });
     const userToken = await AsyncStorage.getItem('userToken');
     if (userToken) {
       userDetails = JSON.parse(userToken);
       // console.warn(userDetails);
       this.setState({ uid: userDetails.user.uid, roomName: userDetails.user.email });
+      this.setState({ userId: userDetails.user.uid, practice_id: userDetails.user.practice.practice_id });
     } else {
       this.setState({ uid: false })
     }
@@ -115,6 +127,43 @@ export default class ConfrenceScreen extends Component {
       })
       .catch((error) => {
         alert('Somthing went wrong!');
+        console.warn(error);
+      })
+    this._webNotification();
+  }
+  _webNotification = () => {
+
+    const url = Constant.rootUrl + 'webservices/mobile-to-web-notification.php';
+    console.log("conference screen ", this.state.userId, this.state.practice_id, this.state.bookingId, this.state.petId, this.state.roomName)
+    fetch(url,
+      {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          'uid': this.state.userId,
+          'practice_id': this.state.practice_id,
+          'notificationType': 'withAppointment',
+          'bookingId': this.state.bookingId,
+          'petId': this.state.petId,
+          'room': this.state.roomName,
+
+        }),
+      })
+      .then((response) => response.json())
+      .then((responseJson) => {
+        console.warn("web notification api ", responseJson);
+        if (responseJson.status === 'ok') {
+
+
+        } else if (responseJson.error) {
+
+        }
+
+      })
+      .catch((error) => {
+        // alert('Something went wrong!');
         console.warn(error);
       })
   }

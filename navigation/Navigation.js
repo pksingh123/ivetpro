@@ -89,7 +89,7 @@ const PetEdit = createStackNavigator({
   routePetEdit: PetEditScreen
 });
 const Confrence = createStackNavigator({
-  Confrence: ConfrenceScreen
+  routeConfrence: ConfrenceScreen
 });
 
 const Payment = createStackNavigator({
@@ -106,7 +106,7 @@ const SwitchNavigator = createSwitchNavigator(
     Link: AppStack,
     PetEdit2: PetEdit,
     PetDetails2: PetDetails,
-    routeConfrence: Confrence,
+    routeConfrence1: Confrence,
     routePayment: Payment,
     AppointmentDetails2: AppointmentDetails,
     BookAppointment3: BookAppointment2,

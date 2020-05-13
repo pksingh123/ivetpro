@@ -509,7 +509,7 @@ export default class HomeScreen extends Component {
                     <Text style={styles.itemStyle}>{this.state.practice_name}</Text>
                     {item.nextAppointment.paid == 1 && this.state.prevent_phone_app_calling_agent == 0 ?
                       <View style={styles.buttoncontainer}>
-                        <TouchableOpacity onPress={() => this._videoConsultation(item.nextAppointment)} style={styles.button}>
+                        <TouchableOpacity onPress={() => this._videoConsultation(item)} style={styles.button}>
                           <Text style={styles.textcolor}>Video Consultation </Text>
                         </TouchableOpacity>
                       </View>
@@ -571,11 +571,11 @@ export default class HomeScreen extends Component {
   _bookAppointment = (item) => {
     console.warn(item)
     this.props.navigation.navigate('routeBookAppointment', { item });
-    //this.props.navigation.navigate('Appointment', { item });
+    // this.props.navigation.navigate('Appointment', { item });
 
   }
   _videoConsultation = (item) => {
-
+    console.warn(item)
     this.props.navigation.navigate('routeConfrence', { item });
   }
   _FutureAppointments = (item) => {

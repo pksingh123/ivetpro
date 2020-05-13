@@ -37,7 +37,7 @@ export default class BookAppointmentScreen extends Component {
     static navigationOptions = ({ navigation }) => {
         navOptions = navigation;
         const { params = {} } = navigation.state;
-        console.warn('okkay ' + navigation.getParam('item'));
+        console.log('okkay ' + navigation.getParam('item'));
         if (navigation.getParam('item') === undefined) {
             return {
                 headerTitle: 'Book Appointment',

@@ -182,6 +182,7 @@ export default class VideoConsultScreen extends Component {
 
     }
     _onConnectButtonPress = () => {
+        this._webNotification();
         this.setState({ isLoading: true })
         const url = Constant.rootUrl + 'webservices/video-consult-now.php?userId=' + this.state.uid + '&practice_id=' + this.state.practice_id;
         fetch(url)
@@ -219,6 +220,42 @@ export default class VideoConsultScreen extends Component {
             })
         //this.refs.twilioVideo.connect({ roomName: this.state.roomName, accessToken: this.state.token })
         this.setState({ status: 'connecting' })
+    }
+    _webNotification = () => {
+
+        const url = Constant.rootUrl + 'webservices/mobile-to-web-notification.php';
+        // this.setState({ isLoading: true });
+        fetch(url,
+            {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    'uid': this.state.uid,
+                    'practice_id': this.state.practice_id,
+                    'notificationType': 'withOutAppointment',
+                    // 'bookingId': this.state.cancelreason,
+                    //'petId': this.state.cancelreason,
+                    'room': this.state.roomName,
+
+                }),
+            })
+            .then((response) => response.json())
+            .then((responseJson) => {
+                console.warn("web notification api ", responseJson);
+                if (responseJson.status === 'ok') {
+
+
+                } else if (responseJson.error) {
+
+                }
+
+            })
+            .catch((error) => {
+                // alert('Something went wrong!');
+                console.warn(error);
+            })
     }
 
     _onEndButtonPress = () => {

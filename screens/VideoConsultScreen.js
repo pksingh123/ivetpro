@@ -183,6 +183,7 @@ export default class VideoConsultScreen extends Component {
     }
     _onConnectButtonPress = () => {
         this._webNotification();
+        console.log("start now ", this.state.uid, this.state.practice_id);
         this.setState({ isLoading: true })
         const url = Constant.rootUrl + 'webservices/video-consult-now.php?userId=' + this.state.uid + '&practice_id=' + this.state.practice_id;
         fetch(url)

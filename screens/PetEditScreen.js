@@ -101,6 +101,7 @@ export default class PetEditScreen extends Component {
     };
     constructor(props) {
         super(props)
+
         this.state = {
             ImageSource: null,
             Image_TAG: '',
@@ -126,7 +127,8 @@ export default class PetEditScreen extends Component {
         this.sessionId = '1_MX40NjE2OTgzMn5-MTU2MTk4ODUwMzcwOX5SdFhIQ002WGtvWXZwdEVqUWJBbDIzYmN-fg';
         this.token = 'T1==cGFydG5lcl9pZD00NjE2OTgzMiZzaWc9ZjRmNDk0N2I1ZTg3YTRkMTUyZWEyY2Y2MzUyYzI1ZTMxNzIxN2EyZjpzZXNzaW9uX2lkPTFfTVg0ME5qRTJPVGd6TW41LU1UVTJNVGs0T0RVd016Y3dPWDVTZEZoSVEwMDJXR3R2V1had2RFVnFVV0pCYkRJelltTi1mZyZjcmVhdGVfdGltZT0xNTYxOTg4NTQyJm5vbmNlPTAuNzM2Mjg5MzU3ODg0MDcwNiZyb2xlPXN1YnNjcmliZXImZXhwaXJlX3RpbWU9MTU2MTk5MjE0MCZpbml0aWFsX2xheW91dF9jbGFzc19saXN0PQ==';
     }
-    componentWillMount() {
+    async componentWillMount() {
+
         BackHandler.addEventListener('hardwareBackPress', this._goBack);
         const url = Constant.rootUrl + 'webservices/species.php';
         fetch(url)
@@ -166,11 +168,15 @@ export default class PetEditScreen extends Component {
             this.setState({ uid: false })
         }
 
-        const item = this.props.navigation.getParam('item');
+        // const petEditData = await AsyncStorage.getItem('petEditData');
+        //console.log("pet edit screen ", petEditData);
 
-        if (item == undefined) {
+        const item = this.props.navigation.getParam('item');
+        //  const item = JSON.parse(petEditData);
+        if (item) {
             return;
         }
+
         let source = '';
         item.id ?
             this.setState({
@@ -328,6 +334,7 @@ export default class PetEditScreen extends Component {
             color: '#9EA0A4',
         };
         const { navigate } = this.props.navigation;
+
         const item = this.props.navigation.state.params.item;
 
         var showDatePicker = this.state.showDatePicker ?

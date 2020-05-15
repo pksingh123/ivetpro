@@ -82,8 +82,10 @@ const PetDetails = createStackNavigator({
     }
   }
 })
+
 const PetEdit = createStackNavigator({
   PetEdit: {
+
     screen: PetEditScreen,
     // navigationOptions: {
     //   headerTitle: 'Edit Pet',

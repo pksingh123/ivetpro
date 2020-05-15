@@ -563,10 +563,14 @@ export default class HomeScreen extends Component {
       </ScrollView>
     );
   }
-  _petEdit = (item) => {
+  _petEdit = async (item) => {
     //alert(item.CurrentWeight);
+
+    // let petEditData = JSON.stringify(item);
+    // await AsyncStorage.setItem('petEditData', petEditData);
+    // console.log("pet edit screen 1 ", petEditData);
     this.props.navigation.navigate('routePetEdit', { item });// stack navigation 
-    //this.props.navigation.navigate('PetEdit', { item }); // drawer navigation
+    // this.props.navigation.navigate('PetEdit'); // drawer navigation
   }
   _bookAppointment = (item) => {
     console.warn(item)

@@ -22,9 +22,10 @@ import { HeaderBackButton } from 'react-navigation';
 import { WebView } from 'react-native-webview';
 import Stripe from 'react-native-stripe-api';
 import Dialog, { DialogTitle, DialogFooter, DialogButton, DialogContent } from 'react-native-popup-dialog';
+import Constant from './Constants';
 const paymentRequestUrl = Constant.rootUrl + 'webservices/stripe-pay.php';
 const DEVICE_WIDTH = Dimensions.get('window').width;
-import Constant from './Constants';
+
 export default class AppointmentDetailsScreen extends Component {
 
     static navigationOptions = ({ navigation }) => {

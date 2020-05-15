@@ -134,7 +134,7 @@ export default class ConfrenceScreen extends Component {
   _webNotification = () => {
 
     const url = Constant.rootUrl + 'webservices/mobile-to-web-notification.php';
-    console.log("conference screen ", this.state.userId, this.state.practice_id, this.state.bookingId, this.state.petId, this.state.roomName)
+    console.log("conference screen ", this.state.userId, this.state.practice_id, this.state.bookingId, this.state.petId, this.state.roomName);
     fetch(url,
       {
         method: 'POST',

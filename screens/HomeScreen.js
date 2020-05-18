@@ -566,11 +566,12 @@ export default class HomeScreen extends Component {
   _petEdit = async (item) => {
     //alert(item.CurrentWeight);
 
-    // let petEditData = JSON.stringify(item);
-    // await AsyncStorage.setItem('petEditData', petEditData);
+    let petEditData = JSON.stringify(item);
+    await AsyncStorage.removeItem('petEditData');
+    await AsyncStorage.setItem('petEditData', petEditData);
     // console.log("pet edit screen 1 ", petEditData);
-    this.props.navigation.navigate('routePetEdit', { item });// stack navigation 
-    // this.props.navigation.navigate('PetEdit'); // drawer navigation
+    //this.props.navigation.navigate('routePetEdit', { item });// stack navigation 
+    this.props.navigation.navigate('PetEdit'); // drawer navigation
   }
   _bookAppointment = (item) => {
     console.warn(item)

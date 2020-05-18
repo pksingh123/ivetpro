@@ -139,8 +139,10 @@ export default class PetEditScreen extends Component {
                 }
             })
     }
-    componentWillUnmount() {
+    async componentWillUnmount() {
+        await AsyncStorage.removeItem('petEditData');
         BackHandler.removeEventListener('hardwareBackPress', this._goBack);
+        this.focusListener.remove()
     }
     _goBack() {
         // this.props.navigation.goBack();
@@ -151,8 +153,19 @@ export default class PetEditScreen extends Component {
         console.warn(this.state.setDate);
         this.setState({ chosenDate: newDate });
     }
+    onFocusFunction = async () => {
+        this.setData();
+    }
     async componentDidMount() {
 
+        this.focusListener = this.props.navigation.addListener('didFocus', () => {
+            this.onFocusFunction()
+        })
+
+        this.setData();
+    }
+
+    async setData() {
         let savedValues = await AsyncStorage.getItem('userToken');
         savedValues = JSON.parse(savedValues);
         this.id = savedValues.user.uid;
@@ -168,14 +181,16 @@ export default class PetEditScreen extends Component {
             this.setState({ uid: false })
         }
 
-        // const petEditData = await AsyncStorage.getItem('petEditData');
-        //console.log("pet edit screen ", petEditData);
+        const petEditData = await AsyncStorage.getItem('petEditData');
+        console.log("pet edit screen ", petEditData);
+        let item;
+        if (petEditData) {
+            item = JSON.parse(petEditData);
 
-        const item = this.props.navigation.getParam('item');
-        //  const item = JSON.parse(petEditData);
-        if (item) {
-            return;
         }
+        //  const item1 = this.props.navigation.state.params.item;
+        // const item = this.props.navigation.getParam('item');
+        console.log("pet edit screen ", item);
 
         let source = '';
         item.id ?
@@ -225,9 +240,8 @@ export default class PetEditScreen extends Component {
             this.setState({ practiceCode: item.practiceCode })
             : null
 
-        //  console.log("weight ", this.state.currentWeight, item.CurrentWeight);
+        console.log("weight ", this.state.currentWeight, item.CurrentWeight, this.state.name);
         // alert("weight2 ", this.state.currentWeight, item.CurrentWeight);
-
     }
     UpdateName = (text) => {
         this.setState({ name: text })
@@ -333,9 +347,9 @@ export default class PetEditScreen extends Component {
             value: null,
             color: '#9EA0A4',
         };
-        const { navigate } = this.props.navigation;
+        //  const { navigate } = this.props.navigation;
 
-        const item = this.props.navigation.state.params.item;
+        // const item = this.props.navigation.state.params.item;
 
         var showDatePicker = this.state.showDatePicker ?
             <DatePickerIOS
@@ -356,7 +370,7 @@ export default class PetEditScreen extends Component {
                         underlineColorAndroid="transparent"
                         placeholderTextColor='#555'
                         style={styles.input}
-                        defaultValue={item.name}
+                        defaultValue={this.state.name}
                         onChangeText={this.UpdateName}
                     />
                     {/* <TextInput placeholder="Species"
@@ -383,7 +397,7 @@ export default class PetEditScreen extends Component {
                         underlineColorAndroid="transparent"
                         placeholderTextColor='#555'
                         style={styles.input}
-                        defaultValue={item.breed}
+                        defaultValue={this.state.breed}
                         onChangeText={this.UpdateBreed}
                         onChangeText={this.UpdateBreed}
                     />
@@ -430,7 +444,7 @@ export default class PetEditScreen extends Component {
                         placeholderTextColor='#555'
                         ref={(input) => this.passwordInput = input}
                         style={styles.input}
-                        defaultValue={item.CurrentWeight}
+                        defaultValue={this.state.currentWeight}
                         onChangeText={this.UpdateCurrentWeight}
                     />
                     {/* <TextInput placeholder="Practice Code"

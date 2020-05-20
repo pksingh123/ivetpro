@@ -144,7 +144,7 @@ export default class AppointmentListScreen extends Component {
                 }
             })
             .catch((error) => {
-                alert('Something went wrong!');
+                // alert('Something went wrong!');
                 console.warn(error);
             })
     }

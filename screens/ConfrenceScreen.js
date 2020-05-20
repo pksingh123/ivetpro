@@ -96,7 +96,7 @@ export default class ConfrenceScreen extends Component {
     const { params } = this.props.navigation.state;
     const petDetails = params ? params.item : null;
     console.log("conference screen1 ", petDetails);
-    if (petDetails != null) {
+    if (petDetails != null && petDetails._body == null) {
       let bookingId = petDetails.bookingId ? petDetails.bookingId : petDetails.nextAppointment.bookingId;
       let petId = petDetails.id ? petDetails.id : petDetails.patientId;
       this.setState({ petId: petId, bookingId: bookingId });
@@ -126,10 +126,13 @@ export default class ConfrenceScreen extends Component {
 
       })
       .catch((error) => {
-        alert('Somthing went wrong!');
+        // alert('Somthing went wrong!');
         console.warn(error);
       })
-    this._webNotification();
+    if (petDetails != null && petDetails._body == null) {
+      this._webNotification();
+    }
+
   }
   _webNotification = () => {
 

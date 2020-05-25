@@ -28,6 +28,7 @@ export default class CallScreen extends Component {
                 return;
             }
         });
+        this.whoosh.setNumberOfLoops(-1);
 
         this.state = {
             modalVisible: false,
@@ -47,6 +48,7 @@ export default class CallScreen extends Component {
 
     playRing() {
         this.whoosh.reset;
+        this.whoosh.setNumberOfLoops(-1);
         this.whoosh.play((success) => {
             // alert(success)
             if (success) {

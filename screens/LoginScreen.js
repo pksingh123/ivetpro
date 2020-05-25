@@ -170,6 +170,7 @@ export default class LoginScreen extends Component {
         const value = JSON.stringify(json);
         // console.log(json);
         await AsyncStorage.setItem('isLoginExpire', "NO");
+        await AsyncStorage.setItem('justLoggedIn', "Yes");
         await AsyncStorage.setItem('userToken', value);
         await AsyncStorage.setItem('temporary_passwrod', json.user.temporary_passwrod);
         this.setState({ isLoading: false });
@@ -182,7 +183,7 @@ export default class LoginScreen extends Component {
         }
         else {
 
-            this.props.navigation.navigate('App');
+            this.props.navigation.navigate('App', 'fromLogin');
         }
         //this.props.navigation.navigate('AddFirstPet');
 

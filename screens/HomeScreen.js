@@ -257,6 +257,7 @@ export default class HomeScreen extends Component {
       .catch(err => {
         console.log("error occurred", err);
       });
+
   }
   constructor(props) {
     super(props);
@@ -329,6 +330,7 @@ export default class HomeScreen extends Component {
     this.focusListener.remove()
   }
   async setHomeScreenData() {
+    console.log("justLoggedIn", " justLoggedIn 1");
     const userToken = await AsyncStorage.getItem('userToken');
     const temporary_passwrod = await AsyncStorage.getItem('temporary_passwrod');
 
@@ -337,6 +339,8 @@ export default class HomeScreen extends Component {
     this.id = savedValues.user.uid;
     //console.log("fetUserData saved data", savedValues, this.id);
     new App().fetUserData(this.id);
+
+
 
     // this.id = savedValues.user.uid;
 
@@ -388,6 +392,12 @@ export default class HomeScreen extends Component {
         })
 
     }
+
+    let loggendIn = await AsyncStorage.getItem('justLoggedIn');
+    if (loggendIn == 'Yes') {//open menu
+      this.props.navigation.dispatch(DrawerActions.toggleDrawer());
+    }
+    await AsyncStorage.setItem('justLoggedIn', 'No');
   }
   async componentWillMount() {
     this.props.navigation.setParams({ logout: this._signOutAsync });
@@ -405,6 +415,37 @@ export default class HomeScreen extends Component {
       this.setState({ buttonText: 'Hide Deceased Pet' });
     }
   };
+  _rightArrowClick = (index) => {
+
+    let cIndex = index + 1;
+
+    // alert("right arrow clicked" + cIndex + this._carousel);
+    var slider = this._carousel;
+    setTimeout(() => {
+      console.log("slider " + slider);
+      slider.snapToNext()
+
+    }, 250)
+    //this._carousel.snapToItem(cIndex);
+
+  }
+  _leftArrowClick = (index) => {
+
+    let cIndex = index - 1;
+    // alert("left arrow clicked" + cIndex + this._carousel);
+    // this._carousel.snapToItem(cIndex);
+    var slider = this._carousel;
+    console.log("slider 1 " + slider);
+    setTimeout(() => {
+      console.log("slider " + slider);
+      slider.snapToPrev()
+
+    }, 250)
+
+  }
+  _carousalSlideNO = ({ item }) => {
+    //alert("value "+ this._carousel.currentIndex);
+  }
 
   getButtonText() {
     return this.state.showDeceasedPets ? 'Hide Deceased Pet' : 'Show Deceased Pet';
@@ -454,31 +495,32 @@ export default class HomeScreen extends Component {
                 marginTop: 20,
                 justifyContent: 'space-between'
               }}>
-                <Image
-                  style={styles.logoStyle}
-                  source={require('./images/arrow.png')}
-                  resizeMethod="auto"
-                />
-                <Image
-                  style={styles.logoStyleRight}
-                  source={require('./images/arrow-right.png')}
-                  resizeMethod="auto"
-                />
+                <TouchableOpacity onPress={() => this._leftArrowClick(index)} >
+                  <Image
+                    style={styles.logoStyle}
+                    source={require('./images/right-pet-arrow.png')}
+                    resizeMethod="auto"
+                  />
+                </TouchableOpacity>
+                <TouchableOpacity onPress={() => this._rightArrowClick(index)} >
+                  <Image
+
+                    style={styles.logoStyleRight}
+                    source={require('./images/left-pet-arrow.png')}
+                    resizeMethod="auto"
+                  />
+                </TouchableOpacity>
               </View>
 
               <View style={styles.bgDetails}>
-                <Text style={styles.bgNameStyle}>{item.name}</Text>
+                <Text numberOfLines={1} style={styles.bgNameStyle}
+                >{item.name}</Text>
                 {/*<Text style={styles.bgTextStyle}>{item.speciesName}</Text>
                 <Text style={styles.bgTextStyle}>{item.breed}</Text>*/}
 
                 <Text style={styles.bgTextStyle}>{item.sex}</Text>
                 <Text style={styles.bgTextStyle}>{item.CurrentWeight}kg</Text>
-                <View style={{
-                  flex: 1,
-                  paddingBottom: 10,
-                  flexDirection: 'row',
-                  justifyContent: 'space-between'
-                }}>
+                <View style={styles.bgTextStyle}>
                   <Text style={styles.bgTextStyle}>DOB: {item.dob}</Text>
 
                 </View>
@@ -617,6 +659,8 @@ export default class HomeScreen extends Component {
         slideStyle={{ width: viewportWidth }}
         inactiveSlideOpacity={1}
         inactiveSlideScale={1}
+        activeSlideOffset={2}
+        onSnapToItem={this._carousalSlideNO}
       />
 
       //</SafeAreaView>
@@ -659,17 +703,21 @@ const styles = StyleSheet.create({
   bgDetails: {
     flex: 1,
     justifyContent: 'center',
-    paddingHorizontal: 60,
-    paddingTop: 60
+    paddingLeft: 20,
+    marginTop: 5,
+    backgroundColor: '#E5E5E570',
+    width: '50%',
+    borderBottomRightRadius: 10,
+    borderTopRightRadius: 10,
+
   },
   bgNameStyle: {
-    color: '#ffffff',
-    fontSize: 30,
-    paddingTop: 10,
+    color: '#000',
+    fontSize: 20,
     fontWeight: 'bold'
   },
   bgTextStyle: {
-    color: '#ffffff',
+    color: '#000',
     fontSize: 20,
     marginTop: 1,
     marginBottom: 1
@@ -688,14 +736,13 @@ const styles = StyleSheet.create({
     height: 80
   },
   logoStyle: {
-    width: '20%',
-    width: 25,
-    height: 25,
+    // width: '20%',
+    width: 50,
+    height: 50,
   },
   logoStyleRight: {
-    width: '20%',
-    width: 25,
-    height: 25,
+    width: 50,
+    height: 50,
   },
   logo: {
     width: 40,

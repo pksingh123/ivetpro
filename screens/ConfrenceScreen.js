@@ -55,6 +55,7 @@ export default class ConfrenceScreen extends Component {
       headerLeftContainerStyle: {
         marginTop: StatusBar.currentHeight
       },
+
     }
   }
   constructor(props) {
@@ -95,7 +96,7 @@ export default class ConfrenceScreen extends Component {
   async componentWillMount() {
     const { params } = this.props.navigation.state;
     const petDetails = params ? params.item : null;
-    console.log("conference screen1 ", petDetails);
+    //console.log("conference screen1 ", petDetails);
     if (petDetails != null && petDetails._body == null) {
       let bookingId = petDetails.bookingId ? petDetails.bookingId : petDetails.nextAppointment.bookingId;
       let petId = petDetails.id ? petDetails.id : petDetails.patientId;
@@ -137,7 +138,7 @@ export default class ConfrenceScreen extends Component {
   _webNotification = () => {
 
     const url = Constant.rootUrl + 'webservices/mobile-to-web-notification.php';
-    console.log("conference screen ", this.state.userId, this.state.practice_id, this.state.bookingId, this.state.petId, this.state.roomName);
+    // console.log("conference screen ", this.state.userId, this.state.practice_id, this.state.bookingId, this.state.petId, this.state.roomName);
     fetch(url,
       {
         method: 'POST',
@@ -245,11 +246,24 @@ export default class ConfrenceScreen extends Component {
       : null
     if (this.state.isLoading) {
       return (
-        <View style={{ flex: 1, padding: 20 }}>
-          <ActivityIndicator
+        <View elevation={5} style={{
+          flex: 1,
+          justifyContent: 'center',
+          alignItems: 'center',
+
+        }}>
+          {/* <ActivityIndicator
             color='#2ba9bc'
             size="large"
-            style={styles.activityIndicator} />
+            style={styles.activityIndicator} /> */}
+          <Image
+            style={{
+              height: 80,
+              width: 80,
+            }}
+            source={require('./images/loader.gif')}
+            resizeMethod="auto"
+          />
         </View>
       )
     }

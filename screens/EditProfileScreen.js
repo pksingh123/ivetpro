@@ -79,7 +79,9 @@ export default class EditProfileScreen extends Component {
             uid: false,
             ImageSource: null,
             isLoading: true,
-            refreshing: false
+            refreshing: false,
+            phoneNumber: '',
+            practice_name: '',
         }
 
 
@@ -132,11 +134,12 @@ export default class EditProfileScreen extends Component {
                 { name: 'firstname', data: this.state.firstname },
                 { name: 'lastname', data: this.state.lastname },
                 { name: 'uid', data: this.state.uid },
+                { name: 'phone_number', data: this.state.phoneNumber },
                 { name: 'action', data: 'edit' }
             ])
                 .then((response) => response.json())
                 .then((responseJson) => {
-                    //  console.log("upload edit profile ", responseJson);
+                    console.log("upload edit profile ", responseJson);
                     if (responseJson.status === 'ok') {
                         this.setState({ isLoading: false })
                         alert(responseJson.success_msg);
@@ -196,6 +199,8 @@ export default class EditProfileScreen extends Component {
                             firstname: responseJson.user.firstname,
                             lastname: responseJson.user.lastname,
                             email: responseJson.user.email,
+                            phoneNumber: responseJson.user.phone_number,
+                            practice_name: responseJson.user.practice_name,
                             ImageSource: source,
                             isLoading: false,
                             refreshing: false
@@ -246,6 +251,17 @@ export default class EditProfileScreen extends Component {
                         defaultValue={this.state.email}
                         editable={false}
                     />
+                    <Text style={styles.textLable}>Practice name</Text>
+                    <TextInput placeholder=" Practice name"
+                        underlineColorAndroid="transparent"
+                        placeholderTextColor='#555'
+                        style={styles.input}
+                        defaultValue={this.state.practice_name}
+                        onChangeText={(practice_name) => this.setState({ practice_name })}
+                        value={this.state.practice_name}
+                        editable={false}
+                    />
+
                     <Text style={styles.textLable}>First name</Text>
                     <TextInput placeholder="First Name"
                         underlineColorAndroid="transparent"
@@ -264,6 +280,16 @@ export default class EditProfileScreen extends Component {
                         onChangeText={(lastname) => this.setState({ lastname })}
                         value={this.state.lastname}
                     />
+                    <Text style={styles.textLable}>Phone number</Text>
+                    <TextInput placeholder="Phone number"
+                        underlineColorAndroid="transparent"
+                        placeholderTextColor='#555'
+                        style={styles.input}
+                        defaultValue={this.state.phoneNumber}
+                        onChangeText={(phoneNumber) => this.setState({ phoneNumber })}
+                        value={this.state.phoneNumber}
+                    />
+
 
                     <TouchableOpacity onPress={this.selectPhotoTapped.bind(this)} style={styles.ImageContainer}>
                         <View >

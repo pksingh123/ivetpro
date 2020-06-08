@@ -67,7 +67,7 @@ export default class LoginScreen extends Component {
                 .then((response) => response.json())
                 .then((responseJson) => {
                     //console.warn(responseJson.user.temporary_passwrod);
-                    console.log(responseJson);
+                    //  console.log(responseJson);
                     //console.warn(responseJson.user.hasPet);
                     //this.loadingButton.showLoading(false);
                     if (responseJson.status === 'ok') {

@@ -37,7 +37,7 @@ export default class BookAppointmentScreen extends Component {
     static navigationOptions = ({ navigation }) => {
         navOptions = navigation;
         const { params = {} } = navigation.state;
-        console.log('okkay ' + navigation.getParam('item'));
+        // console.log('okkay ' + navigation.getParam('item'));
         if (navigation.getParam('item') === undefined) {
             return {
                 headerTitle: 'Book Appointment',
@@ -92,12 +92,8 @@ export default class BookAppointmentScreen extends Component {
                     marginTop: StatusBar.currentHeight
                 },
                 headerRight: (
-                    <Icon
-                        name="menu"
-                        size={50}
-                        color='#fff'
-                        onPress={() => navigation.dispatch(DrawerActions.toggleDrawer())}
-                    />
+
+                    <Text style={{ flex: 1, height: 50, width: 50 }}></Text>
                 ),
 
                 //headerLeft: <HeaderBackButton onPress={() => navigation.navigate('routePetDetails', { item: navigation.state.params.item })} />,
@@ -268,7 +264,7 @@ export default class BookAppointmentScreen extends Component {
 
         if (userToken) {
             userDetails = JSON.parse(userToken);
-            console.log("booking ", userDetails);
+            //  console.log("booking ", userDetails);
             console.warn(userDetails);
             this.setState({
                 uid: userDetails.user.uid,
@@ -357,7 +353,7 @@ export default class BookAppointmentScreen extends Component {
     }
     localAppointmentTime = (item) => {
         this.setState({ showCalendar: false });
-        console.log("selected date", item);
+        // console.log("selected date", item);
         let currentObj = this;
         setTimeout(function () {
             currentObj.setMarkedDateInCalendar();
@@ -494,7 +490,7 @@ export default class BookAppointmentScreen extends Component {
                 })
                 .then((response) => response.json())
                 .then((responseJson) => {
-                    console.log("Time data ", responseJson);
+                    // console.log("Time data ", responseJson);
                     if (responseJson.slotlist.length > 0) {
                         this.setState({ slotList: responseJson.slotlist, isSlot: true, isBooking: true })
                     } else {

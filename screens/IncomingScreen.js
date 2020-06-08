@@ -149,7 +149,7 @@ const styles = StyleSheet.create({
     },
     title: {
         color: '#f0efef',
-        fontSize: 36,
+        fontSize: 22,
     },
     subText: {
         color: '#c8c8c8',

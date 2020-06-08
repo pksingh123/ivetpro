@@ -90,6 +90,7 @@ export default class BookingConfirmationScreen extends Component {
             paymentSuccessMessageShow: false,
             paymentErrorMessageShow: false,
             paymentSuccessMessage: '',
+            paymentProcessing: false,
             paymentErrorMessage: '',
             isLoading: true,
             bookingData: {},
@@ -138,7 +139,7 @@ export default class BookingConfirmationScreen extends Component {
         fetch(url)
             .then((response) => response.json())
             .then((responseJson) => {
-                console.log("confirmation booking ", responseJson);
+                // console.log("confirmation booking ", responseJson);
                 if (responseJson.status === 'ok') {
                     this.setState({
                         bookingData: responseJson.booking_data,
@@ -159,6 +160,12 @@ export default class BookingConfirmationScreen extends Component {
     _paymentRequest = () => {
 
         //const apiKey = 'pk_test_8m4FhXKfFi1sd2GFuWHDyGNh00sSApCudF';
+        this.setState({
+            paymentButtonShow: false,
+            paymentProcessing: true,
+            paymentContainer: false,
+
+        });
         const client = new Stripe(this.state.apiKey);
         client.createToken({
             number: this.state.cardNumber,
@@ -171,7 +178,7 @@ export default class BookingConfirmationScreen extends Component {
                 this.setState({
                     token: resp.id
                 });
-                //this.setState({ isLoading: true });
+
                 fetch(paymentRequestUrl,
                     {
                         method: 'POST',
@@ -199,6 +206,7 @@ export default class BookingConfirmationScreen extends Component {
                                 paymentSuccessBtnShow: true,
                                 paymentSuccessMessageShow: true,
                                 paymentErrorMessageShow: false,
+                                paymentProcessing: false,
                                 paymentSuccessMessage: responseJson.msg,
                                 appointmentStatus: 2,
                             });
@@ -209,6 +217,7 @@ export default class BookingConfirmationScreen extends Component {
                                 paymentSuccessBtnShow: false,
                                 paymentSuccessMessageShow: false,
                                 paymentErrorMessageShow: true,
+                                paymentProcessing: false,
                                 paymentErrorMessage: responseJson.msg,
                                 appointmentStatus: 1,
                             });
@@ -218,10 +227,22 @@ export default class BookingConfirmationScreen extends Component {
                     .catch((error) => {
                         alert('Something went wrong!');
                         console.warn(error);
+                        this.setState({
+                            paymentButtonShow: true,
+                            paymentProcessing: false,
+                            paymentContainer: true,
+
+                        });
                     })
             }
         }).catch((e) => {
             console.warn(e);
+            this.setState({
+                paymentButtonShow: true,
+                paymentProcessing: false,
+                paymentContainer: true,
+
+            });
         });
 
     }
@@ -336,14 +357,26 @@ export default class BookingConfirmationScreen extends Component {
                                         />
                                         <DialogButton
                                             text="PAY"
-                                            onPress={() => { this._paymentRequest() }}
+                                            onPress={() => {
+
+
+
+                                                this._paymentRequest();
+
+                                            }}
                                         />
                                     </View> :
                                     <View style={styles.dialogContainer}>
-                                        <DialogButton
-                                            text="OK"
-                                            onPress={() => { this._paymentClosePopup() }}
-                                        />
+                                        {
+                                            !this.state.paymentProcessing ?
+
+                                                <DialogButton
+                                                    text="OK"
+                                                    onPress={() => { this._paymentClosePopup() }}
+                                                />
+                                                : null
+
+                                        }
                                     </View>
                             }
                         </DialogFooter>
@@ -357,6 +390,12 @@ export default class BookingConfirmationScreen extends Component {
                             {
                                 this.state.paymentSuccessMessageShow ?
                                     <Text style={styles.paymentSuccessMsgStyle}>{this.state.paymentSuccessMessage}</Text>
+                                    : null
+
+                            }
+                            {
+                                this.state.paymentProcessing ?
+                                    <Text style={styles.paymentProcessingStyle}>Please wait... payment is under processing</Text>
                                     : null
 
                             }
@@ -427,6 +466,14 @@ const styles = StyleSheet.create({
     },
     paymentSuccessMsgStyle: {
         color: 'green',
+        padding: 10,
+        fontSize: 18,
+        flexDirection: "row",
+        justifyContent: 'center',
+        textAlign: "center"
+    },
+    paymentProcessingStyle: {
+        color: 'blue',
         padding: 10,
         fontSize: 18,
         flexDirection: "row",

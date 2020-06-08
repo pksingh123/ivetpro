@@ -101,7 +101,7 @@ export default class HomeScreen extends Component {
   * Triggered when a particular notification has been received in foreground
   * */
     this.notificationListener = firebase.notifications().onNotification((notification) => {
-      console.log("data only 1 ", notification);
+      // console.log("data only 1 ", notification);
       const { title, body } = notification;
       if (notification._data.type === 'calling') {
         this.showAlert(title, body, notification);
@@ -118,7 +118,7 @@ export default class HomeScreen extends Component {
     * */
     this.notificationOpenedListener = firebase.notifications().onNotificationOpened((notificationOpen) => {
       // const { title, body } = notificationOpen.notification._data.message;
-      console.log("data only 2 ", notificationOpen);
+      // console.log("data only 2 ", notificationOpen);
       if (notificationOpen.notification._data.type === 'logout') {
         this.setAppExpire();
       }
@@ -142,7 +142,7 @@ export default class HomeScreen extends Component {
     * */
     this.messageListener = firebase.messaging().onMessage((message) => {
       //process data message
-      console.log("data only 3 ", JSON.stringify(message));
+      // console.log("data only 3 ", JSON.stringify(message));
     });
 
 
@@ -150,7 +150,7 @@ export default class HomeScreen extends Component {
 
 
   showAlert(title, body, notification) {
-    console.log("notification", notification);
+    // console.log("notification", notification);
     this.props.navigation.navigate('IncominCall', {
       data: notification, dialername: notification._data.dialer, onPick: (data) => {
 
@@ -369,7 +369,7 @@ export default class HomeScreen extends Component {
       fetch(url)
         .then((response) => response.json())
         .then((responseJson) => {
-          console.log("home screen", responseJson);
+          // console.log("home screen", responseJson);
           if (responseJson.pets.length > 0) {
             this.setState({
               isLoading: false,
@@ -422,7 +422,7 @@ export default class HomeScreen extends Component {
     // alert("right arrow clicked" + cIndex + this._carousel);
     var slider = this._carousel;
     setTimeout(() => {
-      console.log("slider " + slider);
+      // console.log("slider " + slider);
       slider.snapToNext()
 
     }, 250)
@@ -435,9 +435,9 @@ export default class HomeScreen extends Component {
     // alert("left arrow clicked" + cIndex + this._carousel);
     // this._carousel.snapToItem(cIndex);
     var slider = this._carousel;
-    console.log("slider 1 " + slider);
+    // console.log("slider 1 " + slider);
     setTimeout(() => {
-      console.log("slider " + slider);
+      // console.log("slider " + slider);
       slider.snapToPrev()
 
     }, 250)
@@ -498,7 +498,7 @@ export default class HomeScreen extends Component {
                 <TouchableOpacity onPress={() => this._leftArrowClick(index)} >
                   <Image
                     style={styles.logoStyle}
-                    source={require('./images/right-pet-arrow.png')}
+                    source={require('./images/left-pet-arrow.png')}
                     resizeMethod="auto"
                   />
                 </TouchableOpacity>
@@ -506,7 +506,7 @@ export default class HomeScreen extends Component {
                   <Image
 
                     style={styles.logoStyleRight}
-                    source={require('./images/left-pet-arrow.png')}
+                    source={require('./images/right-pet-arrow.png')}
                     resizeMethod="auto"
                   />
                 </TouchableOpacity>
@@ -737,12 +737,12 @@ const styles = StyleSheet.create({
   },
   logoStyle: {
     // width: '20%',
-    width: 50,
-    height: 50,
+    width: 31,
+    height: 55,
   },
   logoStyleRight: {
-    width: 50,
-    height: 50,
+    width: 31,
+    height: 55,
   },
   logo: {
     width: 40,

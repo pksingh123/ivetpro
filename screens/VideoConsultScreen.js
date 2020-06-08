@@ -183,13 +183,13 @@ export default class VideoConsultScreen extends Component {
     }
     _onConnectButtonPress = () => {
         this._webNotification();
-        console.log("start now ", this.state.uid, this.state.practice_id);
+        //console.log("start now ", this.state.uid, this.state.practice_id);
         this.setState({ isLoading: true })
         const url = Constant.rootUrl + 'webservices/video-consult-now.php?userId=' + this.state.uid + '&practice_id=' + this.state.practice_id;
         fetch(url)
             .then((response) => response.json())
             .then((responseJson) => {
-                console.log(responseJson);
+                //console.log(responseJson);
                 if (responseJson.status === 'ok') {
                     console.log(this.state.roomName);
 
@@ -332,11 +332,21 @@ export default class VideoConsultScreen extends Component {
             : null
         if (this.state.isLoading) {
             return (
-                <View style={{ flex: 1, padding: 20 }}>
-                    {<ActivityIndicator
+                <View elevation={5} style={{
+                    flex: 1,
+                    justifyContent: 'center',
+                    alignItems: 'center',
+
+                }}>
+                    {/* {<ActivityIndicator
                         color='#2ba9bc'
                         size="large"
-                        style={styles.activityIndicator} />}
+                        style={styles.activityIndicator} />} */}
+                    <Image
+                        style={styles.image}
+                        source={require('./images/loader.gif')}
+                        resizeMethod="auto"
+                    />
                 </View>
             )
         }
@@ -483,6 +493,12 @@ const styles = StyleSheet.create({
         marginTop: 50,
         textAlign: 'center',
         backgroundColor: 'white'
+    },
+    image: {
+
+        height: 80,
+        width: 80,
+
     },
 
     button: {

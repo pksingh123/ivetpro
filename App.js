@@ -157,7 +157,7 @@ export default class App extends React.Component {
 
   checkDeviceState = () => {
 
-    console.log("app.js checkDeviceState");
+    // console.log("app.js checkDeviceState");
     //this.loadingButton.showLoading(true);
     const url = Constant.rootUrl + 'webservices/check-user-logedin.php';
     fetch(url,
@@ -174,13 +174,13 @@ export default class App extends React.Component {
       .then((response) => response.json())
       .then((responseJson) => {
         //console.warn(responseJson.user.temporary_passwrod);
-        console.log("app.js checkDeviceState", responseJson);
+        //console.log("app.js checkDeviceState", responseJson);
         // alert("app.js checkDeviceState");
         if (responseJson.status == 200) {
           if (responseJson.active == 1) {//logout
-            console.log("app.js checkDeviceState login");
+            //  console.log("app.js checkDeviceState login");
           } else {
-            console.log("app.js checkDeviceState logout");
+            //  console.log("app.js checkDeviceState logout");
             // this._signOut();
           }
         }
@@ -197,7 +197,7 @@ export default class App extends React.Component {
 
   fetUserData = (id) => {
 
-    console.log("app.js fetUserData", id);
+    // console.log("app.js fetUserData", id);
     //this.loadingButton.showLoading(true);
     const url = Constant.rootUrl + 'webservices/check-app-booking-allowed.php';
     fetch(url,
@@ -214,7 +214,7 @@ export default class App extends React.Component {
       .then((response) => response.json())
       .then((responseJson) => {
         //console.warn(responseJson.user.temporary_passwrod);
-        console.log("app.js fetUserData", responseJson);
+        // console.log("app.js fetUserData", responseJson);
         // alert("app.js checkDeviceState");
         if (responseJson != null) {
 
@@ -256,7 +256,7 @@ export default class App extends React.Component {
 
     let activeDeviceId = responseJson.device_id;
     let myDeviceId = DeviceInfo.getUniqueId();
-    console.log("device in app js ", activeDeviceId, myDeviceId);
+    // console.log("device in app js ", activeDeviceId, myDeviceId);
     if (activeDeviceId != myDeviceId) {//if not equal then logout 
       await AsyncStorage.setItem('isLoginExpire', 'Yes');
       EventRegister.emit('appExpire', "")

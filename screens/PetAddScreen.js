@@ -230,7 +230,7 @@ export default class RegisterScreen extends Component {
             ])
                 .then((response) => response.json())
                 .then((responseJson) => {
-                    Console.log("pets added ", responseJson);
+                    //  Console.log("pets added ", responseJson);
                     this.setState({ isLoading: false });
                     if (responseJson.status === 'ok') {
 

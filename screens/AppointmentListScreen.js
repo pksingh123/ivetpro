@@ -130,7 +130,7 @@ export default class AppointmentListScreen extends Component {
             .then((response) => response.json())
             .then((responseJson) => {
                 if (responseJson.status === 'ok') {
-                    console.log(responseJson);
+                    // console.log("appointment list ", responseJson);
                     this.setState({
                         isLoading: false,
                         refreshing: false

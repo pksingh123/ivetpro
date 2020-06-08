@@ -182,7 +182,7 @@ export default class PetEditScreen extends Component {
         }
 
         const petEditData = await AsyncStorage.getItem('petEditData');
-        console.log("pet edit screen ", petEditData);
+        // console.log("pet edit screen ", petEditData);
         let item;
         if (petEditData) {
             item = JSON.parse(petEditData);
@@ -190,7 +190,7 @@ export default class PetEditScreen extends Component {
         }
         //  const item1 = this.props.navigation.state.params.item;
         // const item = this.props.navigation.getParam('item');
-        console.log("pet edit screen ", item);
+        // console.log("pet edit screen ", item);
 
         let source = '';
         item.id ?
@@ -240,7 +240,7 @@ export default class PetEditScreen extends Component {
             this.setState({ practiceCode: item.practiceCode })
             : null
 
-        console.log("weight ", this.state.currentWeight, item.CurrentWeight, this.state.name);
+        // console.log("weight ", this.state.currentWeight, item.CurrentWeight, this.state.name);
         // alert("weight2 ", this.state.currentWeight, item.CurrentWeight);
     }
     UpdateName = (text) => {

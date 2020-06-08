@@ -59,7 +59,7 @@ export default class DrawerScreen extends React.Component {
       .then((responseJson) => {
         console.warn(responseJson);
         if (responseJson.status === 'ok') {
-          console.log("logout");
+          // console.log("logout");
 
         }
       })
@@ -111,7 +111,7 @@ export default class DrawerScreen extends React.Component {
     });
     this.logoutLinstener = EventRegister.addEventListener('appExpire', (data) => {
       // alert("data" + data);
-      console.log("logoutLinstener");
+      // console.log("logoutLinstener");
       this._signOut();
     });
   }
@@ -125,7 +125,7 @@ export default class DrawerScreen extends React.Component {
     this.setState({ appointment_booking: appointmentValue });
     let videoConsultNowWoutAppnt = savedValues.user.practice.allow_video_calls_without_appoinmtent
     this.setState({ videoConsultNowWithoutAppointment: videoConsultNowWoutAppnt })
-    console.log("appointment", savedValues);
+    // console.log("appointment", savedValues);
 
     //  alert("appontment");
     if (userToken) {

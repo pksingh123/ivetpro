@@ -4,7 +4,8 @@ import {
     StyleSheet,
     View,
     Text,
-    BackHandler
+    BackHandler,
+    StatusBar
 } from 'react-native';
 import Constant from './Constants';
 import { FlatList } from 'react-native-gesture-handler';
@@ -26,10 +27,27 @@ export default class PastAppointmentScreen extends Component {
             headerTitle: 'Past Appointments',
             headerLeft: <HeaderBackButton onPress={() => navigation.push('Home')} />,
             headerTintColor: '#ffffff',
+
             headerStyle: {
                 backgroundColor: '#26cccc',
-                color: '#fff'
+                color: '#fff',
+                height: 80
             },
+            headerTitleStyle: {
+                flex: 1,
+                textAlign: 'center',
+                marginTop: StatusBar.currentHeight
+            },
+            headerLeftContainerStyle: {
+                marginTop: StatusBar.currentHeight
+            },
+            headerRightContainerStyle: {
+                marginTop: StatusBar.currentHeight
+            },
+            headerRight: (
+
+                <Text style={{ flex: 1, height: 50, width: 50 }}></Text>
+            ),
         }
     };
     constructor(props) {
@@ -58,11 +76,12 @@ export default class PastAppointmentScreen extends Component {
     componentDidMount() {
         const item = this.props.navigation.state.params.item;
         this.setState({ petAliveStatus: item.status, name: item.name })
+        // console.log("past appointment 1 ", item.id);
         const url = Constant.rootUrl + 'webservices/booking-appointment.php?action=PastAppointment&patientId=' + item.id;
         fetch(url)
             .then((response) => response.json())
             .then((responseJson) => {
-                console.log(responseJson);
+                // console.log(responseJson);
                 if (responseJson.totalCount > 0) {
                     console.warn(responseJson);
                     this.setState({
@@ -82,13 +101,13 @@ export default class PastAppointmentScreen extends Component {
             })
             .catch((error) => {
                 alert('Something went wrong!');
-                console.warn(error);
+                console.warn("past appointment ", error, item.id);
             })
     }
     renderItem = ({ item, index }) => {
         return (
             <View style={styles.itemContainer}>
-                <View style={{ backgroundColor: index % 2 == 0 ? "#eae6e6" : "#D3D3D3", paddingTop: 10, paddingBottom: 10 }}>
+                <View style={{ backgroundColor: index % 2 == 0 ? "#eae6e6" : "#D3D3D3", paddingTop: 10, paddingBottom: 10, paddingLeft: 10 }}>
                     <View style={{ flex: 1, flexDirection: 'row' }}>
                         <Text style={styles.leftTextStyle}>{item.date} </Text>
                         <Text style={styles.middleTextStyle}>{item.time}</Text>
@@ -97,7 +116,7 @@ export default class PastAppointmentScreen extends Component {
                         <Text style={styles.textStyle}>{item.status1}</Text>
                     </View>
                     <ShowMore height={30} buttonColor={"#26cccc"} showMoreText="More >>" showLessText="Less">
-                        <Text style={styles.textStyle} >{item.cliical_notes}</Text>
+                        <Text style={styles.textStyle} >{item.notes}</Text>
                     </ShowMore>
                 </View>
             </View>
@@ -185,7 +204,7 @@ const styles = StyleSheet.create({
     },
     leftTextStyle: {
         fontSize: 22,
-        padding: 5,
+        padding: 0,
         color: "#666",
     },
     middleTextStyle: {

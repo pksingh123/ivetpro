@@ -10,6 +10,7 @@ import {
     BackHandler,
     AsyncStorage,
     Image,
+    ActivityIndicator,
     Dimensions,
     StatusBar,
     ImageBackground,
@@ -186,6 +187,8 @@ export default class AppointmentDetailsScreen extends Component {
         this.setState({ paymentVisible: true });
     }
     _appointmentCancel = (item) => {
+        // console.log("_SiteAppointmentCancel 1", item);
+        // console.log("_SiteAppointmentCancel 2 ", item.booking_type);
         if (item.booking_type == 'Vetstoria') {
             this.setState({ visible: true });
 
@@ -246,6 +249,7 @@ export default class AppointmentDetailsScreen extends Component {
 
     }
     _SiteAppointmentCancel = (item) => {
+        // console.log("_SiteAppointmentCancel", item);
         const url = Constant.rootUrl + 'webservices/booking-appointment.php?action=AppointmentCancel';
         this.setState({ isLoading: true });
         fetch(url,
@@ -262,6 +266,7 @@ export default class AppointmentDetailsScreen extends Component {
             })
             .then((response) => response.json())
             .then((responseJson) => {
+                // console.log("_SiteAppointmentCancel ", responseJson);
                 if (responseJson.status === 'ok') {
                     this.setState({ visible: false })
                     this.props.navigation.push('AppointmentList');
@@ -452,6 +457,16 @@ export default class AppointmentDetailsScreen extends Component {
         const params = 'platform=' + Platform.OS;
         const item = this.props.navigation.state.params.item;
 
+        // if (this.state.isLoading) {
+        //     return (
+        //         <View style={{ flex: 1, padding: 20 }}>
+        //             <ActivityIndicator
+        //                 color='#2ba9bc'
+        //                 size="large"
+        //                 style={styles.activityIndicator} />
+        //         </View>
+        //     )
+        // }
         var backButton = item.status == 5 ?
             <TouchableOpacity onPress={() => this.props.navigation.navigate('AppointmentHistory')}>
                 <Image
@@ -862,7 +877,12 @@ const styles = StyleSheet.create({
         paddingHorizontal: 10,
         borderRadius: 10,
         borderColor: '#ccc'
-    }
-
+    },
+    activityIndicator: {
+        flex: 1,
+        justifyContent: 'center',
+        alignItems: 'center',
+        height: 80
+    },
 
 });

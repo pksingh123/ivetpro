@@ -34,34 +34,42 @@ export default class AppointmentDetailsScreen extends Component {
 
     static navigationOptions = ({ navigation }) => {
         const item = navigation.state.params.item;
-        if (item.status == 5) {
-            return {
-                header: null,
-                //headerTitle: 'Appointment Details',
-                //headerLeft: <HeaderBackButton onPress={() => navigation.navigate('AppointmentHistory')} />,
-                //headerTintColor: '#ffffff',
-                /* headerStyle: {
-                    backgroundColor: '#26cccc',
-                    color: '#fff',
-                    textAlign: 'center'
-                }, */
+        return {
+            headerTitle: 'Appointment details',
+            headerLeft: <HeaderBackButton onPress={() => {
+                if (item.status == 5) {
+                    // this.props.navigation.navigate('AppointmentHistory');
+                    navigation.navigate('AppointmentHistory');
+                } else {
+                    // this.props.navigation.navigate('AppointmentList');
+                    navigation.navigate('AppointmentList');
+                }
+            }} />,
+            // headerLeft: <PracticeBarLogo />,
+            headerTintColor: '#ffffff',
+            headerStyle: {
+                backgroundColor: '#26cccc',
+                color: '#fff',
+                height: 80
+            },
+            headerTitleStyle: {
+                flex: 1,
+                textAlign: 'center',
+                marginTop: StatusBar.currentHeight
+            },
+            headerLeftContainerStyle: {
+                marginTop: StatusBar.currentHeight
+            },
+            headerRightContainerStyle: {
+                marginTop: StatusBar.currentHeight
+            },
+            headerRight: (
 
-            }
-        } else {
-            return {
-                header: null,
+                <Text style={{ flex: 1, height: 50, width: 50 }}></Text>
+            ),
 
-                //headerLeft: <HeaderBackButton onPress={() => navigation.navigate('AppointmentList')} />,
-                //headerTintColor: '#ffffff',
-                /* headerStyle: {
-                     flex: 1,
-                     backgroundColor: '#26cccc',
-                     color: '#fff',
-                     textAlign: 'center'
-                 },*/
+            //headerLeft: <HeaderBackButton onPress={() => navigation.navigate('routePetDetails', { item: navigation.state.params.item })} />,
 
-
-            }
         }
         // console.warn(item.status);
 
@@ -113,6 +121,7 @@ export default class AppointmentDetailsScreen extends Component {
             prevent_phone_app_calling_agent: 1, // if 1 then hide video call 
         }
         this._goBack = this._goBack.bind(this);
+
     }
     componentWillMount() {
 
@@ -135,6 +144,7 @@ export default class AppointmentDetailsScreen extends Component {
 
         return true;
     }
+
 
     headerImage = () => {
 
@@ -453,6 +463,7 @@ export default class AppointmentDetailsScreen extends Component {
 
     }
 
+
     render() {
         const params = 'platform=' + Platform.OS;
         const item = this.props.navigation.state.params.item;
@@ -467,23 +478,23 @@ export default class AppointmentDetailsScreen extends Component {
         //         </View>
         //     )
         // }
-        var backButton = item.status == 5 ?
-            <TouchableOpacity onPress={() => this.props.navigation.navigate('AppointmentHistory')}>
-                <Image
-                    style={styles.backButtonImageStyle}
-                    source={require('../screens/images/ios-back.jpg')}
-                    resizeMethod="auto"
-                />
-            </TouchableOpacity>
+        // var backButton = item.status == 5 ?
+        //     <TouchableOpacity onPress={() => this.props.navigation.navigate('AppointmentHistory')}>
+        //         <Image
+        //             style={styles.backButtonImageStyle}
+        //             source={require('../screens/images/ios-back.jpg')}
+        //             resizeMethod="auto"
+        //         />
+        //     </TouchableOpacity>
 
-            :
-            <TouchableOpacity onPress={() => this.props.navigation.navigate('AppointmentList')}>
-                <Image
-                    style={styles.backButtonImageStyle}
-                    source={require('../screens/images/ios-back.jpg')}
-                    resizeMethod="auto"
-                />
-            </TouchableOpacity>
+        //     :
+        //     <TouchableOpacity onPress={() => this.props.navigation.navigate('AppointmentList')}>
+        //         <Image
+        //             style={styles.backButtonImageStyle}
+        //             source={require('../screens/images/ios-back.jpg')}
+        //             resizeMethod="auto"
+        //         />
+        //     </TouchableOpacity>
         var statusHtml_1 = this.state.appointmentStatus == 1 ?
             <View>
                 <TouchableOpacity onPress={() => this._paymentOpenPopup()} style={styles.button}>
@@ -520,11 +531,11 @@ export default class AppointmentDetailsScreen extends Component {
                 <ScrollView>
                     <StatusBar translucent backgroundColor="transparent" />
                     <ImageBackground source={{ uri: item.picture }} style={styles.imgStyle}>
-                        <View style={styles.backButtonStyle}>
+                        {/* <View style={styles.backButtonStyle}>
                             {backButton}
-                        </View>
+                        </View> */}
                         <View style={styles.bgDetails}>
-                            <Text style={styles.bgNameStyle}>Appointment Details</Text>
+                            <Text style={styles.bgNameStyle}>{item.Name}</Text>
                             <Text style={styles.bgTextStyle}>{item.full_date}</Text>
 
                         </View>

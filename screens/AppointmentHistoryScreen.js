@@ -150,19 +150,23 @@ export default class AppointmentHistoryScreen extends Component {
     }
     updateSearch = (text) => {
 
-        //passing the inserted text in textinput
-        const newData = this.arrayholder.filter(function (item) {
-            //applying filter for the inserted text in search bar
-            const itemData = item.patientName ? item.patientName.toUpperCase() : ''.toUpperCase();
-            const textData = text.toUpperCase();
-            return itemData.indexOf(textData) > -1;
-        });
-        this.setState({
-            //setting the filtered newData on datasource
-            //After setting the data it will automatically re-render the view
-            GridViewItems: newData,
-            search: text,
-        });
+        if (this.arrayholder != undefined && this.arrayholder.length > 0) {
+
+
+            //passing the inserted text in textinput
+            const newData = this.arrayholder.filter(function (item) {
+                //applying filter for the inserted text in search bar
+                const itemData = item.patientName ? item.patientName.toUpperCase() : ''.toUpperCase();
+                const textData = text.toUpperCase();
+                return itemData.indexOf(textData) > -1;
+            });
+            this.setState({
+                //setting the filtered newData on datasource
+                //After setting the data it will automatically re-render the view
+                GridViewItems: newData,
+                search: text,
+            });
+        }
     };
 
     checkref() {

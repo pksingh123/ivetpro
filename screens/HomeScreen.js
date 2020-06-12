@@ -132,7 +132,8 @@ export default class HomeScreen extends Component {
     * If your app is closed, you can check if it was opened by a notification being clicked / tapped / opened as follows:
     * */
     const notificationOpen = await firebase.notifications().getInitialNotification();
-    if (notificationOpen) {
+    console.log("data only 2 ", notificationOpen);
+    if (notificationOpen.notification._data.type === 'calling') {
 
       const { title, body } = notificationOpen.notification;
       this.showAlert(title, body, notificationOpen.notification);
@@ -179,10 +180,16 @@ export default class HomeScreen extends Component {
   }
 
 
-  exitFromApp = () => {
+  exitFromApp = async () => {
     // this.props.navigation.popToTop();
     // Put your own code here, which you want to exexute on back button press.
-    this.props.navigation.navigate('Home');
+    let savedValues = await AsyncStorage.getItem('userToken');
+    if (savedValues == undefined || savedValues == null) {
+      BackHandler.exitApp()
+    } else {
+      this.props.navigation.navigate('Home');
+    }
+
     // Alert.alert(
     //   ' Exit From App ',
     //   ' Do you want to exit From App ?',
@@ -309,7 +316,21 @@ export default class HomeScreen extends Component {
   setAppExpire = async () => {
     await AsyncStorage.setItem('isLoginExpire', 'Yes');
     EventRegister.emit('appExpire', "")
+    this.showAlertWhenAppLogout();
   }
+  showAlertWhenAppLogout() {
+    Alert.alert(
+      'Alert',
+      'You logged in to another device, therefore this device has been logged off.',
+      [
+        // { text: 'Ask me later', onPress: () => console.log('Ask me later pressed') },
+
+        { text: 'OK', onPress: () => { console.log('OK Pressed'); } },
+      ],
+      { cancelable: true },
+    );
+  }
+
   showAlertToUpdateApp() {
     Alert.alert(
       'New Update',

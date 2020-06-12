@@ -437,6 +437,8 @@ const styles = StyleSheet.create({
     height: 65,
     backgroundColor: 'blue',
     flexDirection: "row",
+    alignItems: "center",
+    justifyContent: 'center',
     alignItems: "center"
   },
   optionButton: {

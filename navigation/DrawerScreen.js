@@ -172,23 +172,23 @@ export default class DrawerScreen extends React.Component {
         </View>
 
         <View style={styles.rowStyle}>
-          <Text style={styles.pageName} onPress={() => navigate('Home')}>Home</Text>
+          <Text style={styles.pageName} onPress={() => { this._closeDrawer(); navigate('Home'); }}>Home</Text>
           {
             this.state.appointment_booking == 1 ?
-              <Text style={styles.pageName} onPress={() => navigate('Appointment')}>Book Appointment</Text> : null
+              <Text style={styles.pageName} onPress={() => { this._closeDrawer(); navigate('Appointment') }}>Book Appointment</Text> : null
           }
 
-          <Text style={styles.pageName} onPress={() => navigate('AppointmentList')}>Appointment List</Text>
-          <Text style={styles.pageName} onPress={() => navigate('AppointmentHistory')}>Completed Appointment </Text>
-          <Text style={styles.pageName} onPress={() => navigate('AddPet')}>Add Pet </Text>
+          <Text style={styles.pageName} onPress={() => { this._closeDrawer(); navigate('AppointmentList') }}>Appointment List</Text>
+          <Text style={styles.pageName} onPress={() => { this._closeDrawer(); navigate('AppointmentHistory') }}>Completed Appointment </Text>
+          <Text style={styles.pageName} onPress={() => { this._closeDrawer(); navigate('AddPet') }}>Add Pet </Text>
           {
             this.state.VideoConsultNow == true && this.state.videoConsultNowWithoutAppointment == 1 ?
-              <Text style={styles.pageName} onPress={() => navigate('VideoConsultNow')}>
+              <Text style={styles.pageName} onPress={() => { this._closeDrawer(); navigate('VideoConsultNow') }}>
                 Video Consult Now
               </Text>
               : null
           }
-          <Text style={styles.pageName} onPress={() => navigate('EditProfile')}>Edit Profile </Text>
+          <Text style={styles.pageName} onPress={() => { this._closeDrawer(); navigate('EditProfile') }}>Edit Profile </Text>
 
           <Text style={styles.pageName} onPress={this._signOut}>
             Logout
@@ -196,7 +196,7 @@ export default class DrawerScreen extends React.Component {
           {
             this.state.appointment_booking == 1 ?
               <View style={styles.buttoncontainer}>
-                <TouchableOpacity onPress={() => navigate('Appointment')}
+                <TouchableOpacity onPress={() => { this._closeDrawer(); navigate('Appointment') }}
                   style={styles.button}>
                   <Text style={styles.textcolor}>Book Appointment</Text>
                 </TouchableOpacity>
@@ -254,7 +254,7 @@ export default class DrawerScreen extends React.Component {
             type="clear"
           /> */}
         </View>
-      </View>
+      </View >
     );
   }
   _signOut = async () => {
@@ -269,6 +269,11 @@ export default class DrawerScreen extends React.Component {
     //this.props.navigation.navigate('AddFirstPet');
 
   };
+  _closeDrawer = async () => {
+    //this.props.navigation.dispatch(DrawerActions.toggleDrawer())
+
+    this.props.navigation.dispatch(DrawerActions.closeDrawer());
+  }
 }
 const styles = StyleSheet.create({
   container: {

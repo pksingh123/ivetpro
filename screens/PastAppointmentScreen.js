@@ -81,7 +81,7 @@ export default class PastAppointmentScreen extends Component {
         fetch(url)
             .then((response) => response.json())
             .then((responseJson) => {
-                // console.log(responseJson);
+                console.log("past appointment ", responseJson);
                 if (responseJson.totalCount > 0) {
                     console.warn(responseJson);
                     this.setState({

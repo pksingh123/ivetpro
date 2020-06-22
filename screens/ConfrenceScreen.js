@@ -95,9 +95,10 @@ export default class ConfrenceScreen extends Component {
 
   async componentWillMount() {
     const { params } = this.props.navigation.state;
+    console.log("conference screen0 ", params);
     const petDetails = params ? params.item : null;
-    //console.log("conference screen1 ", petDetails);
-    if (petDetails != null && petDetails._body == null) {
+    // console.log("conference screen1 ", petDetails);
+    if (petDetails != null && petDetails._data == null) {
       let bookingId = petDetails.bookingId ? petDetails.bookingId : petDetails.nextAppointment.bookingId;
       let petId = petDetails.id ? petDetails.id : petDetails.patientId;
       this.setState({ petId: petId, bookingId: bookingId });
@@ -112,7 +113,8 @@ export default class ConfrenceScreen extends Component {
     } else {
       this.setState({ uid: false })
     }
-    const url = Constant.rootUrl + 'token?room=' + this.state.roomName;
+    console.log("conference screen10 ", this.state.bookingId);
+    const url = Constant.rootUrl + 'token?room=' + this.state.roomName + '&bookingId=' + this.state.bookingId;
     fetch(url)
       .then((response) => response.json())
       .then((responseJson) => {

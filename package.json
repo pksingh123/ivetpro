@@ -45,7 +45,7 @@
     "react-native-spinner-button": "^1.0.3",
     "react-native-stripe-api": "^0.1.0",
     "react-native-switch-toggle": "^1.1.2",
-    "react-native-twilio-video-webrtc": "https://github.com/blackuy/react-native-twilio-video-webrtc",
+    "react-native-twilio-video-webrtc": "git+https://github.com/blackuy/react-native-twilio-video-webrtc.git",
     "react-native-vector-icons": "^6.6.0",
     "react-native-webview": "^7.4.2",
     "react-navigation": "^3.11.0",

@@ -151,7 +151,7 @@ export default class HomeScreen extends Component {
 
 
   showAlert(title, body, notification) {
-    // console.log("notification", notification);
+    console.log("notification", notification);
     this.props.navigation.navigate('IncominCall', {
       data: notification, dialername: notification._data.dialer, onPick: (data) => {
 
@@ -187,6 +187,7 @@ export default class HomeScreen extends Component {
     if (savedValues == undefined || savedValues == null) {
       BackHandler.exitApp()
     } else {
+
       this.props.navigation.navigate('Home');
     }
 

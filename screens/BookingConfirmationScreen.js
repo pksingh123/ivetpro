@@ -103,15 +103,19 @@ export default class BookingConfirmationScreen extends Component {
         }
         this._goBack = this._goBack.bind(this);
     }
-    componentWillMount() {
+    async componentWillMount() {
 
         BackHandler.addEventListener('hardwareBackPress', this._goBack);
-    }
-    componentWillUnmount() {
 
+
+    }
+    async componentWillUnmount() {
+        this._paymentClosePopup();
         BackHandler.removeEventListener('hardwareBackPress', this._goBack);
+
     }
     _goBack() {
+
         this.props.navigation.navigate('Home');
         return true;
     }
@@ -159,20 +163,28 @@ export default class BookingConfirmationScreen extends Component {
 
     _paymentRequest = () => {
 
+        if (this.state.cardNumber == '' || this.state.expMonth == '' || this.state.expYear == '' || this.state.cvc == '') {
+            alert('Enter correct card details.');
+            return;
+        }
         //const apiKey = 'pk_test_8m4FhXKfFi1sd2GFuWHDyGNh00sSApCudF';
         this.setState({
             paymentButtonShow: false,
             paymentProcessing: true,
             paymentContainer: false,
+            paymentErrorMessageShow: false,
 
         });
         const client = new Stripe(this.state.apiKey);
+
         client.createToken({
             number: this.state.cardNumber,
             exp_month: this.state.expMonth,
             exp_year: this.state.expYear,
             cvc: this.state.cvc,
         }).then((resp) => {
+
+            console.log("payment done1 ", resp);
 
             if (resp.id) {
                 this.setState({
@@ -198,6 +210,7 @@ export default class BookingConfirmationScreen extends Component {
                     })
                     .then((response) => response.json())
                     .then((responseJson) => {
+                        console.log("payment done ", responseJson);
                         this.setState({ isLoading: false });
                         if (responseJson.status === 'ok') {
                             this.setState({
@@ -235,6 +248,19 @@ export default class BookingConfirmationScreen extends Component {
                         });
                     })
             }
+            else {
+                this.setState({
+                    paymentButtonShow: true,
+                    paymentContainer: true,
+                    paymentSuccessBtnShow: false,
+                    paymentSuccessMessageShow: false,
+                    paymentErrorMessageShow: true,
+                    paymentProcessing: false,
+                    paymentErrorMessage: "Card details are wrong.",
+                    appointmentStatus: 1,
+                });
+
+            }
         }).catch((e) => {
             console.warn(e);
             this.setState({
@@ -249,6 +275,14 @@ export default class BookingConfirmationScreen extends Component {
 
     _paymentOpenPopup = () => {
         this.setState({ isLoading: true, });
+        this.setState({
+            paymentButtonShow: true,
+            paymentProcessing: false,
+            paymentContainer: true,
+            paymentErrorMessageShow: false,
+
+        });
+
         const url1 = Constant.rootUrl + 'webservices/booking-appointment.php?action=GetPubKey&practice_id=' + this.state.practice_id;
         fetch(url1)
             .then((response) => response.json())
@@ -268,6 +302,13 @@ export default class BookingConfirmationScreen extends Component {
 
     }
     _paymentClosePopup = () => {
+        this.setState({
+            paymentButtonShow: true,
+            paymentProcessing: false,
+            paymentContainer: true,
+
+        });
+
         this.setState({ paymentVisible: false, pay: false });
         //  this._goBack();
     }
@@ -344,6 +385,7 @@ export default class BookingConfirmationScreen extends Component {
                 <Dialog
                     visible={this.state.paymentVisible}
                     useNativeDriver
+
                     dialogTitle={<DialogTitle title="Enter card details" />}
                     width={0.9}
                     footer={
@@ -382,6 +424,9 @@ export default class BookingConfirmationScreen extends Component {
                         </DialogFooter>
                     }
                     onTouchOutside={() => {
+                        this.setState({ paymentVisible: false });
+                    }}
+                    onHardwareBackPress={() => {
                         this.setState({ paymentVisible: false });
                     }}
                 >
@@ -440,7 +485,7 @@ export default class BookingConfirmationScreen extends Component {
                         </View>
                     </DialogContent>
                 </Dialog>
-            </View>
+            </View >
         )
     }
 }

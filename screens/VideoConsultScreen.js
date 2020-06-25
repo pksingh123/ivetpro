@@ -183,13 +183,13 @@ export default class VideoConsultScreen extends Component {
     }
     _onConnectButtonPress = () => {
         this._webNotification();
-        //console.log("start now ", this.state.uid, this.state.practice_id);
+        // console.log("start now ", this.state.uid, this.state.practice_id);
         this.setState({ isLoading: true })
         const url = Constant.rootUrl + 'webservices/video-consult-now.php?userId=' + this.state.uid + '&practice_id=' + this.state.practice_id;
         fetch(url)
             .then((response) => response.json())
             .then((responseJson) => {
-                //console.log(responseJson);
+                console.log(responseJson);
                 if (responseJson.status === 'ok') {
                     console.log(this.state.roomName);
 
@@ -217,7 +217,7 @@ export default class VideoConsultScreen extends Component {
             })
             .catch((error) => {
                 alert('Something went wrong!');
-                console.warn(error);
+                console.log("error ", error);
             })
         //this.refs.twilioVideo.connect({ roomName: this.state.roomName, accessToken: this.state.token })
         this.setState({ status: 'connecting' })

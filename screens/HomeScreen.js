@@ -391,7 +391,7 @@ export default class HomeScreen extends Component {
       fetch(url)
         .then((response) => response.json())
         .then((responseJson) => {
-          // console.log("home screen", responseJson);
+          console.log("home screen", responseJson);
           if (responseJson.pets.length > 0) {
             this.setState({
               isLoading: false,

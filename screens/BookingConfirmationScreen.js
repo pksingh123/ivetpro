@@ -575,7 +575,7 @@ const styles = StyleSheet.create({
         marginTop: 40,
     },
     input: {
-        height: 40,
+        height: 55,
         backgroundColor: '#2980b9',
         marginBottom: 20,
         paddingHorizontal: 10,

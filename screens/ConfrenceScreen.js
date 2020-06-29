@@ -103,6 +103,10 @@ export default class ConfrenceScreen extends Component {
       let petId = petDetails.id ? petDetails.id : petDetails.patientId;
       this.setState({ petId: petId, bookingId: bookingId });
     }
+    if (petDetails != null && petDetails._data != null) {//from notification
+      let bookingId = petDetails._data.bookingid;
+      this.setState({ bookingId: bookingId });
+    }
     this.props.navigation.setParams({ logout: this._signOutAsync });
     const userToken = await AsyncStorage.getItem('userToken');
     if (userToken) {

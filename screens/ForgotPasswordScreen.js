@@ -63,7 +63,7 @@ export default class ForgotPasswordScreen extends Component {
                     }
                 })
                 .catch((error) => {
-                    alert('Something went wrong!');
+                    // alert('Something went wrong!');
                     console.warn(error);
                 })
         }

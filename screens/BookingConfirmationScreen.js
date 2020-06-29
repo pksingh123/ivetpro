@@ -155,7 +155,7 @@ export default class BookingConfirmationScreen extends Component {
                 }
             })
             .catch((error) => {
-                alert('Something went wrong  from !');
+                // alert('Something went wrong  from !');
                 console.warn(error);
             })
 
@@ -238,7 +238,7 @@ export default class BookingConfirmationScreen extends Component {
                         }
                     })
                     .catch((error) => {
-                        alert('Something went wrong!');
+                        // alert('Something went wrong!');
                         console.warn(error);
                         this.setState({
                             paymentButtonShow: true,
@@ -296,7 +296,7 @@ export default class BookingConfirmationScreen extends Component {
                 }
             })
             .catch((error) => {
-                alert('Something went wrong!');
+                // alert('Something went wrong!');
                 console.warn(error);
             })
 

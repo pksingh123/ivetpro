@@ -316,7 +316,7 @@ export default class BookAppointmentScreen extends Component {
                 }
             })
             .catch((error) => {
-                alert('Something went wrong!');
+                // alert('Something went wrong!');
                 console.warn(error);
             })
     }
@@ -345,7 +345,7 @@ export default class BookAppointmentScreen extends Component {
                 }
             })
             .catch((error) => {
-                alert('Something went wrong!');
+                // alert('Something went wrong!');
                 console.warn(error);
             })
 
@@ -424,7 +424,7 @@ export default class BookAppointmentScreen extends Component {
                 }
             })
             .catch((error) => {
-                alert('Something went wrong!');
+                //  alert('Something went wrong!');
                 console.warn(error);
             })
     }
@@ -499,7 +499,7 @@ export default class BookAppointmentScreen extends Component {
                     this.setState({ isLoading: false });
                 })
                 .catch((error) => {
-                    alert('Something went wrong!');
+                    // alert('Something went wrong!');
                     console.warn(error);
                 })
         }
@@ -547,7 +547,7 @@ export default class BookAppointmentScreen extends Component {
                     this.setState({ isLoading: false });
                 })
                 .catch((error) => {
-                    alert('Something went wrong!');
+                    //  alert('Something went wrong!');
                     console.warn(error);
                 })
         }
@@ -605,7 +605,7 @@ export default class BookAppointmentScreen extends Component {
                     this.setState({ isLoading: false });
                 })
                 .catch((error) => {
-                    alert('Something went wrong!');
+                    // alert('Something went wrong!');
                     console.warn(error);
                     this.setState({ isLoading: false });
                 })
@@ -691,7 +691,7 @@ export default class BookAppointmentScreen extends Component {
                     this.setState({ isLoading: false });
                 })
                 .catch((error) => {
-                    alert('Something went wrong h!');
+                    // alert('Something went wrong h!');
                     console.warn(error);
                 })
         }

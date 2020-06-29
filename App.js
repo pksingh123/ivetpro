@@ -151,8 +151,13 @@ export default class App extends React.Component {
     let savedValues = await AsyncStorage.getItem('userToken');
     savedValues = JSON.parse(savedValues);
     this.id = savedValues.user.uid;
-    //  console.log("app.js ");
+    console.log("app.js id ", this.id);
     //  this.checkDeviceState();
+    thisFileClass = this;
+    setTimeout(function () {
+      console.log("app.js id 1 ", thisFileClass.id);
+      thisFileClass.checkVideoCall(thisFileClass.id);
+    }, 10000)
   }
 
   checkDeviceState = () => {
@@ -188,7 +193,7 @@ export default class App extends React.Component {
       })
       .catch((error) => {
         this.loadingButton.showLoading(false);
-        alert('Something went wrong!');
+        //alert('Something went wrong!');
         console.warn(error);
       })
 
@@ -204,10 +209,11 @@ export default class App extends React.Component {
       {
         method: 'POST',
         headers: {
+
           'Content-Type': 'application/json',
         },
         body: JSON.stringify({
-          // device_id: DeviceInfo.getUniqueId(),
+          // device_id: DeviceInfo.getUniqueId(),   
           uid: id
         }),
       })
@@ -226,8 +232,40 @@ export default class App extends React.Component {
       })
       .catch((error) => {
         this.loadingButton.showLoading(false);
-        alert('Something went wrong!');
+        // alert('Something went wrong!');
         console.warn(error);
+      })
+
+
+  }
+
+  checkVideoCall = (id) => {
+    let userId = id;
+    console.log("app.js checkVideoCall 11 ", userId);
+    const url = Constant.rootUrl + 'webservices/ios-check-incomming-call.php';
+    fetch(url,
+      {
+        method: 'POST',
+        headers: {
+          Accept: 'application/json',
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          "uid": id
+        }),
+      })
+      .then((response) => response.json())
+      .then((responseJson) => {
+        //console.warn(responseJson.user.temporary_passwrod);
+        console.log("app.js checkVideoCall ", responseJson);
+
+
+
+      })
+      .catch((error) => {
+        // this.loadingButton.showLoading(false);
+        // alert('Something went wrong!');
+        console.log("app.js checkVideoCall error ", error, url);
       })
 
 
@@ -284,7 +322,7 @@ export default class App extends React.Component {
         console.warn(responseJson);
       })
       .catch((error) => {
-        alert('Something went wrong!');
+        // alert('Something went wrong!');
         console.warn(error);
       })
   }

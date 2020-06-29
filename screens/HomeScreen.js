@@ -101,7 +101,7 @@ export default class HomeScreen extends Component {
   * Triggered when a particular notification has been received in foreground
   * */
     this.notificationListener = firebase.notifications().onNotification((notification) => {
-      // console.log("data only 1 ", notification);
+      console.log("data only 1 ", notification);
       const { title, body } = notification;
       if (notification._data.type === 'calling') {
         this.showAlert(title, body, notification);
@@ -118,7 +118,7 @@ export default class HomeScreen extends Component {
     * */
     this.notificationOpenedListener = firebase.notifications().onNotificationOpened((notificationOpen) => {
       // const { title, body } = notificationOpen.notification._data.message;
-      // console.log("data only 2 ", notificationOpen);
+      console.log("data only 2 ", notificationOpen);
       if (notificationOpen.notification._data.type === 'logout') {
         this.setAppExpire();
       }
@@ -132,9 +132,9 @@ export default class HomeScreen extends Component {
     * If your app is closed, you can check if it was opened by a notification being clicked / tapped / opened as follows:
     * */
     const notificationOpen = await firebase.notifications().getInitialNotification();
-    console.log("data only 2 ", notificationOpen);
-    if (notificationOpen.notification._data.type === 'calling') {
-
+    console.log("data only 3 ", notificationOpen);
+    if (notificationOpen.notification._data.type === 'calling' && Constant.notificationID != notificationOpen._notificationId) {
+      Constant.notificationID = notificationOpen._notificationId;
       const { title, body } = notificationOpen.notification;
       this.showAlert(title, body, notificationOpen.notification);
     }
@@ -151,7 +151,7 @@ export default class HomeScreen extends Component {
 
 
   showAlert(title, body, notification) {
-    console.log("notification", notification);
+    console.log(" showAlert notification", notification);
     this.props.navigation.navigate('IncominCall', {
       data: notification, dialername: notification._data.dialer, onPick: (data) => {
 
@@ -296,6 +296,7 @@ export default class HomeScreen extends Component {
       practice_alias_name: '',
       practice_address: '',
       prevent_phone_app_calling_agent: 1, // if 1 hide video consult 
+      notificationID: '',
     }
     this.signOutAsync;
     this.exitFromApp = this.exitFromApp.bind(this);

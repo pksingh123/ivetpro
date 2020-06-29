@@ -216,7 +216,7 @@ export default class VideoConsultScreen extends Component {
                 }
             })
             .catch((error) => {
-                alert('Something went wrong!');
+                // alert('Something went wrong!');
                 console.log("error ", error);
             })
         //this.refs.twilioVideo.connect({ roomName: this.state.roomName, accessToken: this.state.token })

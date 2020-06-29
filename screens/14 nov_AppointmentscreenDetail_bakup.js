@@ -215,7 +215,7 @@ export default class AppointmentDetailsScreen extends Component {
                     this.setState({ isLoading: false });
                 })
                 .catch((error) => {
-                    alert('Something went wrong!');
+                    // alert('Something went wrong!');
                     console.warn(error);
                 })
         }
@@ -265,7 +265,7 @@ export default class AppointmentDetailsScreen extends Component {
                 this.setState({ isLoading: false });
             })
             .catch((error) => {
-                alert('Something went wrong!');
+                //alert('Something went wrong!');
                 console.warn(error);
             })
     }

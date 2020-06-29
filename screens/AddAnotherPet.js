@@ -53,7 +53,7 @@ export default class AddAnotherPet extends Component {
                 }
             })
             .catch((error) => {
-                alert('Something went wrong!');
+                // alert('Something went wrong!');
                 console.warn(error);
             })
     }

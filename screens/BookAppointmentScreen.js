@@ -173,6 +173,7 @@ export default class BookAppointmentScreen extends Component {
             GridViewItems: [
             ],
             showCalendar: false,
+            appointmentSelectedLabel: '',
 
         }
         this.setMarkedDateInCalendar();
@@ -320,13 +321,20 @@ export default class BookAppointmentScreen extends Component {
                 console.warn(error);
             })
     }
-    appointmentTypeAmount = (item) => {
+    appointmentTypeAmount = (item, index) => {
         this.setState({
 
             isLoading: false,
             //SiteLocationID: null,
 
         })
+        let itemIndex = index - 1;
+        if (itemIndex >= 0 && itemIndex < this.state.VetstoriaAppointmentTypes.length) {
+            let label = this.state.VetstoriaAppointmentTypes[itemIndex].label;
+            this.setState({ appointmentSelectedLabel: label });
+            console.log("appointmentTypeAmount 01", item, index, label);
+        }
+
         this.setState({ VetstoriaAppointmentTypesID: item, SitesAppointmentTypesID: item });
         const url = Constant.rootUrl + 'webservices/booking-appointment.php?action=appointmentTypesAmouint&appointment_type_id=' + item;
         fetch(url)
@@ -553,10 +561,25 @@ export default class BookAppointmentScreen extends Component {
         }
     }
     VetStoriaBooking = () => {
-
-        if (this.state.location_id == '' || this.state.VetstoriaSchedulesID == '' || this.state.slot == '' || this.state.clientPhone == '' || this.state.VetstoriaAppointmentTypesID == '' || this.state.VetstoriaSpeciesID == '' || this.state.clentNotes == '') {
-            alert("Please fill all fields");
+        // console.log("VetStoriaBooking location ", this.state.location_id);
+        // console.log("VetStoriaBooking schedule  ", this.state.VetstoriaSchedulesID);
+        // console.log("VetStoriaBooking slot ", this.state.slot);
+        // console.log("VetStoriaBooking phone ", this.state.clientPhone);
+        // console.log("VetStoriaBooking appointmentID ", this.state.VetstoriaAppointmentTypesID);
+        // console.log("VetStoriaBooking speci ", this.state.VetstoriaSpeciesID);
+        if (this.state.clientPhone == '') {
+            alert("Client phone number is required");
+        }
+        if (this.state.location_id == '' || this.state.VetstoriaSchedulesID == '' || this.state.slot == '' || this.state.clientPhone == '' || this.state.VetstoriaAppointmentTypesID == '' || this.state.VetstoriaSpeciesID == '') {
+            alert("Please fill all field");
         } else {
+
+            let addedNotes = this.state.clentNotes;
+            if (this.state.clentNotes == '') {
+                addedNotes = this.state.appointmentSelectedLabel;
+
+            }
+            console.log("VetStoriaBooking ", addedNotes);
             this.setState({})
             this.setState({ isSlot: false, isBooking: false, isLoading: true })
             const url = Constant.rootUrl + 'webservices/booking-appointment.php?action=VetStoriaBooking';
@@ -586,7 +609,7 @@ export default class BookAppointmentScreen extends Component {
                                 'speciesId': this.state.VetstoriaSpeciesID,
                                 'patientId': this.state.petID,
                                 'patientName': this.state.petName,
-                                'notes': this.state.clentNotes,
+                                'notes': addedNotes,
                             }
                         ]
 

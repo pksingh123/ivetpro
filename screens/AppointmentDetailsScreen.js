@@ -110,6 +110,7 @@ export default class AppointmentDetailsScreen extends Component {
             paymentSuccessMessageShow: false,
             paymentErrorMessageShow: false,
             paymentSuccessMessage: '',
+            paymentProcessing: false,
             paymentErrorMessage: '',
             apiKey: '',
             practice_name: '',
@@ -128,7 +129,7 @@ export default class AppointmentDetailsScreen extends Component {
         BackHandler.addEventListener('hardwareBackPress', this._goBack);
     }
     componentWillUnmount() {
-
+        this._paymentClosePopup();
         BackHandler.removeEventListener('hardwareBackPress', this._goBack);
         this.focusListener.remove()
     }
@@ -306,9 +307,24 @@ export default class AppointmentDetailsScreen extends Component {
         this.setState({ refundVisible: false });
     }
     _paymentOpenPopup = () => {
+        this.setState({
+            paymentButtonShow: true,
+            paymentProcessing: false,
+            paymentContainer: true,
+            paymentErrorMessageShow: false,
+
+        });
+
         this.setState({ paymentVisible: true });
     }
     _paymentClosePopup = () => {
+        this.setState({
+            paymentButtonShow: true,
+            paymentProcessing: false,
+            paymentContainer: true,
+
+        });
+
         this.setState({ paymentVisible: false });
     }
 
@@ -392,6 +408,17 @@ export default class AppointmentDetailsScreen extends Component {
             })
     }
     _paymentRequest = (item) => {
+        if (this.state.cardNumber == '' || this.state.expMonth == '' || this.state.expYear == '' || this.state.cvc == '') {
+            alert('Enter correct card details.');
+            return;
+        }
+        this.setState({
+            paymentButtonShow: false,
+            paymentProcessing: true,
+            paymentContainer: false,
+            paymentErrorMessageShow: false,
+
+        });
         const client = new Stripe(this.state.apiKey);
         // console.log(this.state.apiKey);
         client.createToken({
@@ -435,6 +462,7 @@ export default class AppointmentDetailsScreen extends Component {
                                 paymentSuccessBtnShow: true,
                                 paymentSuccessMessageShow: true,
                                 paymentErrorMessageShow: false,
+                                paymentProcessing: false,
                                 paymentSuccessMessage: responseJson.msg,
                                 appointmentStatus: 2,
                             });
@@ -445,6 +473,7 @@ export default class AppointmentDetailsScreen extends Component {
                                 paymentSuccessBtnShow: false,
                                 paymentSuccessMessageShow: false,
                                 paymentErrorMessageShow: true,
+                                paymentProcessing: false,
                                 paymentErrorMessage: responseJson.msg,
                                 appointmentStatus: 1,
                             });
@@ -455,10 +484,34 @@ export default class AppointmentDetailsScreen extends Component {
                     .catch((error) => {
                         //alert('Something went wrong!');
                         console.warn(error);
+                        this.setState({
+                            paymentButtonShow: true,
+                            paymentProcessing: false,
+                            paymentContainer: true,
+
+                        });
                     })
+            } else {
+                this.setState({
+                    paymentButtonShow: true,
+                    paymentContainer: true,
+                    paymentSuccessBtnShow: false,
+                    paymentSuccessMessageShow: false,
+                    paymentErrorMessageShow: true,
+                    paymentProcessing: false,
+                    paymentErrorMessage: "Card details are wrong.",
+                    appointmentStatus: 1,
+                });
+
             }
         }).catch((e) => {
             console.warn(e);
+            this.setState({
+                paymentButtonShow: true,
+                paymentProcessing: false,
+                paymentContainer: true,
+
+            });
         });
 
     }
@@ -654,6 +707,7 @@ export default class AppointmentDetailsScreen extends Component {
                         <Dialog
                             visible={this.state.paymentVisible}
                             useNativeDriver
+
                             dialogTitle={<DialogTitle title="Enter card details" />}
                             width={0.9}
                             footer={
@@ -667,14 +721,26 @@ export default class AppointmentDetailsScreen extends Component {
                                                 />
                                                 <DialogButton
                                                     text="PAY"
-                                                    onPress={() => { this._paymentRequest(item) }}
+                                                    onPress={() => {
+
+
+
+                                                        this._paymentRequest(item);
+
+                                                    }}
                                                 />
                                             </View> :
                                             <View style={styles.dialogContainer}>
-                                                <DialogButton
-                                                    text="OK"
-                                                    onPress={() => { this._paymentClosePopup() }}
-                                                />
+                                                {
+                                                    !this.state.paymentProcessing ?
+
+                                                        <DialogButton
+                                                            text="OK"
+                                                            onPress={() => { this._paymentClosePopup() }}
+                                                        />
+                                                        : null
+
+                                                }
                                             </View>
                                     }
                                 </DialogFooter>
@@ -682,12 +748,21 @@ export default class AppointmentDetailsScreen extends Component {
                             onTouchOutside={() => {
                                 this.setState({ paymentVisible: false });
                             }}
+                            onHardwareBackPress={() => {
+                                this.setState({ paymentVisible: false });
+                            }}
                         >
                             <DialogContent>
-                                <View style={styles.popupContainer}>
+                                <View style={styles.containerDialog}>
                                     {
                                         this.state.paymentSuccessMessageShow ?
                                             <Text style={styles.paymentSuccessMsgStyle}>{this.state.paymentSuccessMessage}</Text>
+                                            : null
+
+                                    }
+                                    {
+                                        this.state.paymentProcessing ?
+                                            <Text style={styles.paymentProcessingStyle}>Please wait... payment is under processing</Text>
                                             : null
 
                                     }
@@ -780,6 +855,19 @@ const styles = StyleSheet.create({
         marginTop: 40,
         marginBottom: 40,
     },
+    containerDialog: {
+        padding: 15,
+        textAlign: 'center',
+
+    },
+    paymentProcessingStyle: {
+        color: 'blue',
+        padding: 10,
+        fontSize: 18,
+        flexDirection: "row",
+        justifyContent: 'center',
+        textAlign: "center"
+    },
     popupContainer: {
         padding: 15,
         textAlign: 'center',
@@ -850,13 +938,12 @@ const styles = StyleSheet.create({
         marginTop: 40,
     },
     input: {
-        height: 40,
-        backgroundColor: '#ffffff',
+        height: 55,
+        backgroundColor: '#2980b9',
         marginBottom: 20,
-        paddingHorizontal: 0,
-        borderRadius: 0,
-        //borderColor: '#d2d4d6',
-        borderWidth: 0
+        paddingHorizontal: 10,
+        borderRadius: 10,
+        borderColor: '#ccc'
     },
     button: {
         marginTop: 5,

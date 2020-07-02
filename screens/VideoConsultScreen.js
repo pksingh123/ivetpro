@@ -182,7 +182,7 @@ export default class VideoConsultScreen extends Component {
 
     }
     _onConnectButtonPress = () => {
-        this._webNotification();
+        // this._webNotification();
         // console.log("start now ", this.state.uid, this.state.practice_id);
         this.setState({ isLoading: true })
         const url = Constant.rootUrl + 'webservices/video-consult-now.php?userId=' + this.state.uid + '&practice_id=' + this.state.practice_id;
@@ -543,7 +543,7 @@ const styles = StyleSheet.create({
         bottom: 0,
         right: 0,
         height: 65,
-        backgroundColor: 'blue',
+        backgroundColor: '#26cccc',
         flexDirection: "row",
         alignItems: "center",
         justifyContent: 'center',
@@ -554,7 +554,7 @@ const styles = StyleSheet.create({
         marginLeft: 10,
         marginRight: 10,
         borderRadius: 100 / 2,
-        backgroundColor: 'grey',
+        backgroundColor: 'white',
         justifyContent: 'center',
         alignItems: "center"
     },

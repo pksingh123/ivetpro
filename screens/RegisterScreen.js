@@ -210,7 +210,7 @@ export default class RegisterScreen extends Component {
 
                 })
                 .catch((error) => {
-                    alert('Somethingest went wrong!');
+                    alert('Something went wrong!');
                     console.warn(error);
                 })
         }

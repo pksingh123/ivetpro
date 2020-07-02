@@ -55,6 +55,24 @@ export default class ConfrenceScreen extends Component {
       headerLeftContainerStyle: {
         marginTop: StatusBar.currentHeight
       },
+      headerRightContainerStyle: {
+        marginTop: StatusBar.currentHeight
+      },
+      headerTintColor: '#ffffff',
+      headerTitleStyle: {
+        flex: 1,
+        textAlign: 'center',
+        marginTop: StatusBar.currentHeight
+      },
+      headerStyle: {
+        backgroundColor: '#26cccc',
+        color: '#fff',
+        height: 80
+      },
+      headerRight: (
+
+        <Text style={{ flex: 1, height: 50, width: 50 }}></Text>
+      ),
 
     }
   }
@@ -119,6 +137,7 @@ export default class ConfrenceScreen extends Component {
     }
     console.log("conference screen10 ", this.state.bookingId);
     const url = Constant.rootUrl + 'token?room=' + this.state.roomName + '&bookingId=' + this.state.bookingId;
+    console.log("conference screen10 url ", url);
     fetch(url)
       .then((response) => response.json())
       .then((responseJson) => {
@@ -137,7 +156,7 @@ export default class ConfrenceScreen extends Component {
         console.warn(error);
       })
     if (petDetails != null && petDetails._body == null) {
-      this._webNotification();
+      // this._webNotification();
     }
 
   }
@@ -441,7 +460,7 @@ const styles = StyleSheet.create({
     bottom: 0,
     right: 0,
     height: 65,
-    backgroundColor: 'blue',
+    backgroundColor: '#26cccc',
     flexDirection: "row",
     alignItems: "center",
     justifyContent: 'center',

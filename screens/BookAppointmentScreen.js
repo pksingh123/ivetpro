@@ -561,12 +561,12 @@ export default class BookAppointmentScreen extends Component {
         }
     }
     VetStoriaBooking = () => {
-        // console.log("VetStoriaBooking location ", this.state.location_id);
-        // console.log("VetStoriaBooking schedule  ", this.state.VetstoriaSchedulesID);
-        // console.log("VetStoriaBooking slot ", this.state.slot);
-        // console.log("VetStoriaBooking phone ", this.state.clientPhone);
-        // console.log("VetStoriaBooking appointmentID ", this.state.VetstoriaAppointmentTypesID);
-        // console.log("VetStoriaBooking speci ", this.state.VetstoriaSpeciesID);
+        console.log("VetStoriaBooking location ", this.state.location_id);
+        console.log("VetStoriaBooking schedule  ", this.state.VetstoriaSchedulesID);
+        console.log("VetStoriaBooking slot ", this.state.slot);
+        console.log("VetStoriaBooking phone ", this.state.clientPhone);
+        console.log("VetStoriaBooking appointmentID ", this.state.VetstoriaAppointmentTypesID);
+        console.log("VetStoriaBooking speci ", this.state.VetstoriaSpeciesID);
         if (this.state.clientPhone == '') {
             alert("Client phone number is required");
         }
@@ -622,6 +622,7 @@ export default class BookAppointmentScreen extends Component {
                         this.setState({ success: 'Your appointment has been booked!', failed: false });
 
                     } else {
+                        console.log("vet storial response ", responseJson);
                         this.setState({ success: false, failed: 'Your appointment booking has been failed!' });
 
                     }

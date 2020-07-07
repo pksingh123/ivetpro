@@ -477,7 +477,7 @@ export default class AppointmentDetailsScreen extends Component {
                                 paymentErrorMessage: responseJson.msg,
                                 appointmentStatus: 1,
                             });
-
+                            alert('We are very sorry that your payment has failed. This is probably due to a connection error but if you get the same error again, please do check your card details.');
                         }
 
                     })
@@ -717,10 +717,12 @@ export default class AppointmentDetailsScreen extends Component {
                                             <View style={styles.dialogContainer}>
                                                 <DialogButton
                                                     text="CANCEL"
+                                                    textStyle={{ color: '#26cccc' }}
                                                     onPress={() => { this._paymentClosePopup() }}
                                                 />
                                                 <DialogButton
                                                     text="PAY"
+                                                    textStyle={{ color: '#26cccc' }}
                                                     onPress={() => {
 
 
@@ -736,6 +738,7 @@ export default class AppointmentDetailsScreen extends Component {
 
                                                         <DialogButton
                                                             text="OK"
+                                                            textStyle={{ color: '#26cccc' }}
                                                             onPress={() => { this._paymentClosePopup() }}
                                                         />
                                                         : null
@@ -775,26 +778,26 @@ export default class AppointmentDetailsScreen extends Component {
                                         this.state.paymentContainer ?
                                             <View>
                                                 <TextInput style={styles.input}
-                                                    placeholderTextColor='#555'
+                                                    placeholderTextColor='#fff'
                                                     onChangeText={(cardNumber) => this.setState({ cardNumber: cardNumber })}
                                                     value={this.state.cardNumber}
                                                     placeholder={"Card Number"}
                                                     keyboardType={'numeric'}
                                                 />
                                                 <TextInput style={styles.input}
-                                                    placeholderTextColor='#555'
+                                                    placeholderTextColor='#fff'
                                                     onChangeText={(expMonth) => this.setState({ expMonth: expMonth })}
                                                     placeholder={"MM"}
                                                     keyboardType={'numeric'}
                                                 />
                                                 <TextInput style={styles.input}
-                                                    placeholderTextColor='#555'
+                                                    placeholderTextColor='#fff'
                                                     onChangeText={(expYear) => this.setState({ expYear: expYear })}
                                                     placeholder={"YY"}
                                                     keyboardType={'numeric'}
                                                 />
                                                 <TextInput style={styles.input}
-                                                    placeholderTextColor='#555'
+                                                    placeholderTextColor='#fff'
                                                     onChangeText={(cvc) => this.setState({ cvc: cvc })}
                                                     placeholder={"cvc"}
                                                     secureTextEntry={true}
@@ -939,10 +942,11 @@ const styles = StyleSheet.create({
     },
     input: {
         height: 55,
-        backgroundColor: '#2980b9',
+        backgroundColor: '#26cccc',
         marginBottom: 20,
         paddingHorizontal: 10,
         borderRadius: 10,
+        color: '#ffffff',
         borderColor: '#ccc'
     },
     button: {

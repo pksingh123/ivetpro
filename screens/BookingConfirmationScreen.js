@@ -110,7 +110,7 @@ export default class BookingConfirmationScreen extends Component {
 
     }
     async componentWillUnmount() {
-        this._paymentClosePopup();
+
         BackHandler.removeEventListener('hardwareBackPress', this._goBack);
 
     }
@@ -234,7 +234,7 @@ export default class BookingConfirmationScreen extends Component {
                                 paymentErrorMessage: responseJson.msg,
                                 appointmentStatus: 1,
                             });
-
+                            alert('We are very sorry that your payment has failed. This is probably due to a connection error but if you get the same error again, please do check your card details.');
                         }
                     })
                     .catch((error) => {
@@ -301,15 +301,20 @@ export default class BookingConfirmationScreen extends Component {
             })
 
     }
-    _paymentClosePopup = () => {
+    _paymentClosePopup = (paymentDone) => {
         this.setState({
             paymentButtonShow: true,
             paymentProcessing: false,
             paymentContainer: true,
 
         });
+        if (paymentDone == true) {
+            this.setState({ paymentVisible: false, pay: false });
+        } else {
+            this.setState({ paymentVisible: false, pay: true });
+        }
 
-        this.setState({ paymentVisible: false, pay: false });
+        //
         //  this._goBack();
     }
 
@@ -394,11 +399,13 @@ export default class BookingConfirmationScreen extends Component {
                                 this.state.paymentButtonShow ?
                                     <View style={styles.dialogContainer}>
                                         <DialogButton
+                                            textStyle={{ color: '#26cccc' }}
                                             text="CANCEL"
-                                            onPress={() => { this._paymentClosePopup() }}
+                                            onPress={() => { this._paymentClosePopup(false) }}
                                         />
                                         <DialogButton
                                             text="PAY"
+                                            textStyle={{ color: '#26cccc' }}
                                             onPress={() => {
 
 
@@ -414,7 +421,8 @@ export default class BookingConfirmationScreen extends Component {
 
                                                 <DialogButton
                                                     text="OK"
-                                                    onPress={() => { this._paymentClosePopup() }}
+                                                    textStyle={{ color: '#26cccc' }}
+                                                    onPress={() => { this._paymentClosePopup(true) }}
                                                 />
                                                 : null
 
@@ -453,26 +461,26 @@ export default class BookingConfirmationScreen extends Component {
                                 this.state.paymentContainer ?
                                     <View>
                                         <TextInput style={styles.input}
-                                            placeholderTextColor='#555'
+                                            placeholderTextColor='#fff'
                                             onChangeText={(cardNumber) => this.setState({ cardNumber: cardNumber })}
                                             value={this.state.cardNumber}
                                             placeholder={"Card Number"}
                                             keyboardType={'numeric'}
                                         />
                                         <TextInput style={styles.input}
-                                            placeholderTextColor='#555'
+                                            placeholderTextColor='#fff'
                                             onChangeText={(expMonth) => this.setState({ expMonth: expMonth })}
                                             placeholder={"MM"}
                                             keyboardType={'numeric'}
                                         />
                                         <TextInput style={styles.input}
-                                            placeholderTextColor='#555'
+                                            placeholderTextColor='#fff'
                                             onChangeText={(expYear) => this.setState({ expYear: expYear })}
                                             placeholder={"YY"}
                                             keyboardType={'numeric'}
                                         />
                                         <TextInput style={styles.input}
-                                            placeholderTextColor='#555'
+                                            placeholderTextColor='#fff'
                                             onChangeText={(cvc) => this.setState({ cvc: cvc })}
                                             placeholder={"cvc"}
                                             secureTextEntry={true}
@@ -576,10 +584,11 @@ const styles = StyleSheet.create({
     },
     input: {
         height: 55,
-        backgroundColor: '#2980b9',
+        backgroundColor: '#26cccc',
         marginBottom: 20,
         paddingHorizontal: 10,
         borderRadius: 10,
+        color: '#ffffff',
         borderColor: '#ccc'
     },
     button: {

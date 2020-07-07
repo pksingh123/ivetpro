@@ -360,7 +360,7 @@ export default class HomeScreen extends Component {
     let savedValues = await AsyncStorage.getItem('userToken');
     savedValues = JSON.parse(savedValues);
     this.id = savedValues.user.uid;
-    //console.log("fetUserData saved data", savedValues, this.id);
+    console.log("fetUserData saved data", savedValues, this.id);
     new App().fetUserData(this.id);
 
 

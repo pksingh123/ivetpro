@@ -294,7 +294,7 @@ export default class App extends React.Component {
 
     let activeDeviceId = responseJson.device_id;
     let myDeviceId = DeviceInfo.getUniqueId();
-    // console.log("device in app js ", activeDeviceId, myDeviceId);
+    console.log("device in app js ", activeDeviceId, myDeviceId);
     if (activeDeviceId != myDeviceId) {//if not equal then logout 
       await AsyncStorage.setItem('isLoginExpire', 'Yes');
       EventRegister.emit('appExpire', "")

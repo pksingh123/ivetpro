@@ -60,6 +60,9 @@ export default class RegisterScreen extends Component {
             itemSelected: true,
             openPopup: false,
             fcmtoken: '',
+            firstNameValidation: true,
+            lastNameValidation: true,
+            mobileValidation: true,
 
         }
 
@@ -82,17 +85,21 @@ export default class RegisterScreen extends Component {
     }
     updatEmail = (text) => {
         let reg = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
-        if (reg.test(text) === false) {
-            //console.warn("Email is Not Correct");
-            this.setState({ email: text, emailIsNotValid: true })
-            return false;
+        if (reg.test(text)) {
+            this.setState({ emailIsNotValid: false })
+        } else {
+            this.setState({ emailIsNotValid: true })
         }
-        else {
-            this.setState({ email: text, emailIsNotValid: false })
-            //console.warn("Email is Correct");
-        }
+        this.setState({ email: text })
+
     }
     updatMobile = (text) => {
+        let reg = /^[\+\d]?(?:[\d-\s()]*)$/;
+        if (reg.test(text) && text.length > 6 && text.length < 14) {
+            this.setState({ mobileValidation: true });
+        } else {
+            this.setState({ mobileValidation: false });
+        }
         this.setState({ mobile: text })
     }
     updatPassword = (text) => {
@@ -155,15 +162,31 @@ export default class RegisterScreen extends Component {
     }
 
     register = () => {
+
+        if (this.state.firstName == '' || this.state.lastName == '' || this.state.email == '' || this.state.password == '' || this.state.confirmPass == '') {
+            alert("Please fill all fields");
+            return false;
+        }
+        if (!this.state.firstNameValidation) {
+            alert("Please enter valid first name");
+            return false;
+        }
+
+        if (!this.state.lastNameValidation) {
+            alert("Please enter valid last name");
+            return false;
+        }
+        if (!this.state.mobileValidation) {
+            alert("Please enter valid phone number");
+            return false;
+        }
         var paswd = /^(?=.*[0-9])(?=.*[~!@#$%^&*()_+?><.,:-;])[a-zA-Z0-9~!@#$%^&*()_+?><.,:-;]{10,15}$/;
         if (paswd.test(this.state.password) === false) {
             alert('Password requires 10 to 15 chars, letters, numbers, capital letter and one of these special chars @ _ ; : .');
             return false;
         }
         console.warn(this.state.email + '&' + this.state.password + '&' + this.state.firstName + '&' + this.state.lastName + '&' + this.state.mobile + '&' + this.state.practiceCode + '&' + this.state.practiceCodeId + '&' + this.state.postalCode);
-        if (this.state.firstName == '' || this.state.lastName == '' || this.state.email == '' || this.state.password == '' || this.state.confirmPass == '') {
-            alert("Please fill all fields");
-        } else if (this.state.password != this.state.confirmPass) {
+        if (this.state.password != this.state.confirmPass) {
             alert('password and confirm password not match');
         } else if (this.state.emailIsNotValid === true) {
             alert('Please enter a valid email!');
@@ -172,7 +195,7 @@ export default class RegisterScreen extends Component {
             this.setState({
                 isLoading: true
             })
-            const url = Constant.rootUrl + 'webservices/user-register.ph';
+            const url = Constant.rootUrl + 'webservices/user-register.php';
             fetch(url,
                 {
                     method: 'POST',
@@ -210,7 +233,7 @@ export default class RegisterScreen extends Component {
 
                 })
                 .catch((error) => {
-                    alert('Something went wrong!');
+                    alert('Something is wrong in getting data');
                     console.warn(error);
                 })
         }
@@ -240,6 +263,32 @@ export default class RegisterScreen extends Component {
 
 
     }
+    firstNameValidation = (firstName) => {
+        let regex = /^[a-zA-Z]+$/;
+
+        if (regex.test(firstName) && firstName.length < 16) {
+            // console.log(" no  special ", firstName)
+            this.setState({ firstNameValidation: true });
+        } else {
+            //console.log("yes special ", firstName);
+            this.setState({ firstNameValidation: false });
+        }
+        this.setState({ firstName: firstName })
+    }
+    lastNameValidation = (lastName) => {
+
+        let regex = /^[a-zA-Z]+$/;
+
+        if (regex.test(lastName) && lastName.length < 16) {
+            //console.log(" no  special ", lastName)
+            this.setState({ lastNameValidation: true });
+        } else {
+            // console.log("yes special ", lastName);
+            this.setState({ lastNameValidation: false });
+        }
+        this.setState({ lastName: lastName });
+    }
+
     termandconditionTexteee = () => {
         return (
 
@@ -284,29 +333,36 @@ export default class RegisterScreen extends Component {
                     <Text style={styles.slogon}>Create Account</Text>
                     <Text style={styles.slogonText}>To get you setup, we first register your details. Later we can add your pet(s) and book an appointment.</Text>
                     <View style={styles.innerContainer}>
+                        {!this.state.firstNameValidation ?
+                            <Text style={styles.validation}>Only alphabets and max 15 character.</Text> : null
+                        }
                         <TextInput placeholder="First Name"
                             underlineColorAndroid="transparent"
                             placeholderTextColor='#555'
                             ref={(input) => this.passwordInput = input}
                             style={styles.input}
-                            /* onChangeText={this.updatFirstName} */
-                            onChangeText={(text) => this.setState({ firstName: text })}
+                            onChangeText={this.firstNameValidation}
+                            // onChangeText={(text) => this.setState({ firstName: text })}
+
                             returnKeyType="next"
                             value={this.state.firstName}
 
                         />
-
+                        {!this.state.lastNameValidation ?
+                            <Text style={styles.validation}>Only alphabets and max 15 character.</Text> : null}
                         <TextInput placeholder="Last Name"
                             underlineColorAndroid="transparent"
                             placeholderTextColor='#555'
                             ref={(input) => this.passwordInput = input}
                             style={styles.input}
-                            /* onChangeText={this.updatLastName} */
-                            onChangeText={(text) => this.setState({ lastName: text })}
+                            onChangeText={this.lastNameValidation}
+                            // onChangeText={(text) => this.setState({ lastName: text })}
                             returnKeyType="next"
                             value={this.state.lastName}
 
                         />
+                        {this.state.emailIsNotValid ?
+                            <Text style={styles.validation}>Enter valid email id </Text> : null}
                         <TextInput placeholder="Email Address"
                             returnKeyType="next"
                             underlineColorAndroid="transparent"
@@ -320,6 +376,8 @@ export default class RegisterScreen extends Component {
                             // onChangeText={(text) => this.setState({ email: text })}
                             value={this.state.email}
                         />
+                        {!this.state.mobileValidation ?
+                            <Text style={styles.validation}>Enter valid phone number </Text> : null}
                         <TextInput placeholder="Mobile"
                             returnKeyType="next"
                             underlineColorAndroid="transparent"
@@ -328,8 +386,8 @@ export default class RegisterScreen extends Component {
                             autoCapitalize="none"
                             autoCorrect={false}
                             style={styles.input}
-                            /*  onChangeText={this.updatMobile} */
-                            onChangeText={(text) => this.setState({ mobile: text })}
+                            onChangeText={this.updatMobile}
+                            // onChangeText={(text) => this.setState({ mobile: text })}
                             value={this.state.mobile}
                         />
                     </View>
@@ -516,6 +574,9 @@ const styles = StyleSheet.create({
         fontSize: 18,
         marginStart: -10,
 
+    },
+    validation: {
+        color: '#ff0000'
     },
     imageWrapperStyle: {
         backgroundColor: '#ffffff',

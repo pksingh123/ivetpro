@@ -108,8 +108,8 @@ android {
         applicationId "com.videowithmyvet"
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
-        versionCode 26
-        versionName "2.1.18"
+        versionCode 28
+        versionName "2.1.19"
         multiDexEnabled true
 
 

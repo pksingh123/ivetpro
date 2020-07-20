@@ -69,7 +69,7 @@ export default class LandingScreen extends Component {
                         resizeMethod="auto"
                     />
                     <Text style={styles.welcomeStyle} >Welcome</Text>
-                    <Text style={styles.slogon} >Making video consultations</Text>
+                    <Text style={styles.slogon} numberOfLines={1} >Making video consultations</Text>
                     <Text style={styles.slogon} >with your vet easy</Text>
 
                     <View style={styles.buttoncontainer}>

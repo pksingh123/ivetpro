@@ -169,7 +169,22 @@ export default class RegisterScreen extends Component {
         this.setState({ sex: text })
     }
     UpdateCurrentWeight = (text) => {
-        this.setState({ currentWeight: text })
+
+        let numberRegex = /^[0-9]+(\.[0-9]{0,2})?$/;
+        if (numberRegex.test(text)) {
+            console.log("update current weight ", "pass", text)
+            this.setState({ currentWeight: text })
+
+        } else {
+            console.log("update current weight ", "fail", text)
+
+        }
+        if (text == '') {
+            console.log("update current weight ", "blank")
+            this.setState({ currentWeight: text })
+
+        }
+
     }
     UpdatePracticeCode = (text) => {
         this.setState({ practiceCode: text })
@@ -350,7 +365,9 @@ export default class RegisterScreen extends Component {
                         placeholderTextColor='#555'
                         ref={(input) => this.passwordInput = input}
                         style={styles.input}
+                        keyboardType='numeric'
                         onChangeText={this.UpdateCurrentWeight}
+                        value={this.state.currentWeight}
 
                     />
                     <TouchableOpacity onPress={this.selectPhotoTapped.bind(this)} style={styles.ImageContainer}>

@@ -827,18 +827,26 @@ const styles = StyleSheet.create({
     bgDetails: {
         flex: 1,
         justifyContent: 'center',
-        paddingHorizontal: 60,
-        paddingTop: 40,
-        marginBottom: 20
+        //paddingHorizontal: 60,
+        marginTop: 80,
+        // marginBottom: 20,
+        paddingLeft: 20,
+        paddingBottom: 20,
+        // marginTop: 5,
+        backgroundColor: '#E5E5E570',
+        width: '60%',
+        height: 150,
+        borderBottomRightRadius: 10,
+        borderTopRightRadius: 10,
     },
     bgNameStyle: {
-        color: '#ffffff',
+        color: '#000',
         fontSize: 30,
         paddingTop: 10,
         fontWeight: 'bold'
     },
     bgTextStyle: {
-        color: '#ffffff',
+        color: '#000',
         fontSize: 20,
         marginTop: 5
     },

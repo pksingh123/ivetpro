@@ -155,13 +155,13 @@ export default class RegisterPractice extends Component {
                     resizeMethod="auto"
                 />
                 <Text style={styles.slogon}>Choose your veterinary practice</Text>
-                <ScrollView style={styles.container}>
+                <ScrollView style={styles.container} keyboardShouldPersistTaps='always'>
                     <View style={styles.autocompleteContainer}>
 
                         <Autocomplete
                             autoCapitalize="none"
                             autoCorrect={false}
-                            //containerStyle={styles.autocompleteContainer}
+                            // containerStyle={styles.autocompleteContainer}
                             inputContainerStyle={styles.input}
                             listContainerStyle={styles.listContainerStyle}
                             listStyle={styles.listStyle}
@@ -221,6 +221,7 @@ const styles = StyleSheet.create({
         zIndex: 1
     },
     listContainerStyle: {
+        padding: 1,
 
     },
     listStyle: {

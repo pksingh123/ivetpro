@@ -12,6 +12,7 @@ import {
     TouchableOpacity,
     ActivityIndicator,
     BackHandler,
+
     Platform,
     TouchableHighlight,
     StatusBar
@@ -25,6 +26,7 @@ import {
 import { HeaderBackButton, NavigationEvents } from 'react-navigation';
 import PracticeBarLogo from './PracticeBarLogo';
 import { DrawerActions } from 'react-navigation-drawer';
+import RNPickerSelect from 'react-native-picker-select';
 import { Icon, ListItem, SearchBar } from 'react-native-elements';
 import Icons from 'react-native-vector-icons/FontAwesome';
 import App from '../App';
@@ -108,7 +110,9 @@ export default class VideoConsultScreen extends Component {
             practiceOpenStatusMessages: '',
             practiceError: false,
             clientName: '',
-            startButton: true
+            startButton: true,
+            petList: [],
+            selectedPetId: "",
         }
         this._goBack = this._goBack.bind(this);
     }
@@ -129,6 +133,18 @@ export default class VideoConsultScreen extends Component {
         //console.log("fetUserData saved data", savedValues, this.id);
         new App().fetUserData(this.id);
 
+        const retrievePetDetails = await AsyncStorage.getItem("petDetails");
+        const petDetails = JSON.parse(retrievePetDetails);
+        console.log("pet details ", petDetails);
+        let petArray = [];
+        petArray.push({ label: "none", value: "" })
+        petDetails.forEach(pet => {
+            let name = pet.name;
+            let id = pet.id;
+            petArray.push({ label: name, value: id })
+
+        });
+        this.setState({ petList: petArray });
 
     }
     componentWillUnmount() {
@@ -185,7 +201,7 @@ export default class VideoConsultScreen extends Component {
         // this._webNotification();
         // console.log("start now ", this.state.uid, this.state.practice_id);
         this.setState({ isLoading: true })
-        const url = Constant.rootUrl + 'webservices/video-consult-now.php?userId=' + this.state.uid + '&practice_id=' + this.state.practice_id;
+        const url = Constant.rootUrl + 'webservices/video-consult-now.php?userId=' + this.state.uid + '&practice_id=' + this.state.practice_id + '&pet_id=' + this.state.selectedPetId;
         fetch(url)
             .then((response) => response.json())
             .then((responseJson) => {
@@ -320,7 +336,11 @@ export default class VideoConsultScreen extends Component {
         this.setState({ videoTracks: { ...videoTracks } })
     }
     render() {
-
+        const PatientNamePlaceholder = {
+            label: 'Select Pet',
+            value: "",
+            color: '#9EA0A4',
+        };
         var participantScreen = this.state.isParticipant ?
             <View style={styles.remoteGrid}>
                 <TwilioVideoParticipantView
@@ -354,6 +374,24 @@ export default class VideoConsultScreen extends Component {
 
             <View style={styles.container}>
 
+                {
+                    this.state.startButton ?
+                        <View style={{ padding: 30, marginTop: 20 }}>
+                            <RNPickerSelect
+                                placeholder={PatientNamePlaceholder}
+                                items={this.state.petList}
+                                useNativeAndroidPickerStyle={false}
+                                placeholderTextColor='#555'
+                                onValueChange={(value, index) => {
+                                    console.log("selected pet id and pet", value, index);
+                                    this.setState({ selectedPetId: value })
+                                }}
+                                // value={this.state.petID}
+                                style={pickerSelectStyles}
+                            />
+                        </View>
+                        : null
+                }
 
                 {
                     this.state.callStart ?
@@ -462,6 +500,7 @@ export default class VideoConsultScreen extends Component {
                         : null
                 }
 
+
             </View>
         );
 
@@ -563,5 +602,38 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
         alignItems: 'center',
         height: 80
+    },
+});
+
+const pickerSelectStyles = StyleSheet.create({
+    inputIOS: {
+        fontSize: 16,
+        paddingVertical: 12,
+        paddingHorizontal: 10,
+        borderWidth: 0,
+        paddingRight: 30, // to ensure the text is never behind the icon
+        height: 50,
+        backgroundColor: '#F6F6F6',
+        marginBottom: 20,
+        paddingHorizontal: 10,
+        borderRadius: 10,
+        borderColor: '#F6F6F6',
+        borderWidth: 0
+    },
+    inputAndroid: {
+        fontSize: 16,
+        paddingHorizontal: 10,
+        paddingVertical: 8,
+        borderWidth: 0.5,
+        borderColor: '#F6F6F6',
+        paddingRight: 30,
+        height: 50,
+        backgroundColor: '#F6F6F6',
+        marginBottom: 20,
+        paddingHorizontal: 10,
+        borderRadius: 0,
+        borderWidth: 0,
+        color: 'black'
+        // to ensure the text is never behind the icon
     },
 });

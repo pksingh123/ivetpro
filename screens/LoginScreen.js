@@ -8,6 +8,7 @@ import {
     TextInput,
     ScrollView,
     TouchableOpacity,
+    Keyboard,
     Alert,
     Image
 } from 'react-native';
@@ -45,11 +46,13 @@ export default class LoginScreen extends Component {
         this.props.navigation.navigate('Register4', { user_id: uid });
     }
     login = () => {
+        Keyboard.dismiss();
         // alert(this.state.password);
         if (this.state.email === '' || this.state.password === '') {
             alert('Please enter email and password!');
         } else {
             //this.loadingButton.showLoading(true);
+            this.setState({ isLoading: false });
             const url = Constant.rootUrl + 'webservices/user-login.php';
             fetch(url,
                 {
@@ -70,6 +73,7 @@ export default class LoginScreen extends Component {
                     //  console.log(responseJson);
                     //console.warn(responseJson.user.hasPet);
                     //this.loadingButton.showLoading(false);
+                    this.setState({ isLoading: false });
                     if (responseJson.status === 'ok') {
                         let user_id = responseJson.user.uid;
                         this._signInAsync(responseJson);
@@ -94,6 +98,7 @@ export default class LoginScreen extends Component {
                 })
                 .catch((error) => {
                     this.loadingButton.showLoading(false);
+                    this.setState({ isLoading: false });
                     alert('Something went wrong!');
                     console.warn(error);
                 })
@@ -106,13 +111,17 @@ export default class LoginScreen extends Component {
         if (this.state.isLoading) {
             return (
                 <View style={{ flex: 1, padding: 20 }}>
-                    <ActivityIndicator />
+                    <ActivityIndicator
+                        color='#2ba9bc'
+                        size="large"
+
+                        style={styles.activityIndicator} />
                 </View>
             )
         }
         return (
             <View style={styles.maincontainer}>
-                <ScrollView style={styles.container}>
+                <ScrollView style={styles.container}  >
                     <Image
                         style={styles.logoStyle}
                         source={require('./images/logo.png')}
@@ -265,6 +274,12 @@ const styles = StyleSheet.create({
         fontSize: 18,
         alignSelf: 'center',
         marginTop: 10,
-    }
+    },
+    activityIndicator: {
+        flex: 1,
+        justifyContent: 'center',
+        alignItems: 'center',
+        height: 80
+    },
 
 });

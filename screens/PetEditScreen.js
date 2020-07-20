@@ -256,7 +256,20 @@ export default class PetEditScreen extends Component {
         this.setState({ sex: text })
     }
     UpdateCurrentWeight = (text) => {
-        this.setState({ currentWeight: text })
+        let numberRegex = /^[0-9]+(\.[0-9]{0,2})?$/;
+        if (numberRegex.test(text)) {
+            console.log("update current weight ", "pass", text)
+            this.setState({ currentWeight: text })
+
+        } else {
+            console.log("update current weight ", "fail", text)
+
+        }
+        if (text == '') {
+            console.log("update current weight ", "blank")
+            this.setState({ currentWeight: text })
+
+        }
     }
     UpdatePracticeCode = (text) => {
         this.setState({ practiceCode: text })
@@ -442,9 +455,10 @@ export default class PetEditScreen extends Component {
                     <TextInput placeholder="Current Weight(Kg)"
                         underlineColorAndroid="transparent"
                         placeholderTextColor='#555'
+                        keyboardType='numeric'
                         ref={(input) => this.passwordInput = input}
                         style={styles.input}
-                        defaultValue={this.state.currentWeight}
+                        value={this.state.currentWeight}
                         onChangeText={this.UpdateCurrentWeight}
                     />
                     {/* <TextInput placeholder="Practice Code"

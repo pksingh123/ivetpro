@@ -19,6 +19,7 @@ import {
   ImageBackground,
   StatusBar,
   Linking,
+
 } from 'react-native';
 import Constant from './Constants';
 import { Icon, ListItem, Avatar, Divider, SearchBar } from 'react-native-elements';
@@ -304,7 +305,9 @@ export default class HomeScreen extends Component {
   }
   onFocusFunction = async () => {
     // do some stuff on every screen focus
-    //alert('Home');
+    //
+    let deviceWidth = Dimensions.get('window').width
+    //alert('deviceWidth ' + deviceWidth + " " + DEVICE_WIDTH);
     this.setHomeScreenData();
     let savedValues = await AsyncStorage.getItem('userToken');
     savedValues = JSON.parse(savedValues);
@@ -402,6 +405,7 @@ export default class HomeScreen extends Component {
               GridViewItems: responseJson.pets,
 
             })
+            this.storePet(responseJson.pets);
             console.log(responseJson.diedpets);
             this.arrayholder = responseJson.pets;
           } else {
@@ -421,6 +425,14 @@ export default class HomeScreen extends Component {
       this.props.navigation.dispatch(DrawerActions.toggleDrawer());
     }
     await AsyncStorage.setItem('justLoggedIn', 'No');
+  }
+  async storePet(pets) {
+    try {
+
+      await AsyncStorage.setItem("petDetails", JSON.stringify(pets));
+    } catch (error) {
+      console.log(error.message);
+    }
   }
   async componentWillMount() {
     this.props.navigation.setParams({ logout: this._signOutAsync });
@@ -518,21 +530,40 @@ export default class HomeScreen extends Component {
                 marginTop: 20,
                 justifyContent: 'space-between'
               }}>
-                <TouchableOpacity onPress={() => this._leftArrowClick(index)} >
-                  <Image
-                    style={styles.logoStyle}
-                    source={require('./images/left-pet-arrow.png')}
-                    resizeMethod="auto"
-                  />
-                </TouchableOpacity>
-                <TouchableOpacity onPress={() => this._rightArrowClick(index)} >
-                  <Image
+                <View style={{
+                  flex: 1,
+                  flexDirection: 'row',
+                }}>
+                  {index > 0 ?
+                    <TouchableOpacity onPress={() => this._leftArrowClick(index)} >
+                      <Image
+                        style={styles.logoStyle}
+                        source={require('./images/left-pet-arrow.png')}
+                        resizeMethod="auto"
+                      />
+                    </TouchableOpacity>
+                    : null
+                  }
+                </View>
+                <View style={{
+                  flex: 1,
+                  flexDirection: 'row',
+                  justifyContent: 'flex-end',
+                  alignItems: 'flex-end',
+                }}>
+                  {index < this.state.GridViewItems.length - 1 ?
+                    <TouchableOpacity onPress={() => this._rightArrowClick(index)} >
+                      <Image
 
-                    style={styles.logoStyleRight}
-                    source={require('./images/right-pet-arrow.png')}
-                    resizeMethod="auto"
-                  />
-                </TouchableOpacity>
+                        style={styles.logoStyleRight}
+                        source={require('./images/right-pet-arrow.png')}
+                        resizeMethod="auto"
+                      />
+                    </TouchableOpacity>
+                    : null
+                  }
+                </View>
+
               </View>
 
               <View style={styles.bgDetails}>
@@ -575,7 +606,7 @@ export default class HomeScreen extends Component {
                     {item.nextAppointment.paid == 1 && this.state.prevent_phone_app_calling_agent == 0 ?
                       <View style={styles.buttoncontainer}>
                         <TouchableOpacity onPress={() => this._videoConsultation(item)} style={styles.button}>
-                          <Text style={styles.textcolor}>Video Consultation </Text>
+                          <Text style={DEVICE_WIDTH < 280 ? styles.textcolor2 : styles.textcolor}>Video Consultation </Text>
                         </TouchableOpacity>
                       </View>
                       : null
@@ -593,7 +624,7 @@ export default class HomeScreen extends Component {
                 item.status == 1 && this.appointment_booking == 1 ?
                   <View style={styles.buttoncontainer}>
                     <TouchableOpacity onPress={() => this._bookAppointment(item)} style={styles.button}>
-                      <Text style={styles.textcolor}>Book an appointment</Text>
+                      <Text style={DEVICE_WIDTH < 280 ? styles.textcolor2 : styles.textcolor} numberOfLines={1}>Book an appointment</Text>
                     </TouchableOpacity>
                   </View>
                   : null
@@ -766,6 +797,7 @@ const styles = StyleSheet.create({
   logoStyleRight: {
     width: 31,
     height: 55,
+
   },
   logo: {
     width: 40,
@@ -881,7 +913,10 @@ const styles = StyleSheet.create({
     color: '#ffffff',
     fontSize: 20
   },
-
+  textcolor2: {
+    color: '#ffffff',
+    fontSize: 17
+  },
   shadow: {
     position: 'absolute',
     top: 0,

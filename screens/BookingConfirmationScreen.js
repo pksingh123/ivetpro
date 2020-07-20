@@ -344,8 +344,8 @@ export default class BookingConfirmationScreen extends Component {
                         <Text style={styles.textStyle}> {this.state.bookingData.patientName}</Text>
                     </Text>
                     <Text style={styles.baseStyle}>
-                        <Text style={styles.labelStyle}>{this.state.practiceName}</Text>
-                        <Text style={styles.textStyle}> {this.state.bookingData.practice}</Text>
+                        <Text style={styles.labelStyle} >{this.state.practiceName}</Text>
+                        <Text style={styles.textStyle} > {this.state.bookingData.practice}</Text>
                     </Text>
                     <Text style={styles.baseStyle}>
                         <Text style={styles.labelStyle}>{this.state.species}</Text>
@@ -565,7 +565,8 @@ const styles = StyleSheet.create({
         fontSize: 22,
     },
     baseStyle: {
-        padding: 10,
+        paddingLeft: 10,
+        paddingRight: 10,
         fontSize: 18,
         height: 44,
     },

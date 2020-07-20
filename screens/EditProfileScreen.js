@@ -82,6 +82,9 @@ export default class EditProfileScreen extends Component {
             refreshing: false,
             phoneNumber: '',
             practice_name: '',
+            firstNameValidation: true,
+            lastNameValidation: true,
+            mobileValidation: true,
         }
 
 
@@ -121,6 +124,19 @@ export default class EditProfileScreen extends Component {
 
     editProfile = () => {
         // console.log("divide ", 1/0);
+        if (!this.state.firstNameValidation) {
+            alert("Please enter valid first name");
+            return false;
+        }
+
+        if (!this.state.lastNameValidation) {
+            alert("Please enter valid last name");
+            return false;
+        }
+        if (!this.state.mobileValidation) {
+            alert("Please enter valid phone number");
+            return false;
+        }
 
         if (this.state.name == '') {
             alert("Please fill all fields");
@@ -154,6 +170,41 @@ export default class EditProfileScreen extends Component {
                 })
         }
 
+    }
+
+    firstNameValidation = (firstName) => {
+        let regex = /^[a-zA-Z ]+$/;
+
+        if (regex.test(firstName) && firstName.length < 16) {
+            // console.log(" no  special ", firstName)
+            this.setState({ firstNameValidation: true });
+        } else {
+            //console.log("yes special ", firstName);
+            this.setState({ firstNameValidation: false });
+        }
+        this.setState({ firstname: firstName })
+    }
+    lastNameValidation = (lastName) => {
+
+        let regex = /^[a-zA-Z ]+$/;
+
+        if (regex.test(lastName) && lastName.length < 16) {
+            //console.log(" no  special ", lastName)
+            this.setState({ lastNameValidation: true });
+        } else {
+            // console.log("yes special ", lastName);
+            this.setState({ lastNameValidation: false });
+        }
+        this.setState({ lastname: lastName });
+    }
+    updatMobile = (text) => {
+        let reg = /^[\+\d]?(?:[\d-\s() ]*)$/;
+        if (reg.test(text) && text.length > 6 && text.length < 18) {
+            this.setState({ mobileValidation: true });
+        } else {
+            this.setState({ mobileValidation: false });
+        }
+        this.setState({ phoneNumber: text })
     }
     checkref() {
         this.setState({
@@ -261,32 +312,41 @@ export default class EditProfileScreen extends Component {
                         value={this.state.practice_name}
                         editable={false}
                     />
-
+                    {!this.state.firstNameValidation ?
+                        <Text style={styles.validation}>Only alphabets and max 15 character.</Text> : null
+                    }
                     <Text style={styles.textLable}>First name</Text>
                     <TextInput placeholder="First Name"
                         underlineColorAndroid="transparent"
                         placeholderTextColor='#555'
                         style={styles.input}
                         defaultValue={this.state.firstname}
-                        onChangeText={(firstname) => this.setState({ firstname })}
+                        // onChangeText={(firstname) => this.setState({ firstname })}
+                        onChangeText={this.firstNameValidation}
                         value={this.state.firstname}
                     />
+                    {!this.state.lastNameValidation ?
+                        <Text style={styles.validation}>Only alphabets and max 15 character.</Text> : null}
                     <Text style={styles.textLable}>Last name</Text>
                     <TextInput placeholder="Last Name"
                         underlineColorAndroid="transparent"
                         placeholderTextColor='#555'
                         style={styles.input}
                         defaultValue={this.state.lastname}
-                        onChangeText={(lastname) => this.setState({ lastname })}
+                        // onChangeText={(lastname) => this.setState({ lastname })}
+                        onChangeText={this.lastNameValidation}
                         value={this.state.lastname}
                     />
+                    {!this.state.mobileValidation ?
+                        <Text style={styles.validation}>Enter valid phone number </Text> : null}
                     <Text style={styles.textLable}>Phone number</Text>
                     <TextInput placeholder="Phone number"
                         underlineColorAndroid="transparent"
                         placeholderTextColor='#555'
                         style={styles.input}
                         defaultValue={this.state.phoneNumber}
-                        onChangeText={(phoneNumber) => this.setState({ phoneNumber })}
+                        // onChangeText={(phoneNumber) => this.setState({ phoneNumber })}
+                        onChangeText={this.updatMobile}
                         value={this.state.phoneNumber}
                     />
 
@@ -339,6 +399,9 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
         alignItems: 'center',
         height: 80
+    },
+    validation: {
+        color: '#ff0000'
     },
     picker: {
         height: 44,

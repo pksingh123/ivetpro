@@ -405,6 +405,7 @@ export default class HomeScreen extends Component {
               GridViewItems: responseJson.pets,
 
             })
+            this.storePet(responseJson.pets);
             console.log(responseJson.diedpets);
             this.arrayholder = responseJson.pets;
           } else {
@@ -424,6 +425,14 @@ export default class HomeScreen extends Component {
       this.props.navigation.dispatch(DrawerActions.toggleDrawer());
     }
     await AsyncStorage.setItem('justLoggedIn', 'No');
+  }
+  async storePet(pets) {
+    try {
+
+      await AsyncStorage.setItem("petDetails", JSON.stringify(pets));
+    } catch (error) {
+      console.log(error.message);
+    }
   }
   async componentWillMount() {
     this.props.navigation.setParams({ logout: this._signOutAsync });

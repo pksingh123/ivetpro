@@ -23,6 +23,8 @@ import io.invertase.firebase.RNFirebasePackage;
 import io.invertase.firebase.messaging.RNFirebaseMessagingPackage;
 import io.invertase.firebase.notifications.RNFirebaseNotificationsPackage;
 import io.invertase.firebase.fabric.crashlytics.RNFirebaseCrashlyticsPackage;
+import io.invertase.firebase.firestore.RNFirebaseFirestorePackage;
+
 public class MainApplication extends Application implements ReactApplication {
 
   private final ReactNativeHost mReactNativeHost = new ReactNativeHost(this) {
@@ -37,16 +39,16 @@ public class MainApplication extends Application implements ReactApplication {
           new MainReactPackage(),
           new RNFirebaseCrashlyticsPackage(),
             new RNAppstoreVersionCheckerPackage(),
-              new RNGestureHandlerPackage(),
+            new RNGestureHandlerPackage(),
             new RNSoundPackage(),
             new RNDeviceInfo(),
             new RNFirebasePackage(),
+            new RNFirebaseFirestorePackage(),
             new RNFirebaseMessagingPackage(),
             new RNFirebaseNotificationsPackage(),
             new RNCWebViewPackage(),
             new RNFetchBlobPackage(),
             new ImagePickerPackage(),
-       
             new VectorIconsPackage(),
             new TwilioPackage()
       );

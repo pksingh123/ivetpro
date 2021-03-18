@@ -1,50 +1,49 @@
-import React, { Component } from 'react';
+import React, { Component } from "react";
 import {
-  Platform, StyleSheet, Text, View,
+  Platform,
+  StyleSheet,
+  Text,
+  View,
   ActivityIndicator,
   AsyncStorage,
   Button,
   StatusBar,
   TextInput,
   ScrollView,
-} from 'react-native';
+} from "react-native";
 
 import {
   createStackNavigator,
   createSwitchNavigator,
   createAppContainer,
   createDrawerNavigator,
-} from 'react-navigation';
-import LandingScreen from '../screens/LandingScreen';
-import LoginScreen from '../screens/LoginScreen';
-import RegisterScreen from '../screens/RegisterScreen';
-import RegisterPracticeScreen from '../screens/RegisterPractice';
-import RegisterScreen4 from '../screens/RegisterScreen4';
-import ForgotPasswordScreen from '../screens/ForgotPasswordScreen';
-import AuthLoadingScreen from '../screens/AuthLoadingScreen';
-import PetEditScreen from '../screens/PetEditScreen';
-import PetAddScreen from '../screens/PetAddScreen';
-import PetDetailsScreen from '../screens/PetDetailsScreen';
-import AppointmentDetailsScreen from '../screens/AppointmentDetailsScreen';
-import PaymentScreen from '../screens/PaymentScreen';
-import ConfrenceScreen from '../screens/ConfrenceScreen';
-import BookAppointmentScreen from '../screens/BookAppointmentScreen';
-import FirstBookAppointmentScreen from '../screens/FirstBookAppointmentScreen';
-import BookingConfirmationScreen from '../screens/BookingConfirmationScreen';
-import AddFirstPetScreen from '../screens/AddFirstPet';
-import AddFirstDetailsScreen from '../screens/AddFirstPetDetails';
-import FutureAppointmentScreen from '../screens/FutureAppointmentScreen';
-import PastAppointmentScreen from '../screens/PastAppointmentScreen';
-import AddAnotherPetScreen from '../screens/AddAnotherPet';
-import DrawerScreen from './DrawerScreen';
-import DrawerNav from './DrawerNav';
-import ChangePasswordScreen from '../screens/ChangePasswordScreen';
-import CallScreen from '../screens/IncomingScreen';
-
-
-
-
-
+} from "react-navigation";
+import LandingScreen from "../screens/LandingScreen";
+import LoginScreen from "../screens/LoginScreen";
+import RegisterScreen from "../screens/RegisterScreen";
+import RegisterPracticeScreen from "../screens/RegisterPractice";
+import RegisterScreen4 from "../screens/RegisterScreen4";
+import ForgotPasswordScreen from "../screens/ForgotPasswordScreen";
+import AuthLoadingScreen from "../screens/AuthLoadingScreen";
+import PetEditScreen from "../screens/PetEditScreen";
+import PetAddScreen from "../screens/PetAddScreen";
+import PetDetailsScreen from "../screens/PetDetailsScreen";
+import AppointmentDetailsScreen from "../screens/AppointmentDetailsScreen";
+import PaymentScreen from "../screens/PaymentScreen";
+import ConfrenceScreen from "../screens/ConfrenceScreen";
+import BookAppointmentScreen from "../screens/BookAppointmentScreen";
+import FirstBookAppointmentScreen from "../screens/FirstBookAppointmentScreen";
+import BookingConfirmationScreen from "../screens/BookingConfirmationScreen";
+import AddFirstPetScreen from "../screens/AddFirstPet";
+import AddFirstDetailsScreen from "../screens/AddFirstPetDetails";
+import FutureAppointmentScreen from "../screens/FutureAppointmentScreen";
+import PastAppointmentScreen from "../screens/PastAppointmentScreen";
+import AddAnotherPetScreen from "../screens/AddAnotherPet";
+import DrawerScreen from "./DrawerScreen";
+import DrawerNav from "./DrawerNav";
+import ChangePasswordScreen from "../screens/ChangePasswordScreen";
+import CallScreen from "../screens/IncomingScreen";
+import ChatScreen from "../screens/ChatScreen";
 
 const AuthStack = createStackNavigator({
   Landing: LandingScreen,
@@ -57,13 +56,13 @@ const AuthStack = createStackNavigator({
   AddFirstPetDetails: AddFirstDetailsScreen,
   AddAnotherPet: AddAnotherPetScreen,
   routeFirstBookAppointment: FirstBookAppointmentScreen,
-  ChangePassword: ChangePasswordScreen
+  ChangePassword: ChangePasswordScreen,
+  ChatScreen: ChatScreen,
 });
 
 const AppStack = createStackNavigator({
   //AppointmentDetails: AppointmentDetailsScreen,
   PetAdd: PetAddScreen,
-
 });
 
 const AppointmentDetails = createStackNavigator({
@@ -83,19 +82,18 @@ const PastAppointment = createStackNavigator({
   routePastAppointment: PastAppointmentScreen,
 });
 const PetDetails = createStackNavigator({
-  routePetDetails: PetDetailsScreen
+  routePetDetails: PetDetailsScreen,
 });
 const PetEdit = createStackNavigator({
-  routePetEdit: PetEditScreen
+  routePetEdit: PetEditScreen,
 });
 const Confrence = createStackNavigator({
-  routeConfrence: ConfrenceScreen
+  routeConfrence: ConfrenceScreen,
 });
 
 const Payment = createStackNavigator({
-  Payment: PaymentScreen
+  Payment: PaymentScreen,
 });
-
 
 const SwitchNavigator = createSwitchNavigator(
   {
@@ -114,19 +112,16 @@ const SwitchNavigator = createSwitchNavigator(
     FutureAppointment: FutureAppointment,
     PastAppointment: PastAppointment,
 
-
     //routePetDetails: PetDetailsScreen,
   },
 
   {
-    initialRouteName: 'AuthLoading',
+    initialRouteName: "AuthLoading",
   },
   {
-    contentComponent: props => <DrawerScreen {...props} />
+    contentComponent: (props) => <DrawerScreen {...props} />,
   }
-
-
-)
+);
 
 export default Navigation = createAppContainer(SwitchNavigator);
 //export default Navigation = createAppContainer(SwitchNavigator);

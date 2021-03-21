@@ -13,9 +13,9 @@ const reducer = (state, action) => {
     case "set":
       return action.data;
     case "append":
-      const newState = state;
-      newState.push(action.item);
-      return newState;
+      // const newState = state;
+      // newState.push(action.item);
+      return [...state, action.item];
     default:
       return state;
   }
@@ -28,6 +28,10 @@ export default function ChatScreen({ navigation }) {
     lastname: "",
   });
   const [messages, dispatch] = React.useReducer(reducer, []);
+  // const [messages, setMessages] = React.useState([]);
+  const [connectedId, setConnectedId] = React.useState(null);
+  const [first, setFirst] = React.useState(true);
+  const [users, setUsers] = React.useState({});
 
   React.useEffect(() => {
     getData();
@@ -37,11 +41,23 @@ export default function ChatScreen({ navigation }) {
     const _user = await AsyncStorage.getItem("userToken");
     const json = JSON.parse(_user);
     setUser(json.user);
-    firestoreListener();
+    let x = {};
+    const response = await fetch(
+      `http://videowithmyvet.com/webservices/practice-consultant.php?practice_id=${json.user.practice.practice_id}`
+    );
+    const responseJson = await response.json();
+    const regIds = responseJson.users.map(({ data }) => {
+      x[data.ID] = data.fcm_token;
+    });
+
+    Promise.all(regIds).then(() => {
+      console.log("x", x);
+      setUsers(x);
+    });
   };
 
-  const firestoreListener = () => {
-    firestore()
+  React.useEffect(() => {
+    const unsubscribeListener = firestore()
       .collection("chat")
       .doc(navigation.state.params.id)
       .collection("messages")
@@ -64,36 +80,46 @@ export default function ChatScreen({ navigation }) {
           return data;
         });
         Promise.all(_messages).then(() => {
+          // setMessages(_messages);
           if (messages !== _messages) {
             dispatch({ type: "set", data: _messages });
           }
+          console.log("first", first);
+          if (first) {
+            setFirst(false);
+          } else {
+            console.log("userId", _messages.slice(-1)[0].user._id);
+            setConnectedId(_messages.slice(-1)[0].user._id);
+          }
         });
       });
-  };
+    return () => unsubscribeListener();
+  }, []);
 
   const handleSend = (newMessage = []) => {
     handleSendMessage(newMessage[0]);
   };
 
   const handleSendMessage = (message) => {
-    dispatch({
-      type: "append",
-      item: {
-        _id: "consultant",
-        text: message.text,
-        createdAt: new Date().getTime(),
-        user: {
-          _id: user.uid,
-          name: user.firstname + user.lastname,
-        },
-      },
-    });
+    // dispatch({
+    //   type: "append",
+    //   item: {
+    //     // _id: "consultant",
+    //     text: message.text,
+    //     createdAt: new Date().getTime(),
+    //     user: {
+    //       _id: user.uid,
+    //       name: user.firstname + user.lastname,
+    //     },
+    //   },
+    // });
     firestore()
       .collection("chat")
       .doc(navigation.state.params.id)
       .collection("messages")
       .add({
-        _id: "consultant",
+        // _id: "consultant",
+        _id: Date.now(),
         text: message.text,
         createdAt: new Date().getTime(),
         user: {
@@ -161,7 +187,8 @@ export default function ChatScreen({ navigation }) {
       .doc(navigation.state.params.id)
       .collection("messages")
       .add({
-        _id: "consultant",
+        // _id: "consultant",
+        _id: Date.now(),
         createdAt: new Date().getTime(),
         user: {
           _id: user.uid,
@@ -172,22 +199,32 @@ export default function ChatScreen({ navigation }) {
   };
 
   const handleSendNotifications = async (message) => {
-    const response = await fetch(
-      `http://videowithmyvet.com/webservices/practice-consultant.php?practice_id=${user.practice.practice_id}`
-    );
-    const responseJson = await response.json();
-    const regIds = responseJson.users.map(({ data }) => data.fcm_token);
-    sendNotification({
-      regIds,
-      title: user.firstname + user.lastname,
-      body: message.text,
-      data: {
-        userId: user.uid,
-        roomId: navigation.state.params.id,
-        practiceId: user.practice.practice_id,
-        bookingId: navigation.state.params.bookingId,
-        type: "chat",
-      },
+    let regIds = [];
+    console.log("users", users);
+    const x = Object.keys(users).map((userId) => {
+      console.log("connectedId", connectedId);
+      if (connectedId) {
+        if (connectedId === userId) {
+          regIds.push(users[userId]);
+        }
+      } else {
+        regIds.push(users[userId]);
+      }
+    });
+    console.log("regIds", regIds);
+    Promise.all(x).then(() => {
+      sendNotification({
+        regIds,
+        title: user.firstname + user.lastname,
+        body: message.text,
+        data: {
+          userId: user.uid,
+          roomId: navigation.state.params.id,
+          practiceId: user.practice.practice_id,
+          bookingId: navigation.state.params.bookingId,
+          type: "chat",
+        },
+      });
     });
   };
 

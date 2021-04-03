@@ -1,5 +1,10 @@
-import React from "react";
-import { AsyncStorage } from "react-native";
+import React, { Component } from "react";
+import {
+  Alert,
+  TouchableWithoutFeedback,
+  AsyncStorage,
+  View,
+} from "react-native";
 import { firestore } from "react-native-firebase";
 import { Actions, Bubble, GiftedChat } from "react-native-gifted-chat";
 import ImagePicker from "react-native-image-picker";
@@ -8,39 +13,96 @@ import FontAwesome from "react-native-vector-icons/FontAwesome";
 import RNFetchBlob from "rn-fetch-blob";
 import { sendNotification } from "../utils/notifications";
 
-const reducer = (state, action) => {
-  switch (action.type) {
-    case "set":
-      return action.data;
-    case "append":
-      // const newState = state;
-      // newState.push(action.item);
-      return [...state, action.item];
-    default:
-      return state;
+export default class ChatScreen extends Component {
+  static navigationOptions = ({ navigation }) => {
+    navOptions = navigation;
+    const { params = {} } = navigation.state;
+    return {
+      headerTitle: "Chat",
+      headerTintColor: "#26cccc",
+      headerStyle: {
+        backgroundColor: "#fff",
+        color: "#fff",
+        height: 80,
+      },
+      headerRight: (
+        <TouchableWithoutFeedback onPress={() => alert("button pressed")}>
+          <View style={{ marginRight: 25 }}>
+            <Icons name="mail" color="#26cccc" size={20} />
+          </View>
+        </TouchableWithoutFeedback>
+      ),
+    };
+  };
+
+  constructor(props) {
+    super(props);
+    this.state = {
+      user: {
+        uid: "",
+        firstname: "",
+        lastname: "",
+      },
+      messages: [],
+      connectedId: null,
+      users: {},
+    };
   }
-};
 
-export default function ChatScreen({ navigation }) {
-  const [user, setUser] = React.useState({
-    uid: "",
-    firstname: "",
-    lastname: "",
-  });
-  const [messages, dispatch] = React.useReducer(reducer, []);
-  // const [messages, setMessages] = React.useState([]);
-  const [connectedId, setConnectedId] = React.useState(null);
-  const [first, setFirst] = React.useState(true);
-  const [users, setUsers] = React.useState({});
+  componentDidMount() {
+    this.getData();
+    firestore()
+      .collection("chat")
+      .doc(this.props.navigation.state.params.id)
+      .collection("messages")
+      .orderBy("createdAt", "desc")
+      .onSnapshot(async (querySnapshot) => {
+        querySnapshot.docChanges.forEach((change) => {
+          if (querySnapshot.metadata.fromCache) {
+            const _messages = querySnapshot.docs.map((doc) => {
+              const firebaseData = doc.data();
+              const data = {
+                _id: "",
+                text: "",
+                createdAt: new Date().getTime(),
+                ...firebaseData,
+              };
+              if (!firebaseData.system) {
+                data.user = {
+                  ...firebaseData.user,
+                  name: firebaseData.user.displayName,
+                };
+              }
+              return data;
+            });
 
-  React.useEffect(() => {
-    getData();
-  }, []);
+            Promise.all(_messages).then(() => {
+              // setMessages(_messages);
+              if (this.state.messages !== _messages) {
+                this.setState({
+                  messages: _messages,
+                });
+                // dispatch({ type: "set", data: _messages });
+              }
+            });
+          } else {
+            const item = change.doc.data();
+            this.setState({
+              messages: [...this.state.messages, item],
+            });
+            // dispatch({ type: "append", item: change.doc.data() });
+            if (this.state.user.uid !== change.doc.data().user._id) {
+              this.setState({ connectedId: change.doc.data().user._id });
+            }
+          }
+        });
+      });
+  }
 
-  const getData = async () => {
+  getData = async () => {
     const _user = await AsyncStorage.getItem("userToken");
     const json = JSON.parse(_user);
-    setUser(json.user);
+    this.setState({ user: json.user });
     let x = {};
     const response = await fetch(
       `http://videowithmyvet.com/webservices/practice-consultant.php?practice_id=${json.user.practice.practice_id}`
@@ -51,71 +113,18 @@ export default function ChatScreen({ navigation }) {
     });
 
     Promise.all(regIds).then(() => {
-      console.log("x", x);
-      setUsers(x);
+      this.setState({ users: x });
     });
   };
 
-  React.useEffect(() => {
-    const unsubscribeListener = firestore()
-      .collection("chat")
-      .doc(navigation.state.params.id)
-      .collection("messages")
-      .orderBy("createdAt", "desc")
-      .onSnapshot(async (querySnapshot) => {
-        const _messages = querySnapshot.docs.map((doc) => {
-          const firebaseData = doc.data();
-          const data = {
-            _id: "",
-            text: "",
-            createdAt: new Date().getTime(),
-            ...firebaseData,
-          };
-          if (!firebaseData.system) {
-            data.user = {
-              ...firebaseData.user,
-              name: firebaseData.user.displayName,
-            };
-          }
-          return data;
-        });
-        Promise.all(_messages).then(() => {
-          // setMessages(_messages);
-          if (messages !== _messages) {
-            dispatch({ type: "set", data: _messages });
-          }
-          console.log("first", first);
-          if (first) {
-            setFirst(false);
-          } else {
-            console.log("userId", _messages.slice(-1)[0].user._id);
-            setConnectedId(_messages.slice(-1)[0].user._id);
-          }
-        });
-      });
-    return () => unsubscribeListener();
-  }, []);
-
-  const handleSend = (newMessage = []) => {
-    handleSendMessage(newMessage[0]);
+  handleSend = (newMessage = []) => {
+    this.handleSendMessage(newMessage[0]);
   };
 
-  const handleSendMessage = (message) => {
-    // dispatch({
-    //   type: "append",
-    //   item: {
-    //     // _id: "consultant",
-    //     text: message.text,
-    //     createdAt: new Date().getTime(),
-    //     user: {
-    //       _id: user.uid,
-    //       name: user.firstname + user.lastname,
-    //     },
-    //   },
-    // });
+  handleSendMessage = (message) => {
     firestore()
       .collection("chat")
-      .doc(navigation.state.params.id)
+      .doc(this.props.navigation.state.params.id)
       .collection("messages")
       .add({
         // _id: "consultant",
@@ -123,14 +132,14 @@ export default function ChatScreen({ navigation }) {
         text: message.text,
         createdAt: new Date().getTime(),
         user: {
-          _id: user.uid,
-          name: user.firstname + user.lastname,
+          _id: this.state.user.uid,
+          name: this.state.user.firstname + this.state.user.lastname,
         },
       });
-    handleSendNotifications(message);
+    this.handleSendNotifications(message);
   };
 
-  const pickImage = () => {
+  pickImage = () => {
     const options = {
       quality: 1.0,
       maxWidth: 500,
@@ -147,12 +156,12 @@ export default function ChatScreen({ navigation }) {
       } else if (response.customButton) {
         console.log("User tapped custom button: ", response.customButton);
       } else {
-        addImageToServer(response.data, response.fileName, response.type);
+        this.addImageToServer(response.data, response.fileName, response.type);
       }
     });
   };
 
-  const addImageToServer = async (data, fileName, type) => {
+  addImageToServer = async (data, fileName, type) => {
     RNFetchBlob.fetch(
       "POST",
       "http://videowithmyvet.com//webservices/chat-file-upload.php",
@@ -170,65 +179,67 @@ export default function ChatScreen({ navigation }) {
     )
       .then((response) => response.json())
       .then((responseJson) => {
-        handleSendImage(responseJson.files[0]);
+        this.handleSendImage(responseJson.files[0]);
       })
       .catch((err) => {
         // ...
       });
   };
 
-  const handleSendImage = (image) => {
-    sendImage(image);
+  handleSendImage = (image) => {
+    this.sendImage(image);
   };
 
-  const sendImage = (image) => {
+  sendImage = (image) => {
     firestore()
       .collection("chat")
-      .doc(navigation.state.params.id)
+      .doc(this.props.navigation.state.params.id)
       .collection("messages")
       .add({
         // _id: "consultant",
         _id: Date.now(),
         createdAt: new Date().getTime(),
         user: {
-          _id: user.uid,
-          name: user.firstname + user.lastname,
+          _id: this.state.user.uid,
+          name: this.state.user.firstname + this.state.user.lastname,
         },
         image: `https://videowithmyvet.com${image}`,
       });
   };
 
-  const handleSendNotifications = async (message) => {
+  handleSendNotifications = async (message) => {
     let regIds = [];
-    console.log("users", users);
-    const x = Object.keys(users).map((userId) => {
-      console.log("connectedId", connectedId);
-      if (connectedId) {
-        if (connectedId === userId) {
-          regIds.push(users[userId]);
+    console.log("users", this.state.users);
+    const x = Object.keys(this.state.users).map((userId) => {
+      if (
+        this.state.connectedId &&
+        this.state.connectedId !== this.state.user.uid
+      ) {
+        if (this.state.connectedId === userId) {
+          regIds.push(this.state.users[userId]);
         }
       } else {
-        regIds.push(users[userId]);
+        regIds.push(this.state.users[userId]);
       }
     });
     console.log("regIds", regIds);
     Promise.all(x).then(() => {
       sendNotification({
         regIds,
-        title: user.firstname + user.lastname,
+        title: this.state.user.firstname + this.state.user.lastname,
         body: message.text,
         data: {
-          userId: user.uid,
-          roomId: navigation.state.params.id,
-          practiceId: user.practice.practice_id,
-          bookingId: navigation.state.params.bookingId,
+          userId: this.state.user.uid,
+          roomId: this.props.navigation.state.params.id,
+          practiceId: this.state.user.practice.practice_id,
+          bookingId: this.props.navigation.state.params.bookingId,
           type: "chat",
         },
       });
     });
   };
 
-  const renderActions = (props) => (
+  renderActions = (props) => (
     <Actions
       {...props}
       containerStyle={{
@@ -242,7 +253,7 @@ export default function ChatScreen({ navigation }) {
       }}
       icon={() => <FontAwesome name="image" size={24} color="black" />}
       options={{
-        "Choose From Library": pickImage,
+        "Choose From Library": this.pickImage,
         Cancel: () => {
           console.log("Cancel");
         },
@@ -251,7 +262,7 @@ export default function ChatScreen({ navigation }) {
     />
   );
 
-  const renderBubble = (props) => (
+  renderBubble = (props) => (
     <Bubble
       {...props}
       textStyle={{
@@ -267,36 +278,18 @@ export default function ChatScreen({ navigation }) {
     />
   );
 
-  return (
-    <GiftedChat
-      messages={messages}
-      onSend={(newMessage) => handleSend(newMessage)}
-      renderActions={renderActions}
-      renderBubble={renderBubble}
-      user={{
-        _id: user.uid,
-        name: user.firstname + user.lastname,
-      }}
-    />
-  );
-}
-
-ChatScreen.navigationOptions = () => {
-  return {
-    headerTitle: "Chat",
-    headerTintColor: "#26cccc",
-    headerStyle: {
-      backgroundColor: "#fff",
-      color: "#fff",
-      height: 80,
-    },
-    headerRight: (
-      <Icons
-        name="mail"
-        color="#26cccc"
-        size={20}
-        style={{ marginRight: 25 }}
+  render() {
+    return (
+      <GiftedChat
+        messages={this.state.messages}
+        onSend={(newMessage) => this.handleSend(newMessage)}
+        renderActions={this.renderActions}
+        renderBubble={this.renderBubble}
+        user={{
+          _id: this.state.user.uid,
+          name: this.state.user.firstname + this.state.user.lastname,
+        }}
       />
-    ),
-  };
-};
+    );
+  }
+}

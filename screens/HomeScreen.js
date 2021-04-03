@@ -290,6 +290,7 @@ export default class HomeScreen extends Component {
   constructor(props) {
     super(props);
     this.state = {
+      enable_chat: false,
       GridViewItems: [],
       GridViewItemsDeceased: [],
       PetDetails: [],
@@ -415,6 +416,7 @@ export default class HomeScreen extends Component {
       // console.warn(userDetails.user.practice.practice_logo_url);
       this.setState({
         uid: userDetails.user.uid,
+        enable_chat: userDetails.user.practice.enable_chat,
         practice_name: userDetails.user.practice.name,
         practice_alias_name: userDetails.user.practice.alias_name,
         practice_address: userDetails.user.practice.address,
@@ -531,6 +533,7 @@ export default class HomeScreen extends Component {
     });
   };
   _renderItem = ({ item, index }) => {
+    console.log("ITEM", item);
     return (
       <ScrollView
         refreshControl={
@@ -642,16 +645,20 @@ export default class HomeScreen extends Component {
                     <Text style={styles.textcolor}>Edit Pet Details</Text>
                   </TouchableOpacity>
                 </View>
-                <View style={styles.editbuttoncontainer}>
-                  <TouchableOpacity
-                    onPress={() => this.handleNavigateToChat(item)}
-                    style={styles.button}
-                  >
-                    <Text style={styles.textcolor}>
-                      Contact Customer Service
-                    </Text>
-                  </TouchableOpacity>
-                </View>
+                {item.nextAppointment.bookingId && this.state.enable_chat ? (
+                  <View style={styles.editbuttoncontainer}>
+                    <TouchableOpacity
+                      onPress={() => this.handleNavigateToChat(item)}
+                      style={styles.button}
+                    >
+                      <Text style={styles.textcolor}>
+                        Contact Customer Service
+                      </Text>
+                    </TouchableOpacity>
+                  </View>
+                ) : (
+                  <></>
+                )}
               </View>
               <View style={styles.blockStyle}>
                 <Text style={styles.headingstyle}>Upcoming Appointments</Text>

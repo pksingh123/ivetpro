@@ -48,7 +48,7 @@
     "react-native-switch-toggle": "^1.1.2",
     "react-native-twilio-video-webrtc": "git+https://github.com/blackuy/react-native-twilio-video-webrtc.git",
     "react-native-vector-icons": "^6.6.0",
-    "react-native-webview": "^7.4.2",
+    "react-native-webview": "^11.0.0",
     "react-navigation": "^3.11.0",
     "react-navigation-current-route": "^1.0.0",
     "react-redux": "6.0.1",
